@@ -9,6 +9,10 @@
     --color-red: rgba(255, 82, 82, 1);
 }
 
+*{
+    scrollbar-width: none;
+}
+
 body{
     font-family: 'Figtree', sans-serif;
     padding: 0;
