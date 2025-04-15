@@ -143,6 +143,16 @@ body{
         border-radius: 50%;
         background-color: var(--color-mintgreen);
     }
+    .triangle {
+        position: relative;
+        right: -200px;  
+        top:  300px;
+        width: 0;
+        height: 0;
+        border-left: 300px solid transparent;
+        border-right: 300px solid transparent;
+        border-bottom: 500px solid var(--color-lightblue);
+    }
 }
 
 footer{

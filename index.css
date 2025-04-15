@@ -7,7 +7,6 @@
     align-items: flex-end;
     justify-content: space-evenly;
     gap: 10rem;
-
     flex-direction: row;
     color: var(--color-background);
     h1{
@@ -15,7 +14,6 @@
         margin-bottom: 10rem;
         color: rgba(255, 255, 255, 0.7);
         font-size: 3rem;
-        /* transition: all 0.5s ease-in-out; */
     }
     .keyword{
         color: var(--color-background);
@@ -172,4 +170,50 @@
     cursor: pointer;
     transform: scale(1.05);
     transition: all 0.2s ease-in-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Single City */
+
+
+
+
+
+
+
+.city-picture{
+    background: url('./img/group-welcome-unsplash.jpg') no-repeat center center/cover;
+    position: relative;
+    height: 50vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h2{
+        z-index: 2;
+        margin: 0;
+        font-size: 3rem;
+        color: var(--color-background);
+        letter-spacing: 1.5rem;
+    }
+}
+
+.city-picture::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
 }
