@@ -127,7 +127,7 @@
     width: 100%;
     padding: 2rem 0 5rem 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;    /* Reduced from 2rem to 1rem */
     justify-items: center;
     align-items: start;  /* Align items to the top */
@@ -146,6 +146,7 @@
     border-radius: 10rem;
     gap: 1rem;
     padding: 0.25rem 0.75rem;
+    transition: transform 0.2s ease;
     .img-container{
         width: auto;
         height: 3.5rem;
@@ -166,10 +167,9 @@
     }
 }
 .small-city-container:hover{
-    box-shadow: 10px 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 6px 10px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     transform: scale(1.05);
-    transition: all 0.2s ease-in-out;
 }
 
 
@@ -216,4 +216,84 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
+}
+
+.card-overview{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 3rem 0 5rem 0;
+    h2{
+        font-size: 2.5rem;
+        font-weight: 800;
+        letter-spacing: 0.5rem;
+        color: var(--font-color);
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        color: var(--font-color)
+    }
+}
+
+.card-section{
+    width: 70%;
+    margin: 0 auto;
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.city-card{
+    cursor: pointer;
+    background-color: white;
+    width: 10vw;
+    height: 10vw;
+    margin-bottom: 1rem;
+    padding: .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    transition: border-left 0.2s ease;
+    h3, p{
+        padding-left: .5rem
+    }
+    h3{
+        font-size: 1.5rem;
+    }
+}
+
+.red {
+    border-left: .5rem solid var(--color-red);
+}
+
+.city-card.red:hover {
+    border-left: 2rem solid var(--color-red);
+}
+
+.blue {
+    border-left: .5rem solid var(--color-lightblue);
+    transition: border-left 0.3s ease;
+}
+
+.city-card.blue:hover {
+    border-left: 2rem solid var(--color-lightblue);
+}
+
+.green {
+    border-left: .5rem solid var(--color-mintgreen);
+    transition: border-left 0.3s ease;
+}
+
+.city-card.green:hover {
+    border-left: 2rem solid var(--color-mintgreen);
+}
+
+.yellow {
+    border-left: .5rem solid var(--color-yellow);
+    transition: border-left 0.3s ease;
+}
+
+.city-card.yellow:hover {
+    border-left: 2rem solid var(--color-yellow);
 }

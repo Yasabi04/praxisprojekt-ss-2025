@@ -20,4 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     changeImages();
+
+    const cityName = new URL(window.location.href).searchParams.get('cty').toUpperCase()
+    document.querySelector('title').innerHTML = 'WHERE NEXT - ' + cityName
+    document.querySelector('.city-h2').innerHTML = cityName
 });
