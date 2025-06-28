@@ -116,6 +116,7 @@ nav ul li:hover .language-options {
 body{
     position: relative;
     z-index: 1;
+    overflow-x: hidden;
 }
 
 .background-container {
@@ -126,10 +127,11 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    overflow: hidden;
     .rectangle {
         position: relative;
-        left: -250px;  /* Move rectangle partially off-screen to the left */
-        bottom: -300px;  /* Move rectangle partially off-screen to the bottom */	
+        left: -250px;
+        bottom: -300px;
         width: 600px;
         height: 400px;
         border-radius: 3%;

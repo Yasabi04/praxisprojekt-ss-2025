@@ -1,4 +1,4 @@
-async function fetchDocuments() {
+async function handleDocuments() {
     const docContainer = document.querySelector('.card-container');
     await fetch('http://localhost:3012/api/alldocs')
         .then(res => res.json())
@@ -6,6 +6,7 @@ async function fetchDocuments() {
             data.forEach(doc => {
                 const card = document.createElement('div');
                 card.className = 'doc-card';
+                card.setAttribute('data-id', doc.docId);
                 card.innerHTML = `
                     <div class="card-hor-align">
                         <div class="img-container">
@@ -20,10 +21,25 @@ async function fetchDocuments() {
                 `;
                 docContainer.appendChild(card);
             });
-        })  // Geändert von ) zu })
+        })
         .catch(error => console.error('Fehler beim Abrufen der Dokumente:', error));
+
+        document.querySelectorAll('.doc-card').forEach(card => {
+            card.addEventListener('click', () => {
+                window.location.href = window.location.href + '/' + card.getAttribute('data-id');
+            });
+        })
+
+        document.querySelectorAll('.doc-add-fav').forEach(b => {
+            b.addEventListener('click', e => {
+                e.stopPropagation(); 
+                const docId = b.closest('.doc-card').getAttribute('data-id');
+                alert(`Dokument ${docId} zu Favoriten hinzugefügt!`);
+            });
+        });
 }
 
+
 document.addEventListener('DOMContentLoaded', () => {
-    fetchDocuments();
+    handleDocuments();
 });
