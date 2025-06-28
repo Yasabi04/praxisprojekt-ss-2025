@@ -1,0 +1,299 @@
+.welcome-section {
+    position: relative;
+    background: url(../img/mountain-welcome-unsplash.jpg) no-repeat center center/cover;
+    height: 90vh;
+    display: flex;
+    padding: 0 5rem 0 5rem;
+    align-items: flex-end;
+    justify-content: space-evenly;
+    gap: 10rem;
+    flex-direction: row;
+    color: var(--color-background);
+    h1{
+        z-index: 1;
+        margin-bottom: 10rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 3rem;
+    }
+    .keyword{
+        color: var(--color-background);
+    }
+    .explore-btn{
+        z-index: 1;
+        color: var(--font-color);
+        background-color: var(--color-background);
+        padding: 0 1.25rem;
+        letter-spacing: 0.25rem;
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 5rem;
+    }
+    .explore-btn:hover{
+        cursor: pointer;
+    }
+}
+
+.welcome-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+
+.introduction{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5rem;
+    padding: 5rem 10rem 5rem 10rem;
+
+    .introduction-text{
+        text-align: justify;
+    }
+    h2{
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: 0.25rem;
+        color: var(--font-color);
+        margin-bottom: 2rem;
+        text-align: justify;
+    }
+    p{
+        font-size: 1.25rem;
+        line-height: 2rem;
+        color: var(--font-color);
+        margin-bottom: 1.5rem;
+    }
+    .introduction-image {
+        width: 100%;
+        height: 25vw;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* City Overview */
+
+
+
+.overview-welcome{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 5rem 0 2rem 0;
+    h1{
+        margin: 0;
+        font-size: 3rem;
+        color: var(--font-color);
+        letter-spacing: 0.5rem;
+        font-weight: 800;
+    }
+    h2{
+        font-size: 2.5rem;
+        font-weight: 800;
+        letter-spacing: 0.5rem;
+        color: var(--font-color);
+        margin-bottom: 2rem;
+    }
+    p{
+        font-size: 1.25rem;
+        line-height: 2rem;
+        color: var(--font-color);
+        margin-bottom: 1.5rem;
+    }
+}
+
+.all-cities-container {
+    width: 100%;
+    padding: 2rem 0 5rem 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;    /* Reduced from 2rem to 1rem */
+    justify-items: center;
+    align-items: start;  /* Align items to the top */
+    max-width: 50rem;   /* Limit container width */
+    min-height: 20rem;  
+    margin: 0 auto;     /* Center container */
+}
+
+.small-city-container{
+    display: flex;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-card-background);
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 10rem;
+    gap: 1rem;
+    padding: 0.25rem 0.75rem;
+    transition: transform 0.2s ease;
+    .img-container{
+        width: auto;
+        height: 3.5rem;
+        border-radius: 50%;
+        overflow: hidden;
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    }
+    .small-city-name{
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: 0.25rem;
+    }
+}
+.small-city-container:hover{
+    box-shadow: 6px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Single City */
+
+
+
+
+
+
+
+.city-picture{
+    background: url('./img/group-welcome-unsplash.jpg') no-repeat center center/cover;
+    position: relative;
+    height: 50vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h2{
+        z-index: 2;
+        margin: 0;
+        font-size: 3rem;
+        color: var(--color-background);
+        letter-spacing: 1.5rem;
+    }
+}
+
+.city-picture::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.card-overview{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 3rem 0 5rem 0;
+    h2{
+        font-size: 2.5rem;
+        font-weight: 800;
+        letter-spacing: 0.5rem;
+        color: var(--font-color);
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        color: var(--font-color)
+    }
+}
+
+.card-section{
+    width: 70%;
+    margin: 0 auto;
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.city-card{
+    cursor: pointer;
+    background-color: white;
+    width: 10vw;
+    height: 10vw;
+    margin-bottom: 1rem;
+    padding: .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    transition: border-left 0.2s ease;
+    h3, p{
+        padding-left: .5rem
+    }
+    h3{
+        font-size: 1.5rem;
+    }
+}
+
+.red {
+    border-left: .5rem solid var(--color-red);
+}
+
+.city-card.red:hover {
+    border-left: 2rem solid var(--color-red);
+}
+
+.blue {
+    border-left: .5rem solid var(--color-lightblue);
+    transition: border-left 0.3s ease;
+}
+
+.city-card.blue:hover {
+    border-left: 2rem solid var(--color-lightblue);
+}
+
+.green {
+    border-left: .5rem solid var(--color-mintgreen);
+    transition: border-left 0.3s ease;
+}
+
+.city-card.green:hover {
+    border-left: 2rem solid var(--color-mintgreen);
+}
+
+.yellow {
+    border-left: .5rem solid var(--color-yellow);
+    transition: border-left 0.3s ease;
+}
+
+.city-card.yellow:hover {
+    border-left: 2rem solid var(--color-yellow);
+}
