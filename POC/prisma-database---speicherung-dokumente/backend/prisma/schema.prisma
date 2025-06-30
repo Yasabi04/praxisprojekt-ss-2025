@@ -26,6 +26,7 @@ model Document {
   docId     String    @id @default(cuid())
   title     String
   content   String
+  pdfFile   Bytes?
   createdAt DateTime  @default(now())
   updatedAt DateTime?
   authorId  String
