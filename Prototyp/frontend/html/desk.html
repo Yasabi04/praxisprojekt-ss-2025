@@ -3,24 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../stylesheets/base.css">
+    <link rel="stylesheet" href="../stylesheets/index.css">
+    <link rel="stylesheet" href="../stylesheets/interaction..css">
     <title>SETTLE</title>
 </head>
 <body>
+    <header>
+        <div class = "logo">SETTLE</div>
+        <nav>
+            <ul>
+                <li>
+                    LANGUAGE
+                    <ul class="language-options">
+                        <li><a href="?lang=en">ENGLISH</a></li>
+                        <li><a href="?lang=fr">FRENCH</a></li>
+                        <li><a href="?lang=es">SPANISH</a></li>
+                        <li><a href="?lang=it">ARABIC</a></li>
+                    </ul>
+                </li>
+                <li><a href="cities-overview.html">DOCUMENTS</a></li>
+                <li><a href="account.html">ACCOUNT</a></li>
+            </ul>
+        </nav>
+    </header>
     <main>
-        <h2>Hier Titel von Dokumenteninteraktion</h2>
+        <h2></h2>
         <div class = "doc-wrapper">
-            <section class = "doc-space">Hier wird das Dokument reingeladen</section>
+            <section class = "doc-space" id="doc-space">Hier wird das Dokument reingeladen</section>
             <section class = "doc-space">
                 <div class = "lang-wrapper">
-                    <select name="doc-interaction" id="special-lang">
-                        <option value="easy-language">Easy language/option>
+                    <select name="doc-interaction" class = "special-lang" id="special-lang">
+                        <option value="easy-language">Easy language</option>
                         <option value="translate" selected = "selected">Translate</option>
                         <option value="explain">Explain</option>
                     </select>
-                    <div class="doc-result"></div>
+                    <div class="doc-result">
+                        <div class="loader"></div>
+                    </div>
                 </div>
             </section>
         </div>
+        <h2></h2>
     </main>    
+    <footer>
+        <div class = "logo">SETTLE</div>
+        <ul class = "footer-links">
+            <li>SOCIALS</li>
+            <li><a href="/impressum">IMPRINT</a></li>
+            <li><a href="/privacy">PRIVACY</a></li>
+            <li><a href="/terms">TERMS</a></li>
+            <li><a href="/contact">CONTACT</a></li>
+            <li><a href="/partners">OUR PARTNERS</a></li>
+        </ul>
+    </footer>
+    <div class = "background-container">
+        <div class = "circle"></div>
+        <div class = "triangle"></div>
+    </div>
+    <script src="../scripts/main.js"></script>
 </body>
 </html>
