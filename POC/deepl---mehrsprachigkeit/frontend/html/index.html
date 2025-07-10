@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+      <head>
+            <meta charset="UTF-8" />
+            <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1.0"
+            />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+            <link rel="stylesheet" href="../styles/base.css">
+            <title>DeepL Translation Test</title>
+      </head>
+      <body>
+            <h1>DeepL Übersetzungstest</h1>
+
+            <div class="container">
+                  <input
+                        type="text"
+                        id="textInput"
+                        placeholder="Text zum Übersetzen eingeben..."
+                        value="Dies ist ein Test."
+                  />
+
+                  <select id="targetLang">
+                        <option value="EN">Englisch</option>
+                        <option value="DE">Deutsch</option>
+                        <option value="FR">Französisch</option>
+                        <option value="SV">Schwedisch</option>
+                        <option value="TR">Türkisch</option>
+                        <option value="UK">Ukrainisch</option>
+                        <option value="AR">Arabisch</option>
+                  </select>
+
+                  <button onclick="translateText()">Übersetzen</button>
+            </div>
+
+            <div id="result" class="result">
+                  Ergebnis wird hier angezeigt...
+            </div>
+
+            <!-- Dokument hochladen -->
+            <div class="upload-section">
+                <h3>Gesamtes Dokument hochladen</h3>
+                <input type="file" accept = ".pdf" class = "file-input">
+                <button class ="file-input-button">Dokument hochladen</button>
+            </div>
+            <h3>Übersetztes Dokument</h3>
+            <div class = "result-doc">
+                <div class="generated-doc">
+                    <p class = "doc-name">antrag-arabic.pdf</p>
+                    <p class = "doc-download"><i class="fa-solid fa-file-arrow-down"></i></p>
+                </div>
+            </div>
+            <script src = "../scripts/api-req.js"></script>
+      </body>
+</html>

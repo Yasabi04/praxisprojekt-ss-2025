@@ -1,0 +1,75 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.container {
+    margin: 20px 0;
+}
+input,
+select,
+button {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+input[type="text"] {
+    width: 300px;
+}
+button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.result {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 10px;
+    min-height: 50px;
+}
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+.success {
+    background-color: #d1edff;
+    color: #0c5460;
+}
+
+.result-doc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.generated-doc {
+    height: auto;
+    width: 80vw;
+    border: 0.25rem solid;
+    border-image: linear-gradient(
+        to right,
+        blue 0%,
+        red 70%,
+        purple 100%
+    ) 2;
+    border-radius: 2rem !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+
+    .doc-name {
+        font-size: 1rem;
+        color: rgb(73, 73, 159);
+    }
+    .doc-download {
+        font-size: 1.5rem;
+        color: purple;
+    }
+}
