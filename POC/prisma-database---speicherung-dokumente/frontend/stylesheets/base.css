@@ -46,6 +46,7 @@ header{
         cursor: pointer;
         li{
             margin: 1.5rem;
+            text-transform: uppercase();
             font-weight: 800;
             font-size: 1.25rem;
             letter-spacing: 0.25rem;

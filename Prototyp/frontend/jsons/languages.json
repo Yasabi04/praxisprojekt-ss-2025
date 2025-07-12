@@ -1,0 +1,10 @@
+{
+    "german": {
+        "header": ["Sprache", "Dokumente", "Account"],
+        "heading": "Durchsuche Dokumente"
+    },
+    "english": {
+        "header": ["Language", "Documents", "Account"],
+        "heading": "Browse the latest documents"
+    }
+}

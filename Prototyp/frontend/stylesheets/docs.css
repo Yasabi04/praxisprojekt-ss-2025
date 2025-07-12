@@ -102,6 +102,7 @@
             transition: transform 0.3s ease-in-out;
 
             &:hover {
+                cursor: pointer;
                 color: rgba(0, 165, 0, 0.7);
                 border-color: rgba(0, 165, 0, 0.7);
                 transform: rotate(45deg);
