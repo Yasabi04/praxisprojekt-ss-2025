@@ -1,22 +1,27 @@
 {
     "german": {
         "header": ["Sprache", "Dokumente", "Account"],
-        "heading": "Durchsuche Dokumente"
+        "heading": "Durchsuche Dokumente",
+        "footer": ["Socials", "Impressum", "Datenschutz", "AGB", "Kontakt", "Unsere Partner"]
     },
     "english": {
         "header": ["Language", "Documents", "Account"],
-        "heading": "Browse the latest documents"
+        "heading": "Browse the latest documents",
+        "footer": ["Socials", "Imprint", "Privacy Policy", "Terms", "Contact", "Our Partners"]
     },
     "french": {
         "header": ["Langue", "Documents", "Compte"],
-        "heading": "Parcourir les documents"
+        "heading": "Parcourir les documents",
+        "footer": ["Réseaux sociaux", "Mentions légales", "Politique de confidentialité", "CGU", "Contact", "Nos partenaires"]
     },
     "arabic": {
         "header": ["اللغة", "الوثائق", "الحساب"],
-        "heading": "تصفح الوثائق"
+        "heading": "تصفح الوثائق",
+        "footer": ["وسائل التواصل", "بيانات الموقع", "سياسة الخصوصية", "الشروط", "اتصل بنا", "شركاؤنا"]
     },
     "turkish": {
         "header": ["Dil", "Belgeler", "Hesap"],
-        "heading": "Belgelere göz atın"
+        "heading": "Belgelere göz atın",
+        "footer": ["Sosyal medya", "Künye", "Gizlilik politikası", "Şartlar", "İletişim", "Ortaklarımız"]
     }
 }
