@@ -45,25 +45,27 @@ header {
                   .header-language,
                   .header-documents,
                   .header-account {
-                        position: relative; 
+                        position: relative;
                         font-weight: 800;
                         font-size: 1.25rem;
                         letter-spacing: 0.3rem;
                         padding: 0.75rem 2rem;
+                        color: var(--font-color);
                         margin: 2rem;
                         border: 0.2rem white solid;
+                        text-transform: uppercase;
 
                         a {
                               color: var(--font-color);
                               text-decoration: none;
                         }
 
-                        .language-options {        
-                              display: none;             
+                        .language-options {
+                              display: none;
                               position: absolute;
                               align-self: center;
-                              top: 100%; 
-                              left: calc(-1*0.2rem);
+                              top: 100%;
+                              left: calc(-1 * 0.2rem);
                               background-color: var(--color-background);
                               padding: 0;
                               z-index: 100;
@@ -72,13 +74,15 @@ header {
 
                               a {
                                     display: block;
-                                    padding: 0.5rem 1rem;
+                                    padding: 0.75rem 2rem;
                                     color: var(--font-color);
                                     text-decoration: none;
                                     transition: background-color 0.2s ease;
 
                                     &:hover {
-                                          background-color: var(--color-lightblue);
+                                          background-color: var(
+                                                --color-lightblue
+                                          );
                                     }
                               }
                         }
@@ -86,7 +90,7 @@ header {
                         &:hover {
                               border: 0.2rem var(--font-color) solid;
                               cursor: pointer;
-                              
+
                               .language-options {
                                     display: block;
                               }
