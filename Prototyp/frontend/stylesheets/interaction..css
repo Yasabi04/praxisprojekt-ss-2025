@@ -1,20 +1,95 @@
 .doc-wrapper {
+    z-index: -100;
     width: 100vw;
-    height: 85vh;
+    height: 90vh;
     background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    box-shadow: inset 200px 200px 10px black;
+
+    /* In interaction.css hinzufügen */
+    .pdf-page {
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        background: white;
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* Text-Layer für Selektion */
+    .textLayer {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        opacity: 1; /* Leicht sichtbar für Debug */
+        line-height: 1;
+        pointer-events: auto;
+        z-index: 2;
+    }
+
+    .textLayer > span {
+        color: transparent;
+        position: absolute;
+        white-space: pre;
+        cursor: text;
+        transform-origin: 0% 0%;
+        user-select: text;
+        -webkit-user-select: text;
+    }
+
+    .textLayer .highlight {
+        margin: -1px;
+        padding: 1px;
+        background-color: rgba(180, 0, 255, 0.2);
+        border-radius: 4px;
+    }
+
+    .textLayer .highlight.selected {
+        background-color: rgba(0, 100, 255, 0.2);
+    }
+
+    /* PDF Controls verbessern */
+    #pdf-controls {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: transparent;
+        backdrop-filter: blur(50px);
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        position: sticky;
+        top: 1rem;
+        z-index: 10;
+    }
+
+    #pdf-controls button {
+        padding: 0.5rem 1rem;
+        background-color: var(--color-lightblue);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        font-weight: 600;
+        min-width: 40px;
+        transition: all 0.3s ease;
+    }
 
     .doc-space {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         width: 50%;
         height: 100%;
-        background-color: whitesmoke;
+        background-color: transparent;
+        overflow-y: auto;
 
         .lang-wrapper {
             display: flex;
@@ -24,13 +99,14 @@
             border-left: 0.125rem solid;
             border-left-style: solid;
             border-image: linear-gradient(
-                to bottom,
-                transparent 0%,
-                transparent 25%,
-                grey 50%,
-                transparent 75%,
-                transparent 100%
-            ) 1;
+                    to bottom,
+                    transparent 0%,
+                    transparent 25%,
+                    grey 50%,
+                    transparent 75%,
+                    transparent 100%
+                )
+                1;
             border-image-slice: 1;
 
             .special-lang {
@@ -52,13 +128,14 @@
                 width: 100%;
                 border: 0.125rem solid;
                 border-image: linear-gradient(
-                    to right,
-                    transparent 0%,
-                    transparent 47%,
-                    grey 50%,
-                    transparent 53%,
-                    transparent 100%
-                ) 1;
+                        to right,
+                        transparent 0%,
+                        transparent 47%,
+                        grey 50%,
+                        transparent 53%,
+                        transparent 100%
+                    )
+                    1;
                 border-image-slice: 1;
                 flex: 1;
             }
@@ -67,19 +144,24 @@
 }
 
 .loader {
-  width: 60px;
-  aspect-ratio: 2;
-  --_g: no-repeat radial-gradient(circle closest-side,#000 90%,#0000);
-  background: 
-    var(--_g) 0%   50%,
-    var(--_g) 50%  50%,
-    var(--_g) 100% 50%;
-  background-size: calc(100%/3) 50%;
-  animation: l3 1s infinite linear;
+    width: 60px;
+    aspect-ratio: 2;
+    --_g: no-repeat radial-gradient(circle closest-side, #000 90%, #0000);
+    background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+    background-size: calc(100% / 3) 50%;
+    animation: l3 1s infinite linear;
 }
 @keyframes l3 {
-    20%{background-position:0%   0%, 50%  50%,100%  50%}
-    40%{background-position:0% 100%, 50%   0%,100%  50%}
-    60%{background-position:0%  50%, 50% 100%,100%   0%}
-    80%{background-position:0%  50%, 50%  50%,100% 100%}
+    20% {
+        background-position: 0% 0%, 50% 50%, 100% 50%;
+    }
+    40% {
+        background-position: 0% 100%, 50% 0%, 100% 50%;
+    }
+    60% {
+        background-position: 0% 50%, 50% 100%, 100% 0%;
+    }
+    80% {
+        background-position: 0% 50%, 50% 50%, 100% 100%;
+    }
 }

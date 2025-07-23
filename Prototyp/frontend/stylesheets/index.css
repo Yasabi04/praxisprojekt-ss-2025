@@ -29,11 +29,17 @@
         font-size: 1.5rem;
         font-weight: 800;
         margin-bottom: 5rem;
+        text-decoration: none;
+        transition: 0.2s ease;
     }
     .explore-btn:hover{
+        transition: 0.2s ease;
+        background-color: var(--color-mintgreen);
+        color: var(--color-background);
         cursor: pointer;
     }
 }
+
 
 .welcome-section::before {
     content: '';

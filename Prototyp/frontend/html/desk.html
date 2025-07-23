@@ -1,67 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../stylesheets/base.css">
-    <link rel="stylesheet" href="../stylesheets/index.css">
-    <link rel="stylesheet" href="../stylesheets/interaction..css">
-    <title>SETTLE</title>
-</head>
-<body>
-    <header>
-        <div class = "logo">SETTLE</div>
-        <nav>
-            <ul>
-                <li class = "header-language">
-                    <div class = "header-language-word">LANGUAGE</div>
-                    <ul class="language-options">
-                        <li><a href="?lang=en">ENGLISH</a></li>
-                        <li><a href="?lang=fr">FRENCH</a></li>
-                        <li><a href="?lang=de">GERMAN</a></li>
-                        <li><a href="?lang=ar">ARABIC</a></li>
-                        <li><a href="?lang=tr">TURKISH</a></li>
-                    </ul>
-                </li>
-                <li class = "header-documents"><a href="./docs.html" class = "header-documents-link">DOCUMENTS</a></li>
-                <li class = "header-account"><a href="#" class = "header-account-link">ACCOUNT</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <h2></h2>
-        <div class = "doc-wrapper">
-            <section class = "doc-space" id="doc-space">Hier wird das Dokument reingeladen</section>
-            <section class = "doc-space">
-                <div class = "lang-wrapper">
-                    <select name="doc-interaction" class = "special-lang" id="special-lang">
-                        <option value="easy-language">Easy language</option>
-                        <option value="translate" selected = "selected">Translate</option>
-                        <option value="explain">Explain</option>
-                    </select>
-                    <div class="doc-result">
-                        <div class="loader"></div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../stylesheets/base.css" />
+        <link rel="stylesheet" href="../stylesheets/index.css" />
+        <link rel="stylesheet" href="../stylesheets/interaction..css" />
+        <title>SETTLE</title>
+    </head>
+    <body>
+        <header>
+            <div class="logo">SETTLE</div>
+            <nav>
+                <ul>
+                    <li class="header-language">
+                        <div class="header-language-word">LANGUAGE</div>
+                        <ul class="language-options">
+                            <li>
+                                <a href="?lang=en">ENGLISH</a>
+                            </li>
+                            <li><a href="?lang=fr">FRENCH</a></li>
+                            <li><a href="?lang=de">GERMAN</a></li>
+                            <li><a href="?lang=ar">ARABIC</a></li>
+                            <li>
+                                <a href="?lang=tr">TURKISH</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header-documents">
+                        <a href="./docs.html" class="header-documents-link"
+                            >DOCUMENTS</a
+                        >
+                    </li>
+                    <li class="header-account">
+                        <a href="#" class="header-account-link">ACCOUNT</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div class="doc-wrapper">
+                <section class="doc-space" id="doc-space">
+                    <div id="pdf-container">
+                        <div id="pdf-controls">
+                            <button id="zoom-out">-</button>
+                            <button id="zoom-in">+</button>
+                        </div>
+
+                        <div id="pdf-pages-container"></div>
                     </div>
-                </div>
-            </section>
+                </section>
+                <section class="doc-space">
+                    <div class="lang-wrapper">
+                        <select
+                            name="doc-interaction"
+                            class="special-lang"
+                            id="special-lang"
+                        >
+                            <option value="easy-language">Easy language</option>
+                            <option value="translate" selected="selected">
+                                Translate
+                            </option>
+                            <option value="explain">Explain</option>
+                        </select>
+                        <div class="doc-result">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <h2></h2>
+        </main>
+        <footer>
+            <div class="logo">SETTLE</div>
+            <ul class="footer-links">
+                <li>SOCIALS</li>
+                <li><a href="/impressum">IMPRINT</a></li>
+                <li><a href="/privacy">PRIVACY</a></li>
+                <li><a href="/terms">TERMS</a></li>
+                <li><a href="/contact">CONTACT</a></li>
+                <li><a href="/partners">OUR PARTNERS</a></li>
+            </ul>
+        </footer>
+        <div class="background-container">
+            <div class="circle"></div>
+            <div class="triangle"></div>
         </div>
-        <h2></h2>
-    </main>    
-    <footer>
-        <div class = "logo">SETTLE</div>
-        <ul class = "footer-links">
-            <li>SOCIALS</li>
-            <li><a href="/impressum">IMPRINT</a></li>
-            <li><a href="/privacy">PRIVACY</a></li>
-            <li><a href="/terms">TERMS</a></li>
-            <li><a href="/contact">CONTACT</a></li>
-            <li><a href="/partners">OUR PARTNERS</a></li>
-        </ul>
-    </footer>
-    <div class = "background-container">
-        <div class = "circle"></div>
-        <div class = "triangle"></div>
-    </div>
-    <script src="../scripts/main.js"></script>
-</body>
+        <script src="../scripts/main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+        <script>
+            class PDFViewer {
+                constructor() {
+                    this.pdfDoc = null;
+                    this.scale = 1.2; // HÖHERE Grundauflösung
+                    this.pagesContainer = document.getElementById(
+                        "pdf-pages-container"
+                    );
+
+                    if (this.pagesContainer) {
+                        this.initControls();
+                        this.loadPDF();
+                    } else {
+                        console.error("PDF Pages Container not found");
+                    }
+                }
+
+                initControls() {
+                    document
+                        .getElementById("zoom-in")
+                        ?.addEventListener("click", () => this.zoomIn());
+                    document
+                        .getElementById("zoom-out")
+                        ?.addEventListener("click", () => this.zoomOut());
+                }
+
+                async loadPDF() {
+                    try {
+                        pdfjsLib.GlobalWorkerOptions.workerSrc =
+                            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+                        const url = "../tmp-pdf/asylerstantrag.pdf";
+                        console.log("Loading PDF:", url);
+
+                        this.pdfDoc = await pdfjsLib.getDocument(url).promise;
+
+                        await this.renderAllPages();
+                        console.log("PDF loaded successfully");
+                    } catch (error) {
+                        console.error("Error loading PDF:", error);
+                        document.getElementById("doc-space").innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--font-color);">
+                        <h3>PDF could not be loaded</h3>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+                    }
+                }
+
+                async renderAllPages() {
+                    this.pagesContainer.innerHTML = "";
+
+                    for (
+                        let pageNum = 1;
+                        pageNum <= this.pdfDoc.numPages;
+                        pageNum++
+                    ) {
+                        await this.renderPage(pageNum);
+                    }
+                }
+
+                async renderPage(pageNum) {
+                    try {
+                        const page = await this.pdfDoc.getPage(pageNum);
+
+                        // HÖHERE AUFLÖSUNG für scharfen Text
+                        const viewport = page.getViewport({
+                            scale: this.scale,
+                        });
+                        const outputScale = window.devicePixelRatio || 1;
+
+                        // Canvas mit höherer Auflösung
+                        const canvas = document.createElement("canvas");
+                        const ctx = canvas.getContext("2d");
+
+                        // Tatsächliche Canvas-Größe (höhere Auflösung)
+                        canvas.width = Math.floor(viewport.width * outputScale);
+                        canvas.height = Math.floor(
+                            viewport.height * outputScale
+                        );
+
+                        // CSS-Größe (angezeigte Größe)
+                        canvas.style.width = Math.floor(viewport.width) + "px";
+                        canvas.style.height =
+                            Math.floor(viewport.height) + "px";
+
+                        canvas.className = "pdf-page";
+                        canvas.setAttribute("data-page", pageNum);
+
+                        // Context für höhere Auflösung skalieren
+                        const transform =
+                            outputScale !== 1
+                                ? [outputScale, 0, 0, outputScale, 0, 0]
+                                : null;
+
+                        const renderContext = {
+                            canvasContext: ctx,
+                            transform: transform,
+                            viewport: viewport,
+                        };
+
+                        // Seite rendern
+                        await page.render(renderContext).promise;
+
+                        // TEXTEBENE HINZUFÜGEN für Selektion
+                        const textLayerDiv = document.createElement("div");
+                        textLayerDiv.className = "textLayer";
+                        textLayerDiv.style.position = "absolute";
+                        textLayerDiv.style.left = "0";
+                        textLayerDiv.style.top = "0";
+                        textLayerDiv.style.right = "0";
+                        textLayerDiv.style.bottom = "0";
+                        textLayerDiv.style.overflow = "hidden";
+                        textLayerDiv.style.lineHeight = "1.0";
+
+                        // Container für Canvas + Text
+                        const pageContainer = document.createElement("div");
+                        pageContainer.style.position = "relative";
+                        pageContainer.style.marginBottom = "2rem";
+                        pageContainer.appendChild(canvas);
+                        pageContainer.appendChild(textLayerDiv);
+
+                        this.pagesContainer.appendChild(pageContainer);
+
+                        // Text-Layer rendern
+                        const textContent = await page.getTextContent();
+                        const textLayer = new pdfjsLib.TextLayer({
+                            textContentSource: textContent,
+                            container: textLayerDiv,
+                            viewport: viewport,
+                            textDivs: [],
+                        });
+
+                        await textLayer.render();
+                    } catch (error) {
+                        console.error(
+                            `Error rendering page ${pageNum}:`,
+                            error
+                        );
+                    }
+                }
+
+                async zoomIn() {
+                    this.scale += 0.3; // GRÖSSERE Zoom-Schritte
+                    await this.renderAllPages();
+                }
+
+                async zoomOut() {
+                    if (this.scale <= 0.6) return;
+                    this.scale -= 0.3;
+                    await this.renderAllPages();
+                }
+            }
+
+            // PDF Viewer initialisieren
+            document.addEventListener("DOMContentLoaded", () => {
+                console.log("Initializing PDF Viewer...");
+                new PDFViewer();
+            });
+        </script>
+    </body>
 </html>
