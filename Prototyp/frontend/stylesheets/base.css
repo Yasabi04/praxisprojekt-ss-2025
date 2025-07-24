@@ -28,30 +28,49 @@ h1 {
 
 header {
     z-index: 10;
-    height: 10vh;
+    height: 11vh;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-direction: row;
     box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.3);
     background-color: var(--color-background);
+    
+    .logo {
+        cursor: pointer;
+        width: auto;
+        font-size: 1.75rem;
+        max-width: 15rem;
+        font-weight: 800;
+        margin-right: 2rem;
+        margin-left: 2rem;
+        padding: 0.5rem 1rem;
+        letter-spacing: 0.75rem;
+        border: 3px solid var(--font-color);
+    }
     nav {
         ul {
             display: flex;
             justify-content: center;
             align-items: center;
             list-style-type: none;
+            margin: 0;
+            padding: 0;
             .header-language,
             .header-documents,
             .header-account {
                 position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 8rem;
                 font-weight: 800;
                 font-size: 1.25rem;
                 letter-spacing: 0.3rem;
                 padding: 0.75rem 2rem;
                 color: var(--font-color);
-                margin: 2rem;
+                margin: 1.5rem;
                 border: 0.2rem white solid;
                 text-transform: uppercase;
 
@@ -63,7 +82,6 @@ header {
                 .language-options {
                     display: none;
                     position: absolute;
-                    align-self: center;
                     top: 100%;
                     left: calc(-1 * 0.2rem);
                     background-color: var(--color-background);
@@ -71,16 +89,22 @@ header {
                     z-index: 100;
                     min-width: 100%;
                     border: 0.2rem var(--font-color) solid;
+                    width: 100%;
+                    li{
+                        width: 100%;
+                        a {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            padding: 0.75rem 2rem;
+                            color: var(--font-color);
+                            text-decoration: none;
+                            transition: background-color 0.2s ease;
 
-                    a {
-                        display: block;
-                        padding: 0.75rem 2rem;
-                        color: var(--font-color);
-                        text-decoration: none;
-                        transition: background-color 0.2s ease;
-
-                        &:hover {
-                            background-color: var(--color-lightblue);
+                            &:hover {
+                                background-color: var(--color-lightblue);
+                                color: var(--color-background);
+                            }
                         }
                     }
                 }
@@ -90,7 +114,10 @@ header {
                     cursor: pointer;
 
                     .language-options {
-                        display: block;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
                     }
                 }
             }
@@ -168,8 +195,17 @@ footer {
     background-color: var(--color-background);
     height: auto;
     .logo {
-        margin: 0;
-        margin-bottom: 1.25rem;
+        cursor: pointer;
+        width: auto;
+        font-size: 1.75rem;
+        max-width: 15rem;
+        font-weight: 800;
+        margin-right: auto;
+        margin-left: 2rem;
+        padding: 0.5rem 1rem;
+        letter-spacing: 0.75rem;
+        border: 3px solid var(--font-color);
+        margin: 0 auto;
     }
     .footer-links {
         display: flex;
@@ -192,6 +228,9 @@ footer {
                 color: var(--font-color);
                 text-decoration: none;
                 text-transform: uppercase;
+            }
+            &:hover {
+                border: 3px var(--font-color) solid;
             }
         }
     }

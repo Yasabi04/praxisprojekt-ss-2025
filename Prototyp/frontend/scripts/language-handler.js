@@ -42,12 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 setText(elements.docs, data.german?.header?.[1], 'DOKUMENTE')
                 setText(elements.account, data.german?.header?.[2], 'KONTO')
                 setText(elements.heading, data.german?.heading, 'Durchsuche Dokumente')
+                // Footer noch hard coded, geht aber einfacher: Einmaliger Zugriff auf JSON und für jedes footer array element ein li erstellen.
                 setText(elements.footerSocials, data.german?.footer?.[0], 'Socials')
                 setText(elements.footerImprint, data.german?.footer?.[1], 'Impressum')
                 setText(elements.footerPrivacy, data.german?.footer?.[2], 'Datenschutz')
                 setText(elements.footerTerms, data.german?.footer?.[3], 'AGB')
                 setText(elements.footerContact, data.german?.footer?.[4], 'Kontakt')
                 setText(elements.footerPartners, data.german?.footer?.[5], 'Unsere Partner')
+
                 document.documentElement.dir = 'ltr'
                 break;
                 

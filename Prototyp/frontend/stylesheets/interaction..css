@@ -1,6 +1,7 @@
 .doc-wrapper {
     z-index: -100;
     width: 100vw;
+    padding: 0 1rem 0 1rem;
     height: 90vh;
     background-color: transparent;
     display: flex;
@@ -10,7 +11,6 @@
 
     /* In interaction.css hinzufügen */
     .pdf-page {
-        border: 1px solid #ccc;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         background: white;
         max-width: 100%;
@@ -53,10 +53,10 @@
         background-color: rgba(0, 100, 255, 0.2);
     }
 
-    /* PDF Controls verbessern */
+    
     #pdf-controls {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: center;
         gap: 1rem;
         padding: 1rem;
@@ -111,7 +111,7 @@
 
             .special-lang {
                 width: 30%;
-                height: 3rem;
+                height: auto;
                 margin: 0 auto;
                 margin-bottom: 1rem;
                 padding-top: 1rem;
@@ -119,6 +119,7 @@
                 background-color: transparent;
                 border: none;
                 font-size: 1rem;
+                font: Figtree, serif;
             }
 
             .doc-result {
@@ -146,7 +147,7 @@
 .loader {
     width: 60px;
     aspect-ratio: 2;
-    --_g: no-repeat radial-gradient(circle closest-side, #000 90%, #0000);
+    --_g: no-repeat radial-gradient(circle closest-side, #000000 90%, #0000);
     background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
     background-size: calc(100% / 3) 50%;
     animation: l3 1s infinite linear;
@@ -165,3 +166,6 @@
         background-position: 0% 50%, 50% 50%, 100% 100%;
     }
 }
+
+
+/* HTML: <div class="loader"></div> */
