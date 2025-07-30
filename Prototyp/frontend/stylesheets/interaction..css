@@ -50,7 +50,7 @@
     }
 
     .textLayer .highlight.selected {
-        background-color: rgba(0, 100, 255, 0.2);
+        background-color: var(--color-lightblue);
     }
 
     

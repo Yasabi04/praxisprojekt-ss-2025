@@ -13,7 +13,7 @@ app.use(express.json());
 // API Routen (PrismaClient wird in db-api.js initialisiert)
 const dbAPI = require('./api/db-api');
 app.use('/api', dbAPI);
-
+ 
 app.get('/', (req, res) => {
     res.json({ message: 'Backend Server läuft :)' });
 });

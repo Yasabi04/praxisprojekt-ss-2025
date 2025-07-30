@@ -42,7 +42,7 @@ router.get('/alldocs', async (req, res) => {
         res.json(docs);
     } catch (error) {
         res.status(500).json({ error: 'Fehler beim Abrufen der Dokumente' });
-    }
+    } 
 });
 
 module.exports = router;
