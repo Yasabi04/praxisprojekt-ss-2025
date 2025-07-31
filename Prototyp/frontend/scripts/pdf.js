@@ -21,27 +21,120 @@ class PDFViewer {
             ?.addEventListener("click", () => this.zoomOut());
     }
 
-    async loadPDF() {
-        try {
-            pdfjsLib.GlobalWorkerOptions.workerSrc =
-                "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+   async loadPDF() {
+    try {
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-            const url = "../tmp-pdf/asylerstantrag.pdf";
-            console.log("Loading PDF:", url);
-
+        const urlParams = new URLSearchParams(window.location.search);
+        const docId = urlParams.get('pdf');
+        
+        if (!docId) {
+            // FALLBACK: Test-PDF laden
+            const url = '../tmp-pdf/asylerstantrag.pdf';
+            console.log("Loading fallback PDF:", url);
             this.pdfDoc = await pdfjsLib.getDocument(url).promise;
             await this.renderAllPages();
+            return;
+        }
+
+        const apiUrl = `http://mivs06.gm.fh-koeln.de:7777/api/finddoc/${docId}`;
+        console.log("Fetching PDF from:", apiUrl);
+        
+        // KORRIGIERT: Timeout hinzufügen
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 Sekunden Timeout
+        
+        try {
+            const response = await fetch(apiUrl, {
+                signal: controller.signal,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            clearTimeout(timeoutId);
+            console.log("Response status:", response.status);
+            console.log("Response headers:", response.headers);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            console.log("Starting JSON parse...");
+            const data = await response.json();
+            console.log("JSON parsed successfully");
+            console.log("Response data:", data);
+            
+            if (!data.pdfFile) {
+                throw new Error('Keine PDF-Datei in Response');
+            }
+
+            // Rest der Verarbeitung...
+            let bytes;
+            
+                        // KORRIGIERTE Reihenfolge - Object zuerst!
+            if (data.pdfFile && typeof data.pdfFile === 'object') {
+                // Object handling hier
+                if (data.pdfFile.data && Array.isArray(data.pdfFile.data)) {
+                    bytes = new Uint8Array(data.pdfFile.data);
+                    console.log('Converted Buffer object to bytes, length:', bytes.length);
+                } else {
+                    console.log('Unknown object structure, trying direct conversion...');
+                    bytes = new Uint8Array(Object.values(data.pdfFile));
+                }
+            } else if (typeof data.pdfFile === 'string') {
+                // String handling...
+            }
+
+            console.log('Final bytes length:', bytes.length);
+            
+            if (bytes.length === 0) {
+                throw new Error('PDF data is empty');
+            }
+
+            // PDF laden
+            console.log("Loading PDF with pdfjsLib...");
+            this.pdfDoc = await pdfjsLib.getDocument(bytes).promise;
+            await this.renderAllPages();
             console.log("PDF loaded successfully");
-        } catch (error) {
-            console.error("Error loading PDF:", error);
+            
+        } catch (fetchError) {
+            clearTimeout(timeoutId);
+            
+            if (fetchError.name === 'AbortError') {
+                throw new Error('API request timeout (10s)');
+            } else {
+                throw fetchError;
+            }
+        }
+        
+    } catch (error) {
+        console.error("Error loading PDF:", error);
+        
+        // SOFORTIGER FALLBACK ohne weitere Verzögerung
+        console.log("Attempting fallback immediately...");
+        try {
+            const fallbackUrl = '../tmp-pdf/asylerstantrag.pdf';
+            console.log("Loading fallback PDF:", fallbackUrl);
+            this.pdfDoc = await pdfjsLib.getDocument(fallbackUrl).promise;
+            await this.renderAllPages();
+            console.log("Fallback PDF loaded successfully");
+        } catch (fallbackError) {
+            console.error("Fallback also failed:", fallbackError);
             document.getElementById("doc-space").innerHTML = `
-                        <div style="text-align: center; padding: 2rem; color: var(--font-color);">
-                            <h3>PDF could not be loaded</h3>
-                            <p>Error: ${error.message}</p>
-                        </div>
-                    `;
+                <div style="text-align: center; padding: 2rem; color: var(--font-color);">
+                    <h3>PDF could not be loaded</h3>
+                    <p>API Error: ${error.message}</p>
+                    <p>Fallback Error: ${fallbackError.message}</p>
+                    <p>Doc-ID: ${docId}</p>
+                    <button onclick="location.reload()">Retry</button>
+                </div>
+            `;
         }
     }
+}
 
     async renderAllPages() {
         this.pagesContainer.innerHTML = "";

@@ -1,0 +1,1 @@
+GET http://mivs06.gm.fh-koeln.de:7777/api/finddoc/648543
