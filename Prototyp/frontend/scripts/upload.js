@@ -7,7 +7,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     formData.append('pdfFile', document.querySelector('input[name="pdfFile"]').files[0]);
     
     try {
-        const response = await fetch('http://mivs06.gm.fh-koeln.de:7777/api/uploaddoc', {
+        const response = await fetch('http://mivs06.gm.fh-koeln.de:7778/api/uploaddoc', {
             method: 'POST',
             body: formData
         });

@@ -38,7 +38,7 @@ class PDFViewer {
             return;
         }
 
-        const apiUrl = `http://mivs06.gm.fh-koeln.de:7777/api/finddoc/${docId}`;
+        const apiUrl = `http://mivs06.gm.fh-koeln.de:7778/api/finddoc/${docId}`;
         console.log("Fetching PDF from:", apiUrl);
         
         // KORRIGIERT: Timeout hinzufügen
@@ -74,8 +74,7 @@ class PDFViewer {
             // Rest der Verarbeitung...
             let bytes;
             
-                        // KORRIGIERTE Reihenfolge - Object zuerst!
-            if (data.pdfFile && typeof data.pdfFile === 'object') {
+            if (data.pdfFile && typeof data.pdfFile === 'object' /*Rückgabewert ist eigentlich immer ein Object*/) {
                 // Object handling hier
                 if (data.pdfFile.data && Array.isArray(data.pdfFile.data)) {
                     bytes = new Uint8Array(data.pdfFile.data);
@@ -85,7 +84,7 @@ class PDFViewer {
                     bytes = new Uint8Array(Object.values(data.pdfFile));
                 }
             } else if (typeof data.pdfFile === 'string') {
-                // String handling...
+                console.log("That didn't go to plan. PDF File is a String")
             }
 
             console.log('Final bytes length:', bytes.length);
