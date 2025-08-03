@@ -52,23 +52,17 @@
                         </div>
                     </div>
                 </section>
-                <section class="doc-space">
-                    <div class="lang-wrapper">
-                        <select
-                            name="doc-interaction"
-                            class="special-lang"
-                            id="special-lang"
-                        >
-                            <option value="easy-language">Easy language</option>
-                            <option value="translate" selected="selected">
-                                Translate
-                            </option>
-                            <option value="explain">Explain</option>
-                        </select>
-                        <div class="doc-result">
-                            <div class="loader"></div>
-                        </div>
-                    </div>
+                <section class = "doc-space">
+                    <select name = "mode-select" id = "mode-select">
+                        <option value = "translate">Translate</option>
+                        <option value = "explain">Explain</option>
+                        <option value = "easy-language">Easy Language</option>
+                    </select>
+                    <div class = "conversation-content"><div class = "loader"></div></div>
+                    <form action="POST" id = "user-action">
+                        <input class = "user-input" placeholder = "Enter message here..."></input>
+                        <button class = "send-message">/</button>
+                    </form>
                 </section>
             </div>
             <h2></h2>

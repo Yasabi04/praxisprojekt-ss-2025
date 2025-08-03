@@ -1,3 +1,5 @@
+const savedDocs = []
+
 document.addEventListener("DOMContentLoaded", () => {
       const allCards = document.querySelectorAll(".doc-card");
       const addFav = document.querySelectorAll(".doc-add-fav");
@@ -89,12 +91,12 @@ async function handleDocuments() {
             card.innerHTML = `
                 <div class="card-hor-align">
                     <div class="img-container">
-                        <img src="../img/lost-man-welcome-unsplash.jpg" alt="Vorschau">
+                        <img src="../images/documents+stamp-unsplash.jpg" alt="Vorschau">
                     </div>
                     <div class="text-content">
                         <h2 class="doc-heading">${doc.title || 'Kein Titel'}</h2>
                         <p class="doc-intro">${(doc.content || 'Keine Beschreibung').substring(0, 100)}...</p>
-                        <small>Erstellt: ${doc.createdAt ? new Date(doc.createdAt).toLocaleDateString() : 'Unbekannt'}</small>
+                        <small>${doc.createdAt ? new Date(doc.createdAt).toLocaleDateString().slice(4) : 'Unbekannt'}</small>
                     </div>
                     <div class="doc-add-fav">+</div>
                 </div>
@@ -122,8 +124,32 @@ async function handleDocuments() {
             button.addEventListener('click', (e) => {
                 e.stopPropagation(); 
                 const docId = button.closest('.doc-card').getAttribute('data-id');
-                console.log('Adding to favorites:', docId);
-                alert(`Dokument ${docId} zu Favoriten hinzugefügt!`);
+        
+                if(savedDocs.includes(docId)){
+                    const index = savedDocs.indexOf(docId);
+                    savedDocs.splice(index, 1);
+            
+                    // KORRIGIERT: Visuelles Feedback - Favorit entfernt
+                    button.textContent = '+';
+                    button.style.backgroundColor = '';
+                    button.style.color = '';
+            
+                    console.log('Removed from favorites:', docId);
+                    console.log('Current savedDocs:', savedDocs);
+                    localStorage.setItem('savedDocs', savedDocs)
+                }
+                else {
+                    // Element hinzufügen
+                    savedDocs.push(docId);
+            
+                    // KORRIGIERT: Visuelles Feedback - Favorit hinzugefügt
+                    button.textContent = '✓';
+                    button.style.backgroundColor = 'white';
+            
+                    console.log('Added to favorites:', docId);
+                    console.log('Current savedDocs:', savedDocs);
+                    localStorage.setItem('savedDocs', savedDocs)
+                }
             });
         });
         
@@ -142,4 +168,9 @@ async function handleDocuments() {
             </div>
         `;
     }
+}
+
+
+function saveDocuments(){
+
 }
