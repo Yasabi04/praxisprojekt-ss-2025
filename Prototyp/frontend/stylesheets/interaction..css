@@ -141,6 +141,8 @@
                 background-color: var(--color-lightblue);
                 color: white;
                 border: none;
+                font-weight: 900;
+                
             }
         }
     }
