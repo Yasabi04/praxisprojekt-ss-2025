@@ -38,7 +38,7 @@ class PDFViewer {
             return;
         }
 
-        const apiUrl = `http://mivs06.gm.fh-koeln.de:7778/api/finddoc/${docId}`;
+        const apiUrl = `http://mivs06.gm.fh-koeln.de:3500/api/finddoc/${docId}`;
         console.log("Fetching PDF from:", apiUrl);
         
         // KORRIGIERT: Timeout hinzufügen

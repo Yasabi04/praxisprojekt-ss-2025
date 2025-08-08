@@ -53,12 +53,31 @@
                     </div>
                 </section>
                 <section class = "doc-space">
-                    <select name = "mode-select" id = "mode-select">
+                    <!-- <select name = "mode-select" id = "mode-select">
                         <option value = "translate">Translate</option>
                         <option value = "explain">Explain</option>
                         <option value = "easy-language">Easy Language</option>
-                    </select>
-                    <div class = "conversation-content"><div class = "loader"></div></div>
+                    </select> -->
+                    <div class = "custom-select-group" id="mode-select">
+                        <div class="chosing">Translate</div>
+                        <ul class="selection">
+                            <li class = "option">
+                                <div data-id = "translate">Translate</div>
+                            </li>
+                            <li class = "option">
+                                <div data-id = "explain">Explain</div>
+                            </li>
+                            <li class = "option">
+                                <div data-id = "easy-language">Easy Language</div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class = "conversation-content">
+                        <ul class = "conversation">
+                            <div class="loader"></div>
+                        </ul>
+                    </div>
                     <div id = "user-action">
                         <input class = "user-input" placeholder = "Enter message here..."></input>
                         <button class = "send-message">></button>

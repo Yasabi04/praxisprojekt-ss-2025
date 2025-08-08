@@ -32,7 +32,7 @@ async function handleDocuments() {
 
     try {
         console.log('Fetching documents from API...');
-        const response = await fetch('http://mivs06.gm.fh-koeln.de:7778/api/alldocs');
+        const response = await fetch('http://mivs06.gm.fh-koeln.de:3500/api/alldocs');
         
         console.log('Response status:', response.status);
         
