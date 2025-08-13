@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const choosingDiv = document.querySelector(".chosing");
     const modeSelect = document.querySelector("#mode-select");
     const selection = document.querySelector(".selection");
-    
+
     // Set up click listeners for options (only once)
     options.forEach((option) => {
         option.addEventListener("click", () => {
@@ -23,14 +23,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-    
+
     // Show dropdown on hover
     modeSelect.addEventListener("mouseenter", () => {
         if (selection) {
             selection.style.display = "flex";
         }
     });
-    
+
     // Hide dropdown when mouse leaves
     modeSelect.addEventListener("mouseleave", () => {
         if (selection) {
@@ -49,119 +49,118 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Option:", option);
         console.log("Lang Parameter:", langParam);
 
-        // KORRIGIERT: Input-Validation
         if (!userText) {
-            alert("Bitte geben Sie einen Text ein");
             return;
         }
 
         switch (option) {
             case "translate":
-                // TRY CATCH!!! Aufruf muss asynchron sein!
+                (async () => {
+                    try {
+                        console.log("=== DEBUG INFO ===");
+                        console.log("Sending data:", {
+                            text: userText,
+                            target_lang: langParam,
+                        });
 
-                fetch("http://mivs06.gm.fh-koeln.de:3500/api/translate", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        text: userText, // ✅ KORRIGIERT: "text" statt "userInput"
-                        target_lang: langParam,
-                    }),
-                })
-                    .then((response) => {
+                        const response = await fetch(
+                            "https://neutral-aware-bonefish.ngrok-free.app/api/translate",
+                            {
+                                method: "POST",
+                                headers: new Headers({
+                                    "Content-Type":
+                                        "application/x-www-form-urlencoded",
+                                    "ngrok-skip-browser-warning": "69420",
+                                }),
+                                body: new URLSearchParams({
+                                    text: userText,
+                                    target_lang: langParam.toUpperCase(),
+                                }),
+                            }
+                        );
+
+                        console.log("Response status:", response.status);
                         console.log(
-                            "Translation response status:",
-                            response.status
+                            "Response headers:",
+                            Object.fromEntries(response.headers.entries())
+                        );
+
+                        // WICHTIG: Erst Text lesen, dann analysieren
+                        const responseText = await response.text();
+                        console.log(
+                            "Raw response (first 500 chars):",
+                            responseText.substring(0, 500)
                         );
 
                         if (!response.ok) {
-                            return response.json().then((errorData) => {
-                                throw new Error(
-                                    errorData.error || `HTTP ${response.status}`
-                                );
-                            });
+                            throw new Error(
+                                `HTTP ${response.status}: ${responseText}`
+                            );
                         }
 
-                        return response.json();
-                    })
-                    .then((data) => {
-                        console.log("Translation successful:", data);
+                        // Versuchen als JSON zu parsen
+                        let data;
+                        try {
+                            data = JSON.parse(responseText);
+                            console.log("Parsed JSON:", data);
+                        } catch (parseError) {
+                            console.error("JSON Parse Error:", parseError);
+                            throw new Error(
+                                "Server returned non-JSON response: " +
+                                    responseText.substring(0, 200)
+                            );
+                        }
 
                         if (data.success) {
                             console.log("Übersetzung:", data.translation);
-                            // TODO: Antwort in UI anzeigen
                             displayTranslation(data.translation);
                         } else {
                             throw new Error(
                                 data.error || "Übersetzung fehlgeschlagen"
                             );
                         }
-                    })
-                    .catch((err) => {
+                    } catch (err) {
                         console.error("Fehler bei der Übersetzung:", err);
                         alert("Übersetzungsfehler: " + err.message);
-                    });
-                break;
+                    }
+                })();
 
-            case "easy-language":
-                fetch("http://mivs06.gm.fh-koeln.de:3500/api/easylanguage", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        text: userText,
-                        target_lang: langParam,
-                    }),
-                })
-                    .then((response) => {
-                        console.log(
-                            "Easy language response status:",
-                            response.status
-                        );
-                        if (!response.ok) {
-                            throw new Error(
-                                `HTTP ${response.status}: ${response.statusText}`
-                            );
-                        }
-                        return response.json();
-                    })
-                    .then((data) => {
-                        console.log("Easy language data:", data);
-                        // TODO: Antwort in UI anzeigen
-                    })
-                    .catch((err) => {
-                        console.error("Fehler bei easy language:", err);
-                        alert("Easy Language Fehler: " + err.message);
-                    });
                 break;
 
             case "explain":
+            case "easy-language":
                 (async () => {
                     try {
+                        const complexityLevel =
+                            option === "explain" ? "normal" : "easyLanguage";
+
                         const loader = document.querySelector(".loader");
+                        const request =
+                            `Es ist extrem wichtig, dass du nur auf französisch folgende Frage erklärst: ` +
+                            userText;
                         loader.style = "display: none";
+
                         const conversationItemUser =
                             document.createElement("li");
                         conversationItemUser.className = "sentence right";
                         conversationItemUser.innerHTML = `
-                            <div class = "user-request">
-                                ${userText}
-                            </div>
-                        `;
+            <div class="user-request">
+                ${userText}
+            </div>
+        `;
                         conversation.appendChild(conversationItemUser);
 
                         const response = await fetch(
-                            "http://mivs06.gm.fh-koeln.de:3500/api/explain",
+                            "https://neutral-aware-bonefish.ngrok-free.app/api/explain",
                             {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
+                                    "ngrok-skip-browser-warning": "69420",
                                 },
                                 body: JSON.stringify({
-                                    task: userText,
-                                    complexityLevel: "simple",
+                                    task: request,
+                                    complexityLevel: complexityLevel,
                                 }),
                             }
                         );
@@ -172,79 +171,70 @@ document.addEventListener("DOMContentLoaded", () => {
                             );
                         }
 
-                        const data = await response.json();
-                        console.log("Backend-Antwort:", data);
+                        // Neues Element für die Modell-Antwort
+                        const conversationItemModell =
+                            document.createElement("li");
+                        conversationItemModell.className = "sentence left";
+                        const instructionsDiv = document.createElement("div");
+                        instructionsDiv.className = "instructions";
+                        conversationItemModell.appendChild(instructionsDiv);
+                        conversation.appendChild(conversationItemModell);
 
-                        if (data.success) {
-                            // KORRIGIERT: Nur ein <li> Element erstellen
-                            const conversationItemModell =
-                                document.createElement("li");
-                            conversationItemModell.className = "sentence left";
-                            const instructions =
-                                data.instructions ||
-                                "Keine Anweisungen erhalten";
-                            console.log("Instruktionen: " + instructions);
+                        // Stream lesen (NDJSON)
+                        const reader = response.body.getReader();
+                        const decoder = new TextDecoder();
+                        let buffer = "";
 
-                            // KORRIGIERT: Keine doppelten <li> Tags
-                            conversationItemModell.innerHTML = `
-                                <div class="instructions">
-                                    ${
-                                        typeof instructions === "string"
-                                            ? instructions.replace(
-                                                  /\n/g,
-                                                  "<br><br>"
-                                              )
-                                            : instructions
+                        while (true) {
+                            const { value, done } = await reader.read();
+                            if (done) break;
+
+                            buffer += decoder.decode(value, { stream: true });
+                            let lines = buffer.split("\n");
+                            buffer = lines.pop(); // Letzte Zeile evtl. unvollständig behalten
+
+                            for (const line of lines) {
+                                if (!line.trim()) continue;
+                                try {
+                                    const json = JSON.parse(line);
+                                    if (json.response) {
+                                        instructionsDiv.innerHTML +=
+                                            json.response.replace(
+                                                /\n/g,
+                                                "<br>"
+                                            );
+                                        // Scroll ans Ende
+                                        const conversationContent =
+                                            document.querySelector(
+                                                ".conversation-content"
+                                            );
+                                        if (conversationContent) {
+                                            conversationContent.scrollTop =
+                                                conversationContent.scrollHeight;
+                                        }
                                     }
-                                </div>
-                            `;
-
-                            if (conversation) {
-                                conversation.appendChild(
-                                    conversationItemModell
-                                );
-
-                                // KORRIGIERT: Scroll zum Ende
-                                const conversationContent =
-                                    document.querySelector(
-                                        ".conversation-content"
+                                } catch (err) {
+                                    console.error(
+                                        "Fehler beim JSON-Parsing:",
+                                        err,
+                                        line
                                     );
-                                if (conversationContent) {
-                                    conversationContent.scrollTop =
-                                        conversationContent.scrollHeight;
                                 }
-                            }
-                        } else {
-                            // KORRIGIERT: Auch Fehler als <li> anzeigen
-                            const errorItem = document.createElement("li");
-                            errorItem.className = "sentence left error";
-                            errorItem.innerHTML = `
-                                <div class="error-message">
-                                    Fehler: ${
-                                        data.error || "Unbekannter Fehler"
-                                    }
-                                </div>
-                            `;
-                            if (conversation) {
-                                conversation.appendChild(errorItem);
                             }
                         }
                     } catch (error) {
                         console.error("Fehler:", error);
-
-                        // KORRIGIERT: Auch Netzwerk-Fehler als <li> anzeigen
                         const errorItem = document.createElement("li");
                         errorItem.className = "sentence left error";
                         errorItem.innerHTML = `
-                            <div class="error-message">
-                                Netzwerk-Fehler: ${error.message}
-                            </div>
-                        `;
-                        if (conversation) {
-                            conversation.appendChild(errorItem);
-                        }
+            <div class="error-message">
+                Netzwerk-Fehler: ${error.message}
+            </div>
+        `;
+                        conversation.appendChild(errorItem);
                     }
                 })();
+
                 break;
 
             default:
@@ -252,25 +242,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Unbekannte Option ausgewählt");
         }
 
-        // Input nach dem Senden leeren
         document.querySelector(".user-input").value = "";
     });
 });
 
 // Hilfsfunktion um Übersetzung anzuzeigen
-function displayTranslation(translation) {
-    const conversationContent = document.querySelector(".conversation-content");
+// function displayTranslation(translation) {
+//     const conversationContent = document.querySelector(".conversation-content");
 
-    if (conversationContent) {
-        const messageDiv = document.createElement("div");
-        messageDiv.className = "message assistant";
-        messageDiv.innerHTML = `
-            <div class="message-content">
-                <strong>Übersetzung:</strong>
-                <p>${translation}</p>
-            </div>
-        `;
-        conversationContent.appendChild(messageDiv);
-        conversationContent.scrollTop = conversationContent.scrollHeight;
-    }
-}
+//     if (conversationContent) {
+//         const messageDiv = document.createElement("div");
+//         messageDiv.className = "message assistant";
+//         messageDiv.innerHTML = `
+//             <div class="message-content">
+//                 <strong>Übersetzung:</strong>
+//                 <p>${translation}</p>
+//             </div>
+//         `;
+//         conversationContent.appendChild(messageDiv);
+//         conversationContent.scrollTop = conversationContent.scrollHeight;
+//     }
+// }

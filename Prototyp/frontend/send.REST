@@ -1,1 +1,0 @@
-GET http://mivs06.gm.fh-koeln.de:7778/api/alldocs
