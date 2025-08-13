@@ -107,9 +107,8 @@
             cursor: pointer;
             gap: 0;
             .chosing {
-                border: 3px transparent solid;
+                border: 3px var(--font-color) solid;
                 padding: 0.75rem;
-                background-color: white;
                 &:hover {
                     border: 3px black solid;
                 }
@@ -242,14 +241,44 @@
     }
 }
 
+@media screen and (max-width: 440px){
+    .doc-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        padding: 1rem 1rem 1rem 1rem;
+        .doc-space {
+            height: 50%;
+            width: 100vw;
+        }
+    }
+    .pdf-container {
+        width: 100% !important;
+        /* border: 5px solid red;
+        border-radius: 1rem; */
+    }
+    .chosing {
+        background-color: white;
+    }
+    .communication-container {
+        border-top: 0.125rem solid var(--font-color);
+        width: 100% !important;
+        .conversation {
+            width: 100% !important;
+            background-color: white;
+        }
+    }
+}
+
 .loader {
     width: 60px;
     aspect-ratio: 2;
     --_g: no-repeat radial-gradient(circle closest-side, #000000 90%, #0000);
-    background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+    background: var(--_g) 0% 53%, var(--_g) 47% 50%, var(--_g) 100% 50%;
     background-size: calc(100% / 3) 50%;
-    animation: l3 1s infinite linear;
+    animation: l3 0.8s infinite linear;
 }
+
 @keyframes l3 {
     20% {
         background-position: 0% 0%, 50% 50%, 100% 50%;
