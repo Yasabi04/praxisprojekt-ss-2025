@@ -1,12 +1,4 @@
 # Custom Network definieren
-networks:
-  app-network:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.20.0.0/16
-          gateway: 172.20.0.1
 
 services:
   ollama:
@@ -17,6 +9,8 @@ services:
     volumes:
       - ollama-data:/root/.ollama
     restart: unless-stopped
+    networks:
+      - app-network
 
   dbsettle:
     image: postgres:15
@@ -35,6 +29,8 @@ services:
     restart: unless-stopped
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
 
   backend-settle:
     build: .
@@ -61,6 +57,12 @@ services:
     volumes:
       - ./localhost.pem:/app/localhost.pem
       - ./localhost-key.pem:/app/localhost-key.pem
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   postgres_data:
