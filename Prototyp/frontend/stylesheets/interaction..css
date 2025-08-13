@@ -241,7 +241,7 @@
     }
 }
 
-@media screen and (max-width: 440px){
+@media screen and (max-width: 756px){
     .doc-wrapper {
         display: flex;
         flex-direction: column;

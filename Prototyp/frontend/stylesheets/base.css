@@ -330,7 +330,7 @@ footer {
 }
 
 /* Enhanced mobile header for smaller screens */
-@media (max-width: 480px) {
+@media (max-width: 756px) {
     header {
         padding: 1rem;
         
