@@ -115,13 +115,27 @@ document.addEventListener("DOMContentLoaded", () => {
                             console.log("Übersetzung:", data.translation);
                             displayTranslation(data.translation);
                         } else {
+                            // Loader durch Fehlermeldung ersetzen
+                            conversationItemLoader.innerHTML = `
+                                <div class="error-message">
+                                    Fehler: ${data.error || "Übersetzung fehlgeschlagen"}
+                                </div>
+                            `;
                             throw new Error(
                                 data.error || "Übersetzung fehlgeschlagen"
                             );
                         }
                     } catch (err) {
                         console.error("Fehler bei der Übersetzung:", err);
-                        alert("Übersetzungsfehler: " + err.message);
+                        
+                        // Loader durch Fehlermeldung ersetzen falls noch vorhanden
+                        if (conversationItemLoader) {
+                            conversationItemLoader.innerHTML = `
+                                <div class="error-message">
+                                    Übersetzungsfehler: ${err.message}
+                                </div>
+                            `;
+                        }
                     }
                 })();
 
@@ -132,23 +146,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 (async () => {
                     try {
                         const complexityLevel =
-                            option === "explain" ? "normal" : "easyLanguage";
+                            option === "explain" ? "simple" : "easyLanguage";
 
                         const loader = document.querySelector(".loader");
-                        const request =
-                            `Es ist extrem wichtig, dass du nur auf französisch folgende Frage erklärst: ` +
-                            userText;
+
+                
                         loader.style = "display: none";
 
                         const conversationItemUser =
                             document.createElement("li");
                         conversationItemUser.className = "sentence right";
                         conversationItemUser.innerHTML = `
-            <div class="user-request">
-                ${userText}
-            </div>
-        `;
+                            <div class = "user-request">
+                                ${userText}
+                            </div>
+                        `;
+
+                        
+                        // Neues Element für die Modell-Antwort
+                        const conversationItemModell =
+                            document.createElement("li");
+                        conversationItemModell.className = "sentence left";
+                        const instructionsDiv = document.createElement("div");
+                        instructionsDiv.className = "instructions";
+                        instructionsDiv.innerHTML = '<div class="loader"></div>'
+                        conversationItemModell.appendChild(instructionsDiv);
+                        
                         conversation.appendChild(conversationItemUser);
+                        conversation.appendChild(conversationItemModell);                        
 
                         const response = await fetch(
                             "https://neutral-aware-bonefish.ngrok-free.app/api/explain",
@@ -159,7 +184,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                     "ngrok-skip-browser-warning": "69420",
                                 },
                                 body: JSON.stringify({
-                                    task: request,
+                                    userLang: langParam,
+                                    task: userText,
                                     complexityLevel: complexityLevel,
                                 }),
                             }
@@ -171,20 +197,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             );
                         }
 
-                        // Neues Element für die Modell-Antwort
-                        const conversationItemModell =
-                            document.createElement("li");
-                        conversationItemModell.className = "sentence left";
-                        const instructionsDiv = document.createElement("div");
-                        instructionsDiv.className = "instructions";
-                        conversationItemModell.appendChild(instructionsDiv);
-                        conversation.appendChild(conversationItemModell);
-
                         // Stream lesen (NDJSON)
                         const reader = response.body.getReader();
                         const decoder = new TextDecoder();
                         let buffer = "";
 
+                        instructionsDiv.innerHTML = "";
                         while (true) {
                             const { value, done } = await reader.read();
                             if (done) break;
