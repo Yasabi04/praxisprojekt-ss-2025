@@ -196,19 +196,48 @@ router.post('/translate', async (req, res) => {
 
 router.post('/explain', async (req, res) => {
     try {
-        const { task, complexityLevel = 'normal' } = req.body;
+        const { userLang, task, complexityLevel = 'normal' } = req.body;
+	console.log('Sprache: ' + userLang)
 
-        const instructionPrompts = {
-            simple: `Antworte in maximal 5 Schritten: ${task}:
-                        Und antworte bitte immer in diesem Muster:
-                        1. ...
-                        2. ...
-                    `,
-            simpleLeicht: `Erkläre in 10 Worten in Leichter Sprache: ${task}`,
-            detailed: `Erkläre ausführlich: ${task}`
-        };
+	let instructionPrompts;
+	if(userLang == 'tr'){
+		instructionPrompts = {
+			simple: 'Aşağıdaki metni çevirmemelisiniz, ancak açıklamalısınız: ' + task,
+			easyLanguage: 'Aşağıdaki metni çevirmemelisiniz, ancak basit bir dille açıklamalısınız: ' + task
+		}
+	}
+	else if(userLang == 'ar'){
+		instructionPrompts = {
+			simple: 'لا ينبغي لك ترجمة النص التالي، بل عليك شرحه: ' + task,
+			easyLanguage: 'لا ينبغي عليك ترجمة النص التالي، بل شرحه بلغة بسيطة:' + task
+		}
+	}
+	else if(userLang == 'pr'){
+		instructionPrompts = {
+			simple: 'متن زیر را ترجمه نکنید، بلکه آن را توضیح دهید:' + task,
+			easyLanguage: 'شما نباید متن زیر را ترجمه کنید، بلکه باید آن را به زبان ساده توضیح دهید:' + task
+		}
+	}
+	else  if(userLang == 'en'){
+		instructionPrompts = {
+			simple: 'I do not speak german. What does that mean: ' + task + '?',
+			easyLanguage: 'I do not speak  German. Please explain the following text in Easy Language:' + task
+		}
+	}
+	else if(userLang == 'fr'){
+		instructionPrompts = {
+			simple: 'Vous ne devez pas traduire le texte suivant, mais lexpliquer.' + task,
+			easyLanguage: 'Vous ne devez pas traduire le texte suivant, mais lexpliquer dans un langage simple.' + task
+		}
+	}
+	else {
+		instructionPromps = {
+			simple: 'Ich verstehe diesen Part inhaltlich nicht:' + task,
+			easyLanguage: 'Ich verstehe diesen Part inhaltlich nicht. Bitte in Leichter Sprache erklären: ' + task
+		}
+	}
 
-        const finalPrompt = instructionPrompts[complexityLevel] || instructionPrompts.simpleLeicht;
+        const finalPrompt = instructionPrompts[complexityLevel] || instructionPrompts.simple;
 
         res.setHeader('Content-Type', 'application/x-ndjson; charset=utf-8');
         res.setHeader('Transfer-Encoding', 'chunked');
@@ -217,12 +246,12 @@ router.post('/explain', async (req, res) => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                model: 'llama3',
+                model: 'qwen2.5:7b',
                 prompt: finalPrompt,
                 stream: true,
                 options: {
-                    num_predict: 100,
-                    temperature: 0.2,
+                    num_predict: 300,
+                    temperature: 0.4,
                     stop: ["Ende", "Fertig", "\n\n\n"]
                 }
             })
