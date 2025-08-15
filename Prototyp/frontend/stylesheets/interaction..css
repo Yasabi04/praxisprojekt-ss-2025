@@ -107,7 +107,7 @@
             cursor: pointer;
             gap: 0;
             .chosing {
-                border: 3px transparent solid;
+                border: 3px var(--font-color) solid;
                 padding: 0.75rem;
                 &:hover {
                     border: 3px black solid;
@@ -209,19 +209,45 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
+        width: 100%;
         max-width: 80%;
-        height: 80%;
+        height: 75%;
         overflow-y: scroll;
         padding: 2rem 0 2rem 0;
         gap: 1rem;
         box-sizing: border-box;
 
+        .note{
+            z-index: -5;
+            color: var(--font-color);
+            font: Figtree;
+            opacity: 0.3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 70%;
+            
+            .note-heading{
+                font-size: 3rem;
+                font-weight: 700;
+            }
+
+            .note-message{
+                font-weight: 600;
+                line-height: 1.25rem;
+                text-align: center;
+            }
+        }
+
         .sentence {
+            word-spacing: 0.3rem;
             padding: 1rem;
             color: white;
             list-style-type: none;
             max-width: 70%;
             word-wrap: break-word;
+            line-height: 1.5rem;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
@@ -239,14 +265,44 @@
     }
 }
 
+@media screen and (max-width: 756px){
+    .doc-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        padding: 1rem 1rem 1rem 1rem;
+        .doc-space {
+            height: 50%;
+            width: 100vw;
+        }
+    }
+    .pdf-container {
+        width: 100% !important;
+        /* border: 5px solid red;
+        border-radius: 1rem; */
+    }
+    .chosing {
+        background-color: white;
+    }
+    .communication-container {
+        border-top: 0.125rem solid var(--font-color);
+        width: 100% !important;
+        .conversation {
+            width: 100% !important;
+            background-color: white;
+        }
+    }
+}
+
 .loader {
     width: 60px;
     aspect-ratio: 2;
-    --_g: no-repeat radial-gradient(circle closest-side, #000000 90%, #0000);
-    background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+    --_g: no-repeat radial-gradient(circle closest-side, #ffffff 90%, #ffffff00);
+    background: var(--_g) 0% 53%, var(--_g) 47% 50%, var(--_g) 100% 50%;
     background-size: calc(100% / 3) 50%;
-    animation: l3 1s infinite linear;
+    animation: l3 0.8s infinite linear;
 }
+
 @keyframes l3 {
     20% {
         background-position: 0% 0%, 50% 50%, 100% 50%;

@@ -28,7 +28,7 @@ class PDFViewer {
 
         const urlParams = new URLSearchParams(window.location.search);
         const docId = urlParams.get('pdf');
-        
+        console.log(docId)
         if (!docId) {
             // FALLBACK: Test-PDF laden
             const url = '../tmp-pdf/asylerstantrag.pdf';
@@ -38,7 +38,7 @@ class PDFViewer {
             return;
         }
 
-        const apiUrl = `http://mivs06.gm.fh-koeln.de:3500/api/finddoc/${docId}`;
+        const apiUrl = `https://neutral-aware-bonefish.ngrok-free.app/api/finddoc/${docId}`;
         console.log("Fetching PDF from:", apiUrl);
         
         // KORRIGIERT: Timeout hinzufügen
@@ -48,10 +48,11 @@ class PDFViewer {
         try {
             const response = await fetch(apiUrl, {
                 signal: controller.signal,
-                headers: {
+                headers: new Headers({
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
+                    'Content-Type': 'application/json',
+                    "ngrok-skip-browser-warning": "69420"
+                })
             });
             
             clearTimeout(timeoutId);
@@ -65,7 +66,9 @@ class PDFViewer {
             console.log("Starting JSON parse...");
             const data = await response.json();
             console.log("JSON parsed successfully");
-            console.log("Response data:", data);
+            // console.log("Response data:", data);
+            const title = data.title
+            console.log("Titel: " + data.title);
             
             if (!data.pdfFile) {
                 throw new Error('Keine PDF-Datei in Response');
@@ -75,7 +78,6 @@ class PDFViewer {
             let bytes;
             
             if (data.pdfFile && typeof data.pdfFile === 'object' /*Rückgabewert ist eigentlich immer ein Object*/) {
-                // Object handling hier
                 if (data.pdfFile.data && Array.isArray(data.pdfFile.data)) {
                     bytes = new Uint8Array(data.pdfFile.data);
                     console.log('Converted Buffer object to bytes, length:', bytes.length);
@@ -209,7 +211,7 @@ class PDFViewer {
             // TextLayer rendern
             try {
                 await pdfjsLib.renderTextLayer({
-                    textContent: textContent,
+                    textContentSource: textContent,
                     container: textLayerDiv,
                     viewport: viewport,
                     textDivs: [],

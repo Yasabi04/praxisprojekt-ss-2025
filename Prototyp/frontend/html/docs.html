@@ -1,61 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../stylesheets/base.css">
-    <link rel="stylesheet" href="../stylesheets/index.css">
-    <link rel="stylesheet" href="../stylesheets/docs.css">
-    <title>SETTLE - DOCUMENTS</title>
-</head>
-<body>
-    <header>
-        <div class = "logo">SETTLE</div>
-        <nav>
-            <ul>
-                <li class = "header-language">
-                    <div class = "header-language-word">LANGUAGE</div>
-                    <ul class="language-options">
-                        <li><a href="?lang=en">ENGLISH</a></li>
-                        <li><a href="?lang=fr">FRENCH</a></li>
-                        <li><a href="?lang=de">GERMAN</a></li>
-                        <li><a href="?lang=ar">ARABIC</a></li>
-                        <li><a href="?lang=tr">TURKISH</a></li>
-                    </ul>
-                </li>
-                <li class = "header-documents"><a href="./docs.html" class = "header-documents-link">DOCUMENTS</a></li>
-                <li class = "header-account"><a href="#" class = "header-account-link">ACCOUNT</a></li>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../stylesheets/base.css" />
+        <link rel="stylesheet" href="../stylesheets/index.css" />
+        <link rel="stylesheet" href="../stylesheets/docs.css" />
+        <title>SETTLE - DOCUMENTS</title>
+    </head>
+    <body>
+        <header>
+            <div class="logo">SETTLE</div>
+            <nav>
+                <ul>
+                    <li class="header-language">
+                        <div class="header-language-word">LANGUAGE</div>
+                        <ul class="language-options">
+                            <li><a href="?lang=en">ENGLISH</a></li>
+                            <li><a href="?lang=fr">FRENCH</a></li>
+                            <li><a href="?lang=de">GERMAN</a></li>
+                            <li><a href="?lang=ar">ARABIC</a></li>
+                            <li><a href="?lang=tr">TURKISH</a></li>
+                            <li><a href="?lang=pr">PERSIAN</a></li>
+                        </ul>
+                    </li>
+                    <li class="header-documents">
+                        <a href="./docs.html" class="header-documents-link"
+                            >DOCUMENTS</a
+                        >
+                    </li>
+                    <li class="header-account">
+                        <a href="#" class="header-account-link">ACCOUNT</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div class="heading-documents">
+                <h2 class="documents-heading">Documents</h2>
+                <p class="documents-hero-text">
+                    Here you can find all your documents.
+                </p>
+            </div>
+            <div class="card-container">
+                <!-- Ladezone für DB Einträge -->
+            </div>
+        </main>
+        <footer>
+            <div class="logo">SETTLE</div>
+            <ul class="footer-links">
+                <li>SOCIALS</li>
+                <li><a href="/impressum">IMPRINT</a></li>
+                <li><a href="/privacy">PRIVACY</a></li>
+                <li><a href="/terms">TERMS</a></li>
+                <li><a href="/contact">CONTACT</a></li>
+                <li><a href="/partners">OUR PARTNERS</a></li>
             </ul>
-        </nav>
-    </header>
-    <main>
-        <div class = "heading-documents">
-            <h2 class="documents-heading">Documents</h2>
-            <p class="documents-hero-text">Here you can find all your documents.</p>
+        </footer>
+        <div class="background-container">
+            <div class="rectangle"></div>
+            <div class="circle"></div>
         </div>
-        <div class="card-container">
-            <!-- Ladezone für DB Einträge -->
-        </div>
-    </main>
-    <footer>
-        <div class = "logo">SETTLE</div>
-        <ul class = "footer-links">
-            <li>SOCIALS</li>
-            <li><a href="/impressum">IMPRINT</a></li>
-            <li><a href="/privacy">PRIVACY</a></li>
-            <li><a href="/terms">TERMS</a></li>
-            <li><a href="/contact">CONTACT</a></li>
-            <li><a href="/partners">OUR PARTNERS</a></li>
-        </ul>
-    </footer>
-    <div class = "background-container">
-        <div class = "rectangle"></div>
-        <div class = "circle"></div>
-    </div>
-    <script src="../scripts/docs.js"></script>
-    <script src="../scripts/language-handler.js"></script>
-</body>
+        <script src="../scripts/docs.js"></script>
+        <script src="../scripts/language-handler.js"></script>
+    </body>
 </html>
