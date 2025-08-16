@@ -148,11 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         const complexityLevel =
                             option === "explain" ? "simple" : "easyLanguage";
 
-                        const loader = document.querySelector(".loader");
-
-                
-                        loader.style = "display: none";
-
                         const conversationItemUser =
                             document.createElement("li");
                         conversationItemUser.className = "sentence right";
