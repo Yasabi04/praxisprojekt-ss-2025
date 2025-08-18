@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 // Multer-Konfiguration für File-Uploads
 const storage = multer.memoryStorage();
-const upload = multer({ 
+const upload = multer({
     storage: storage,
     limits: {
         fileSize: 10 * 1024 * 1024 // 10MB limit
@@ -29,7 +29,7 @@ router.get('/alldocs', async (req, res) => {
 router.get('/finddoc/:id', async (req, res) => {
     try {
         const docId = req.params.id;
-        
+
         if (!docId || docId.trim() === '') {
             return res.status(400).json({ error: 'Ungültige Dokument-ID' });
         }
@@ -230,23 +230,24 @@ router.post('/explain', async (req, res) => {
 			easyLanguage: 'Vous ne devez pas traduire le texte suivant, mais lexpliquer dans un langage simple.' + task
 		}
 	}
-	else {
-		instructionPromps = {
-			simple: 'Ich verstehe diesen Part inhaltlich nicht:' + task,
-			easyLanguage: 'Ich verstehe diesen Part inhaltlich nicht. Bitte in Leichter Sprache erklären: ' + task
+	else if(userLang == 'de'){
+		instructionPrompts = {
+			simple: 'Bitte erkläre folgenden Part inhaltlich:' + task,
+			easyLanguage: 'Bitte den folgenden Text mit einfachen Worten erklären und bitte alle Fachwörter ersetzen: ' + task
 		}
 	}
 
         const finalPrompt = instructionPrompts[complexityLevel] || instructionPrompts.simple;
 
         res.setHeader('Content-Type', 'application/x-ndjson; charset=utf-8');
+	res.setHeader('Connection', 'keep-alive')
         res.setHeader('Transfer-Encoding', 'chunked');
 
         const ollamaResponse = await fetch('http://ollama:11434/api/generate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                model: 'qwen2.5:7b',
+                model: 'qwen2.5:7b', //ansonsten qwen2.5:7b
                 prompt: finalPrompt,
                 stream: true,
                 options: {
@@ -278,6 +279,7 @@ router.post('/explain', async (req, res) => {
                     if (data.response) {
                         // Direkt als einzelnes JSON-Objekt senden
                         res.write(JSON.stringify({ response: data.response }) + "\n");
+			res.flush?.()
                     }
                 } catch (err) {
                     console.error('Fehler beim Parsen eines Chunks:', err);
