@@ -156,7 +156,7 @@ router.post('/translate', async (req, res) => {
         const deepLResponse = await fetch('https://api-free.deepl.com/v2/translate', {
             method: 'POST',
             headers: {
-                'Authorization': `DeepL-Auth-Key 64a956bd-2a3c-4fcb-8be0-30ffe5430d5a:fx`,
+                'Authorization': `DeepL-Auth-Key ${DEEPL_API_KEY}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: new URLSearchParams({
