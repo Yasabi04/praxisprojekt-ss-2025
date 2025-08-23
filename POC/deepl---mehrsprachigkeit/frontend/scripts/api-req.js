@@ -15,7 +15,7 @@ async function translateText() {
         return;
     }
     
-    // Test die Serververbindung zuerst:
+    // Test die Serververbindung zuerst:r
     try {
         const testResponse = await fetch('http://127.0.0.1:3500/test', {
             method: 'GET',

@@ -1,8 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Config aus globaler Variable laden
+    const config = window.APP_CONFIG;
+
     const btn = document.querySelector(".send-message");
     let selectedOption = "translate"; // Default option
 
     console.log("----------");
+    console.log("Loaded config:", config?.API_BASE_URL);
 
     // Event listeners for custom dropdown options
     const options = document.querySelectorAll(".option div[data-id]");
@@ -53,6 +57,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const conversationItemUser = document.createElement("li");
+        conversationItemUser.className = "sentence right";
+        conversationItemUser.innerHTML = `
+                            <div class = "user-request">
+                                ${userText}
+                            </div>
+                        `;
+        conversation.appendChild(conversationItemUser);
+
         switch (option) {
             case "translate":
                 (async () => {
@@ -63,16 +76,25 @@ document.addEventListener("DOMContentLoaded", () => {
                             target_lang: langParam,
                         });
 
+                        const conversationItemModell =
+                            document.createElement("li");
+                        conversationItemModell.className = "sentence left";
+                        const instructionsDiv = document.createElement("div");
+                        instructionsDiv.className = "instructions";
+                        instructionsDiv.innerHTML =
+                            '<div class="loader"></div>';
+                        conversationItemModell.appendChild(instructionsDiv);
+
+                        conversation.appendChild(conversationItemModell)
+
                         const response = await fetch(
-                            "https://neutral-aware-bonefish.ngrok-free.app/api/translate",
+                            "http://127.0.0.1:3500/api/translate",
                             {
                                 method: "POST",
                                 headers: new Headers({
-                                    "Content-Type":
-                                        "application/x-www-form-urlencoded",
-                                    "ngrok-skip-browser-warning": "69420",
+                                    "Content-Type": "application/json",
                                 }),
-                                body: new URLSearchParams({
+                                body: JSON.stringify({
                                     text: userText,
                                     target_lang: langParam.toUpperCase(),
                                 }),
@@ -103,6 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         try {
                             data = JSON.parse(responseText);
                             console.log("Parsed JSON:", data);
+
+                            
                         } catch (parseError) {
                             console.error("JSON Parse Error:", parseError);
                             throw new Error(
@@ -111,14 +135,20 @@ document.addEventListener("DOMContentLoaded", () => {
                             );
                         }
 
+
+
                         if (data.success) {
                             console.log("Übersetzung:", data.translation);
-                            displayTranslation(data.translation);
+                            instructionsDiv.innerHTML =
+                            `<div>${data.translation}</div>`;
                         } else {
                             // Loader durch Fehlermeldung ersetzen
                             conversationItemLoader.innerHTML = `
                                 <div class="error-message">
-                                    Fehler: ${data.error || "Übersetzung fehlgeschlagen"}
+                                    Fehler: ${
+                                        data.error ||
+                                        "Übersetzung fehlgeschlagen"
+                                    }
                                 </div>
                             `;
                             throw new Error(
@@ -127,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     } catch (err) {
                         console.error("Fehler bei der Übersetzung:", err);
-                        
+
                         // Loader durch Fehlermeldung ersetzen falls noch vorhanden
                         if (conversationItemLoader) {
                             conversationItemLoader.innerHTML = `
@@ -148,27 +178,17 @@ document.addEventListener("DOMContentLoaded", () => {
                         const complexityLevel =
                             option === "explain" ? "simple" : "easyLanguage";
 
-                        const conversationItemUser =
-                            document.createElement("li");
-                        conversationItemUser.className = "sentence right";
-                        conversationItemUser.innerHTML = `
-                            <div class = "user-request">
-                                ${userText}
-                            </div>
-                        `;
-
-                        
                         // Neues Element für die Modell-Antwort
                         const conversationItemModell =
                             document.createElement("li");
                         conversationItemModell.className = "sentence left";
                         const instructionsDiv = document.createElement("div");
                         instructionsDiv.className = "instructions";
-                        instructionsDiv.innerHTML = '<div class="loader"></div>'
+                        instructionsDiv.innerHTML =
+                            '<div class="loader"></div>';
                         conversationItemModell.appendChild(instructionsDiv);
-                        
-                        conversation.appendChild(conversationItemUser);
-                        conversation.appendChild(conversationItemModell);                        
+
+                        conversation.appendChild(conversationItemModell);
 
                         const response = await fetch(
                             "https://neutral-aware-bonefish.ngrok-free.app/api/explain",

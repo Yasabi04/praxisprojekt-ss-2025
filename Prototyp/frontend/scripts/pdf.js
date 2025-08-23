@@ -28,7 +28,7 @@ class PDFViewer {
 
         const urlParams = new URLSearchParams(window.location.search);
         const docId = urlParams.get('pdf');
-        console.log(docId)
+        // console.log(docId)
         if (!docId) {
             // FALLBACK: Test-PDF laden
             const url = '../tmp-pdf/asylerstantrag.pdf';
@@ -56,19 +56,19 @@ class PDFViewer {
             });
             
             clearTimeout(timeoutId);
-            console.log("Response status:", response.status);
-            console.log("Response headers:", response.headers);
+            // console.log("Response status:", response.status);
+            // console.log("Response headers:", response.headers);
             
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
             
-            console.log("Starting JSON parse...");
+            // console.log("Starting JSON parse...");
             const data = await response.json();
-            console.log("JSON parsed successfully");
+            // console.log("JSON parsed successfully");
             // console.log("Response data:", data);
             const title = data.title
-            console.log("Titel: " + data.title);
+            // console.log("Titel: " + data.title);
             
             if (!data.pdfFile) {
                 throw new Error('Keine PDF-Datei in Response');
@@ -80,26 +80,26 @@ class PDFViewer {
             if (data.pdfFile && typeof data.pdfFile === 'object' /*Rückgabewert ist eigentlich immer ein Object*/) {
                 if (data.pdfFile.data && Array.isArray(data.pdfFile.data)) {
                     bytes = new Uint8Array(data.pdfFile.data);
-                    console.log('Converted Buffer object to bytes, length:', bytes.length);
+                    // console.log('Converted Buffer object to bytes, length:', bytes.length);
                 } else {
-                    console.log('Unknown object structure, trying direct conversion...');
+                    // console.log('Unknown object structure, trying direct conversion...');
                     bytes = new Uint8Array(Object.values(data.pdfFile));
                 }
             } else if (typeof data.pdfFile === 'string') {
                 console.log("That didn't go to plan. PDF File is a String")
             }
 
-            console.log('Final bytes length:', bytes.length);
+            // console.log('Final bytes length:', bytes.length);
             
             if (bytes.length === 0) {
                 throw new Error('PDF data is empty');
             }
 
             // PDF laden
-            console.log("Loading PDF with pdfjsLib...");
+            // console.log("Loading PDF with pdfjsLib...");
             this.pdfDoc = await pdfjsLib.getDocument(bytes).promise;
             await this.renderAllPages();
-            console.log("PDF loaded successfully");
+            // console.log("PDF loaded successfully");
             
         } catch (fetchError) {
             clearTimeout(timeoutId);
@@ -112,10 +112,10 @@ class PDFViewer {
         }
         
     } catch (error) {
-        console.error("Error loading PDF:", error);
+        // console.error("Error loading PDF:", error);
         
         // SOFORTIGER FALLBACK ohne weitere Verzögerung
-        console.log("Attempting fallback immediately...");
+        // console.log("Attempting fallback immediately...");
         try {
             const fallbackUrl = '../tmp-pdf/asylerstantrag.pdf';
             console.log("Loading fallback PDF:", fallbackUrl);
@@ -217,9 +217,9 @@ class PDFViewer {
                     textDivs: [],
                 }).promise;
 
-                console.log(
-                    `Page ${pageNum}: Text layer rendered with ${textContent.items.length} items`
-                );
+                // console.log(
+                //     `Page ${pageNum}: Text layer rendered with ${textContent.items.length} items`
+                // );
             } catch (textError) {
                 console.warn(
                     `TextLayer failed for page ${pageNum}, creating simple text overlay:`,
@@ -274,6 +274,6 @@ class PDFViewer {
 
 // PDF Viewer initialisieren
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Initializing PDF Viewer...");
+    // console.log("Initializing PDF Viewer...");
     new PDFViewer();
 });
