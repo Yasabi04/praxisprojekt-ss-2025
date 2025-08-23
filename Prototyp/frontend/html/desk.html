@@ -25,6 +25,9 @@
                             <li>
                                 <a href="?lang=tr">TURKISH</a>
                             </li>
+                            <li>
+                                <a href="?lang=pr">PERSIAN</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="header-documents">
@@ -40,7 +43,7 @@
         </header>
         <main>
             <div class="doc-wrapper">
-                <section class="doc-space" id="doc-space">
+                <section class="doc-space pdf-container" id="doc-space">
                     <div id="pdf-container">
                         <div id="pdf-controls">
                             <button id="zoom-out">-</button>
@@ -52,12 +55,7 @@
                         </div>
                     </div>
                 </section>
-                <section class = "doc-space">
-                    <!-- <select name = "mode-select" id = "mode-select">
-                        <option value = "translate">Translate</option>
-                        <option value = "explain">Explain</option>
-                        <option value = "easy-language">Easy Language</option>
-                    </select> -->
+                <section class="doc-space communication-container">
                     <div class = "custom-select-group" id="mode-select">
                         <div class="chosing">Translate</div>
                         <ul class="selection">
@@ -75,16 +73,19 @@
                     
                     <div class = "conversation-content">
                         <ul class = "conversation">
-                            <div class="loader"></div>
+                            <section class = "note">
+                                <h2 class = "note-heading">NOTE!</h2>
+                                <p class = "note-message">You are chatting with an AI Model. Eventhough everything is self hosted, please be aware 
+                                    that you enter as little personal information as possible!</p>
+                            </section>
                         </ul>
                     </div>
                     <div id = "user-action">
-                        <input class = "user-input" placeholder = "Enter message here..."></input>
+                        <input class = "user-input" placeholder = "Enter message here!"></input>
                         <button class = "send-message">></button>
                     </div>
                 </section>
             </div>
-            <h2></h2>
         </main>
         <footer>
             <div class="logo">SETTLE</div>
@@ -101,8 +102,8 @@
             <div class="circle"></div>
             <div class="triangle"></div>
         </div> -->
-        <script src = "../scripts/main.js"></script>
         <script src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+        <script src = "../scripts/config.js"></script>
         <script src = "../scripts/language-handler.js"></script>
         <script src = "../scripts/pdf.js"></script>
         <script src = "../scripts/interaction.js"></script>
