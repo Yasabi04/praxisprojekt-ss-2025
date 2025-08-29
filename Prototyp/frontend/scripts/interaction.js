@@ -66,6 +66,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         `;
         conversation.appendChild(conversationItemUser);
 
+        const conversationItemModell = document.createElement("li");
+        conversationItemModell.className = "sentence left";
+        const instructionsDiv = document.createElement("div");
+        instructionsDiv.className = "instructions";
+        instructionsDiv.innerHTML = '<div class="loader"></div>';
+        conversationItemModell.appendChild(instructionsDiv);
+
+        conversation.appendChild(conversationItemModell);
+
         switch (option) {
             case "translate":
                 (async () => {
@@ -76,19 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             target_lang: langParam,
                         });
 
-                        const conversationItemModell =
-                            document.createElement("li");
-                        conversationItemModell.className = "sentence left";
-                        const instructionsDiv = document.createElement("div");
-                        instructionsDiv.className = "instructions";
-                        instructionsDiv.innerHTML =
-                            '<div class="loader"></div>';
-                        conversationItemModell.appendChild(instructionsDiv);
-
-                        conversation.appendChild(conversationItemModell)
-
                         const response = await fetch(
-                            "http://127.0.0.1:3500/api/translate",
+                            "http://localhost:3500/api/translate",
                             {
                                 method: "POST",
                                 headers: new Headers({
@@ -125,8 +123,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         try {
                             data = JSON.parse(responseText);
                             console.log("Parsed JSON:", data);
-
-                            
                         } catch (parseError) {
                             console.error("JSON Parse Error:", parseError);
                             throw new Error(
@@ -135,12 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             );
                         }
 
-
-
                         if (data.success) {
                             console.log("Übersetzung:", data.translation);
-                            instructionsDiv.innerHTML =
-                            `<div>${data.translation}</div>`;
+                            instructionsDiv.innerHTML = data.translation;
                         } else {
                             // Loader durch Fehlermeldung ersetzen
                             conversationItemLoader.innerHTML = `
@@ -179,16 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             option === "explain" ? "simple" : "easyLanguage";
 
                         // Neues Element für die Modell-Antwort
-                        const conversationItemModell =
-                            document.createElement("li");
-                        conversationItemModell.className = "sentence left";
-                        const instructionsDiv = document.createElement("div");
-                        instructionsDiv.className = "instructions";
-                        instructionsDiv.innerHTML =
-                            '<div class="loader"></div>';
-                        conversationItemModell.appendChild(instructionsDiv);
-
-                        conversation.appendChild(conversationItemModell);
 
                         const response = await fetch(
                             "https://neutral-aware-bonefish.ngrok-free.app/api/explain",

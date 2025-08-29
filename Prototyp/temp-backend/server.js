@@ -60,6 +60,7 @@ app.post('/api/translate', async (req, res) => {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: new URLSearchParams({
+                'source_language': 'DE',
                 'text': text,
                 'target_lang': target_lang
             })
