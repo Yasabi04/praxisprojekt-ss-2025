@@ -4,14 +4,16 @@ a {
 }
 
 .doc-container {
-    margin: 0 auto; 
+    position: relative;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     align-self: center;
     flex-direction: column;
     min-height: 60vh;
     max-width: 50vw;
-    gap: 2rem;
+    gap: 1.5rem;
+    padding-bottom: 5rem;
 }
 
 .doc-content {
@@ -26,12 +28,18 @@ a {
         justify-content: space-between;
         align-self: center;
         width: 100%;
-        
+        padding: 0 1rem 0 1rem;
+        box-shadow: 2px 2px 2px grey;
+        background-color: white;
+
         .doc-title {
             font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.15rem;
+            text-transform: uppercase;
             align-self: center;
         }
-        
+
         .doc-year {
             font-size: 1.25rem;
             align-self: center;
@@ -40,7 +48,82 @@ a {
     .delete {
         aspect-ratio: 1/1;
         background-color: var(--color-red);
-        padding: 1rem;
+        margin: 1rem;
+        padding: 1.5rem;
         border: none;
+    }
+}
+
+.new-doc {
+    width: 40%;
+    padding: 1rem;
+    background-color: white;
+    letter-spacing: 0.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 2px grey;
+    transition: 0.2s;
+
+    &:hover {
+        background-color: var(--color-yellow);
+        transition: 0.2s;
+    }
+}
+
+#uploadForm {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 60vw;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+
+    .upload-h2 {
+        color: var(--font-color);
+    }
+
+    input,
+    textarea,
+    button {
+        width: 90%;
+        height: 3rem;
+        border: none;
+        outline: none;
+    }
+
+    input, textarea {
+        background-color: transparent;
+        color: var(--font-color);
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    textarea {
+        max-width: 90%;
+        min-height: 5rem;
+        max-height: 7rem;
+        resize: vertical;
+    }
+
+    button {
+        padding: 1rem;
+        background-color: white;
+        letter-spacing: 0.4rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        box-shadow: 2px 2px 2px grey;
+        transition: 0.2s;
+
+        &:hover {
+            background-color: var(--color-yellow);
+            transition: 0.2s;
+        }
     }
 }

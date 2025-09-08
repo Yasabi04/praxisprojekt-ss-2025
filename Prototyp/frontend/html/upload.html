@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="../stylesheets/base.css" />
         <link rel="stylesheet" href="../stylesheets/index.css" />
         <link rel="stylesheet" href="../stylesheets/docs.css" />
-        <link rel="stylesheet" href="../stylesheets/upload.css">
+        <link rel="stylesheet" href="../stylesheets/upload.css" />
         <title>SETTLE - UPLOAD</title>
     </head>
     <body>
@@ -43,49 +43,54 @@
             </nav>
         </header>
 
-        <section class = "doc-container">
+        <section class="doc-container">
             <a href="#">
-                <div class = "doc-content">
-                    <div class = "doc-text-content">
-                        <p class = "doc-title">Asylerstantrag</p>
-                        <p class = "doc-year">2025</p>
+                <div class="doc-content">
+                    <div class="doc-text-content">
+                        <p class="doc-title">Asylerstantrag</p>
+                        <p class="doc-year">2025</p>
                     </div>
-                    <button class = "delete">DELETE</button>
+                    <button class="delete">🗑️</button>
                 </div>
             </a>
 
             <a href="#">
-                <div class = "doc-content">
-                    <div class = "doc-text-content">
-                        <p class = "doc-title">Asylerstantrag</p>
-                        <p class = "doc-year">2025</p>
+                <div class="doc-content">
+                    <div class="doc-text-content">
+                        <p class="doc-title">Asylerstantrag</p>
+                        <p class="doc-year">2025</p>
                     </div>
-                    <button class = "delete">DELETE</button>
+                    <button class="delete">🗑️</button>
                 </div>
             </a>
-            
-            <div class = "new-doc">Neues Dokument</div>
+
+            <div class="new-doc">New document</div>
+
+            <form id="uploadForm" enctype="multipart/form-data">
+                <h2 class = "upload-h2">Add a new document</h2>
+                <input type="text" name="title" placeholder="Title" required />
+                <textarea name="content" placeholder="Description"></textarea>
+                <input class = "input-pdf" type="file" name="pdfFile" accept=".pdf" required />
+                <button type="submit">Publish document</button>
+            </form>
         </section>
 
-        <form id="uploadForm" enctype="multipart/form-data">
-            <input type="text" name="title" placeholder="Titel" required />
-            <textarea name="content" placeholder="Beschreibung"></textarea>
-            <input type="file" name="pdfFile" accept=".pdf" required />
-            <button type="submit">Dokument hochladen</button>
-        </form>
+        <footer>
+            <div class="logo">SETTLE</div>
+            <ul class="footer-links">
+                <li>SOCIALS</li>
+                <li><a href="/impressum">IMPRINT</a></li>
+                <li><a href="/privacy">PRIVACY</a></li>
+                <li><a href="/terms">TERMS</a></li>
+                <li><a href="/contact">CONTACT</a></li>
+                <li><a href="/partners">OUR PARTNERS</a></li>
+            </ul>
+        </footer>
+        <script src="../scripts/upload.js"></script>
 
-            <footer>
-                <div class="logo">SETTLE</div>
-                <ul class="footer-links">
-                    <li>SOCIALS</li>
-                    <li><a href="/impressum">IMPRINT</a></li>
-                    <li><a href="/privacy">PRIVACY</a></li>
-                    <li><a href="/terms">TERMS</a></li>
-                    <li><a href="/contact">CONTACT</a></li>
-                    <li><a href="/partners">OUR PARTNERS</a></li>
-                </ul>
-            </footer>
-            <script src="../scripts/upload.js"></script>
-        </form>
+        <div class="background-container">
+            <div class="rectangle"></div>
+            <div class="circle"></div>
+        </div>
     </body>
 </html>
