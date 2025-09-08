@@ -36,7 +36,7 @@
                         >
                     </li>
                     <li class="header-account">
-                        <a href="#" class="header-account-link">ACCOUNT</a>
+                        <a href="./upload.html" class="header-account-link">ACCOUNT</a>
                     </li>
                 </ul>
             </nav>
@@ -47,7 +47,6 @@
                 <p class="documents-hero-text">
                     Here you can find all your documents.
                 </p>
-                <button onclick="deleteThis()">cmdx9rz9w0000me012pafmm9 Löschen</button>
 
             </div>
             <div class="card-container">
@@ -71,27 +70,5 @@
         </div>
         <script src="../scripts/docs.js"></script>
         <script src="../scripts/language-handler.js"></script>
-        <script>
-                function deleteThis(){
-                    fetch('https://neutral-aware-bonefish.ngrok-free.app/api/delete/cmf9s2jjj0000nz1galtiq1vx', {
-                        method: 'POST'
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        alert('Dokument erfolgreich gelöscht!');
-                        // Optional: Seite neu laden oder Element entfernen
-                        location.reload();
-                    })
-                    .catch(error => {
-                        alert('Fehler beim Löschen des Dokuments: ' + error.message);
-                    });
-                }
-        
-        </script>
     </body>
 </html>

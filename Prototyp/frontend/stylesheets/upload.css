@@ -1,6 +1,10 @@
 a {
     text-decoration: none;
     color: inherit;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .doc-container {
@@ -47,10 +51,21 @@ a {
     }
     .delete {
         aspect-ratio: 1/1;
-        background-color: var(--color-red);
-        margin: 1rem;
+        background-color: salmon;
+        margin: 0;
         padding: 1.5rem;
         border: none;
+        transition: 0.2s;
+
+        .fa-trash {
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        &:hover {
+            background-color: var(--color-red);
+            transition: 0.2s;
+        }
     }
 }
 
@@ -78,7 +93,7 @@ a {
     height: 100%;
     width: 60vw;
     background-color: white;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -103,6 +118,7 @@ a {
         text-transform: uppercase;
         font-weight: 700;
         font-size: 1rem;
+        caret-color: var(--color-lightblue);
     }
 
     textarea {
