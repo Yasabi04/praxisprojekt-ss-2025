@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         // Neues Element für die Modell-Antwort
 
                         const response = await fetch(
-                            "https://neutral-aware-bonefish.ngrok-free.app/api/explain",
+                            "http://mivs15.gm.fh-koeln.de:3500/api/explain",
                             {
                                 method: "POST",
                                 headers: {
