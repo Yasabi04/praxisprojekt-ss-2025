@@ -41,7 +41,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
     try {
         const response = await fetch(
-            "https://neutral-aware-bonefish.ngrok-free.app/api/upload",
+            "http://mivs15.gm.fh-koeln.de:3500:3500/api/upload",
             {
                 method: "POST",
                 headers: {
@@ -87,7 +87,7 @@ async function getCurrentDocs() {
         const docContainer = document.querySelector(".doc-container");
 
         const response = await fetch(
-            "https://neutral-aware-bonefish.ngrok-free.app/api/alldocs",
+            "http://mivs15.gm.fh-koeln.de:3500/api/alldocs",
             {
                 method: "get",
                 headers: new Headers({
@@ -100,21 +100,21 @@ async function getCurrentDocs() {
         console.log(data)
 
         data.forEach((doc) => {
-            const a = document.createElement("a");
-            a.href = window.location.origin + `/Prototyp/frontend/html/desk.html?pdf=${doc.docId}`
-            a.innerHTML = `
+            const div = document.createElement("div");
+            const reroute = window.location.origin + `/Prototyp/frontend/html/desk.html?pdf=${doc.docId}`
+            div.innerHTML = `
                 <div class="doc-content">
-                    <div class="doc-text-content">
+                    <a href = "${reroute}" class="doc-text-content">
                         <p class="doc-title">${doc.title}</p>
                         <p class="doc-year">
                             ${new Date(doc.createdAt).toLocaleDateString("de-DE", { month: "numeric", year: "numeric" }).replace('/', '.')}
                         </p>
-                    </div>
+                    </a>
                     <button class="delete" onclick="deleteDoc('${doc.docId}')"><i class="fa-solid fa-trash"></i></button>
                 </div>
             `;
 
-            docContainer.insertBefore(a, docContainer.firstChild);
+            docContainer.insertBefore(div, docContainer.firstChild);
         });
     } catch (error) {
         console.log(error);
@@ -124,16 +124,21 @@ async function getCurrentDocs() {
 function hideAndShowForm() {
     const uploadForm = document.getElementById("uploadForm");
     const newDocButton = document.querySelector(".new-doc");
+    const closeButton = document.querySelector(".close")
 
     newDocButton.addEventListener("click", () => {
-        uploadForm.style = `display: flex`;
+        uploadForm.style = 'display: flex';
     });
+
+    closeButton.addEventListener("click", () => {
+        uploadForm.style = 'display: none';
+    })
 }
 
 async function deleteDoc(docId) {
     try {
         fetch(
-            "https://neutral-aware-bonefish.ngrok-free.app/api/delete/" + docId,
+            "http://mivs15.gm.fh-koeln.de:3500/api/delete/" + docId,
             {
                 method: "POST",
             }

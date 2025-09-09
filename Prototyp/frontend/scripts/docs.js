@@ -32,7 +32,7 @@ async function handleDocuments() {
     try {
         console.log("Fetching documents from API...");
         const response = await fetch(
-            "https://neutral-aware-bonefish.ngrok-free.app/api/alldocs",
+            "http://mivs15.gm.fh-koeln.de:3500/api/alldocs",
             {
                 method: "get",
                 headers: new Headers({

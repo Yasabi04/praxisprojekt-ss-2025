@@ -38,7 +38,7 @@ class PDFViewer {
             return;
         }
 
-        const apiUrl = `https://neutral-aware-bonefish.ngrok-free.app/api/finddoc/${docId}`;
+        const apiUrl = `http://mivs15.gm.fh-koeln.de:3500/api/finddoc/${docId}`;
         console.log("Fetching PDF from:", apiUrl);
         
         // KORRIGIERT: Timeout hinzufügen
