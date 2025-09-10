@@ -1,12 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Config aus globaler Variable laden
-    const config = window.APP_CONFIG;
+
+    let conversationHistory = [];
 
     const btn = document.querySelector(".send-message");
     let selectedOption = "translate"; // Default option
 
     console.log("----------");
-    console.log("Loaded config:", config?.API_BASE_URL);
 
     // Event listeners for custom dropdown options
     const options = document.querySelectorAll(".option div[data-id]");
@@ -56,6 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!userText) {
             return;
         }
+
+        conversationHistory.push({ role: 'User', request: userText})
+        console.log(conversationHistory)
 
         const conversationItemUser = document.createElement("li");
         conversationItemUser.className = "sentence right";
@@ -136,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             instructionsDiv.innerHTML = data.translation;
                         } else {
                             // Loader durch Fehlermeldung ersetzen
-                            conversationItemLoader.innerHTML = `
+                            conversationItemModell.innerHTML = `
                                 <div class="error-message">
                                     Fehler: ${
                                         data.error ||
@@ -152,10 +154,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         console.error("Fehler bei der Übersetzung:", err);
 
                         // Loader durch Fehlermeldung ersetzen falls noch vorhanden
-                        if (conversationItemLoader) {
-                            conversationItemLoader.innerHTML = `
+                        if (conversationItemModell) {
+                            conversationItemModell.innerHTML = `
                                 <div class="error-message">
-                                    Übersetzungsfehler: ${err.message}
+                                    Sorry :( At the moment DeepL does not support iranian language support
                                 </div>
                             `;
                         }
@@ -184,7 +186,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                 body: JSON.stringify({
                                     userLang: langParam,
                                     task: userText,
-                                    complexityLevel: complexityLevel,
+                                    conversation: conversationHistory,
+                                    complexityLevel: complexityLevel
                                 }),
                             }
                         );
