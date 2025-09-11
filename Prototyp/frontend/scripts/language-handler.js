@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    if(getBrowserLanguage()){}
+
+
     const elements = {
         lang: document.querySelector('.header-language-word'),
         docs: document.querySelector('.header-documents-link'),
@@ -31,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return languageData;
     }
     
-    // Sprache anwenden ohne Reload
+
     const applyLanguage = async (lang) => {
         const data = await loadLanguageData();
         if (!data) return;
@@ -108,6 +112,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 setText(elements.footerPartners, data.turkish?.footer?.[5], 'Ortaklarımız')
                 document.documentElement.dir = 'ltr'
                 break;
+
+            case 'fa':
+                setText(elements.lang, data.persian?.header?.[0], 'زبان')
+                setText(elements.docs, data.persian?.header?.[1], 'اسناد')
+                setText(elements.account, data.persian?.header?.[2], 'حساب کاربری')
+                setText(elements.heading, data.persian?.heading, 'مرور اسناد')
+                setText(elements.footerSocials, data.persian?.footer?.[0], 'شبکه‌های اجتماعی')
+                setText(elements.footerImprint, data.persian?.footer?.[1], 'اطلاعات سایت')
+                setText(elements.footerPrivacy, data.persian?.footer?.[2], 'سیاست حفظ حریم خصوصی')
+                setText(elements.footerTerms, data.persian?.footer?.[3], 'شرایط')
+                setText(elements.footerContact, data.persian?.footer?.[4], 'تماس با ما')
+                setText(elements.footerPartners, data.persian?.footer?.[5], 'شرکای ما')
+                document.documentElement.dir = 'rtl'
+                break;
                 
             default:
                 setText(elements.lang, null, 'LANGUAGE')
@@ -138,18 +156,33 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); // Verhindert Reload
             
             const href = link.getAttribute('href');
-            const lang = new URLSearchParams(href.split('?')[1]).get('lang');
+            const language = new URLSearchParams(href.split('?')[1]).get('lang');
             
-            if (lang) {
-                applyLanguage(lang);
+            if (language) {
+                applyLanguage(language);
             }
         });
     });
     
-    // Initial: Sprache aus URL oder localStorage laden
-    const initialLang = new URLSearchParams(window.location.search).get('lang') 
-                       || localStorage.getItem('selectedLanguage') 
-                       || 'de';
+   
+        // Initial: Sprache aus URL oder localStorage laden, mit Browser-Sprache als Priorität
+        const supportedLanguages = ['de', 'en', 'fr', 'ar', 'tr', 'fa'];
+        const browserLang = getBrowserLanguage();
     
-    applyLanguage(initialLang);
+        let initialLang = 'en'; // Standard-Sprache ist Englisch
+    
+        if (supportedLanguages.includes(browserLang)) {
+            initialLang = browserLang;
+        }
+        applyLanguage(initialLang);
 });
+
+
+
+
+function getBrowserLanguage(){
+    // Returns the browser's primary language (e.g. "en-US", "de-DE")
+    const userLang = navigator.language || navigator.userLanguage;
+    const smallBrowserLang = userLang.slice(0,2).toLowerCase()
+    return smallBrowserLang
+}

@@ -23,5 +23,10 @@
         "header": ["Dil", "Belgeler", "Hesap"],
         "heading": "Belgelere göz atın",
         "footer": ["Sosyal medya", "Künye", "Gizlilik politikası", "Şartlar", "İletişim", "Ortaklarımız"]
+    },
+    "persian": {
+        "header": ["زبان", "اسناد", "حساب کاربری"],
+        "heading": "مرور اسناد",
+        "footer": ["شبکه‌های اجتماعی", "اطلاعات سایت", "سیاست حفظ حریم خصوصی", "شرایط", "تماس با ما", "شرکای ما"]
     }
 }

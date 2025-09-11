@@ -16,7 +16,7 @@ async function handleDocuments() {
                             <h2 class="doc-heading">${doc.title}</h2>
                             <p class="doc-intro">${doc.content}</p>
                         </div>
-                        <div class="doc-add-fav">+</div>
+                        <div class="doc-download">+</div>
                     </div>
                 `;
                 docContainer.appendChild(card);
@@ -30,7 +30,7 @@ async function handleDocuments() {
             });
         })
 
-        document.querySelectorAll('.doc-add-fav').forEach(b => {
+        document.querySelectorAll('.doc-download').forEach(b => {
             b.addEventListener('click', e => {
                 e.stopPropagation(); 
                 const docId = b.closest('.doc-card').getAttribute('data-id');
