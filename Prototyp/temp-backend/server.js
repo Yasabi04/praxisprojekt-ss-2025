@@ -40,6 +40,56 @@ app.get('/test', (req, res) => {
 
 // Übersetzungs-Route
 // Übersetzungs-Route mit echter DeepL API
+// app.post('/api/translate', async (req, res) => {
+//     try {
+//         const { text, target_lang } = req.body;
+//         console.log('Übersetzungsanfrage:', { text, target_lang });
+        
+//         if (!text || !target_lang) {
+//             return res.status(400).json({
+//                 success: false,
+//                 error: 'Text und Zielsprache sind erforderlich'
+//             });
+//         }
+        
+//         // DeepL API-Anfrage
+//         const deepLResponse = await fetch('https://api-free.deepl.com/v2/translate', {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `DeepL-Auth-Key ${DEEPL_API_KEY}`,
+//                 'Content-Type': 'application/x-www-form-urlencoded'
+//             },
+//             body: new URLSearchParams({
+//                 'source_language': 'DE',
+//                 'text': text,
+//                 'target_lang': target_lang
+//             })
+//         });
+        
+//         if (!deepLResponse.ok) {
+//             throw new Error(`DeepL API Fehler: ${deepLResponse.status}`);
+//         }
+        
+//         const deepLData = await deepLResponse.json();
+//         console.log('DeepL Antwort:', deepLData);
+        
+//         res.json({
+//             success: true,
+//             translation: deepLData.translations[0].text,
+//             source_lang: deepLData.translations[0].detected_source_language,
+//             target_lang: target_lang
+//         });
+        
+//     } catch (error) {
+//         console.error('Übersetzungsfehler:', error);
+//         res.status(500).json({
+//             success: false,
+//             error: 'Übersetzungsfehler',
+//             details: error.message
+//         });
+//     }
+// });
+
 app.post('/api/translate', async (req, res) => {
     try {
         const { text, target_lang } = req.body;
@@ -51,8 +101,11 @@ app.post('/api/translate', async (req, res) => {
                 error: 'Text und Zielsprache sind erforderlich'
             });
         }
-        
-        // DeepL API-Anfrage
+
+        // Glossar-ID aus deiner .env (muss vorher erstellt werden!)
+        const GLOSSARY_ID = process.env.DEEPL_GLOSSARY_ID;
+
+        // DeepL API-Anfrage mit Glossar
         const deepLResponse = await fetch('https://api-free.deepl.com/v2/translate', {
             method: 'POST',
             headers: {
@@ -60,9 +113,10 @@ app.post('/api/translate', async (req, res) => {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: new URLSearchParams({
-                'source_language': 'DE',
                 'text': text,
-                'target_lang': target_lang
+                'target_lang': target_lang,
+                'source_lang': 'DE',
+                ...(GLOSSARY_ID ? { 'glossary_id': GLOSSARY_ID } : {}) // nur wenn vorhanden
             })
         });
         
@@ -77,7 +131,8 @@ app.post('/api/translate', async (req, res) => {
             success: true,
             translation: deepLData.translations[0].text,
             source_lang: deepLData.translations[0].detected_source_language,
-            target_lang: target_lang
+            target_lang: target_lang,
+            glossary_used: GLOSSARY_ID ? true : false
         });
         
     } catch (error) {
@@ -89,6 +144,7 @@ app.post('/api/translate', async (req, res) => {
         });
     }
 });
+
 
 // Server starten
 app.listen(port, () => {
