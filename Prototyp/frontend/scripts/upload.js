@@ -41,7 +41,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
     try {
         const response = await fetch(
-            "http://mivs15.gm.fh-koeln.de:3500:3500/api/upload",
+            "http://mivs15.gm.fh-koeln.de:3500/api/upload",
             {
                 method: "POST",
                 headers: {

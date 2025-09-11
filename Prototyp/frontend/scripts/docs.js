@@ -1,5 +1,3 @@
-const savedDocs = [];
-
 document.addEventListener("DOMContentLoaded", () => {
     const allCards = document.querySelectorAll(".doc-card");
     const addFav = document.querySelectorAll(".doc-download");
@@ -242,3 +240,4 @@ async function handleDocuments() {
         `;
     }
 }
+

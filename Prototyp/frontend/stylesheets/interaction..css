@@ -174,9 +174,8 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            width: auto;
+            width: 80%;
             height: auto;
-            /* box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.25); */
 
             .user-input {
                 width: 100%;
@@ -188,6 +187,8 @@
                 border: none;
                 font-weight: 600;
                 letter-spacing: 0.15rem; 
+                word-wrap: break-word;
+                word-break: break-all;
             }
 
             .send-message {
