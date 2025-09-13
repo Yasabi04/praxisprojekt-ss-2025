@@ -92,8 +92,8 @@ app.get('/test', (req, res) => {
 
 app.post('/api/translate', async (req, res) => {
     try {
-        const { text, target_lang } = req.body;
-        console.log('Übersetzungsanfrage:', { text, target_lang });
+        const { text, target_lang, user_lang } = req.body;
+        console.log('Übersetzungsanfrage:', { text, target_lang, user_lang });
         
         if (!text || !target_lang) {
             return res.status(400).json({
@@ -116,7 +116,7 @@ app.post('/api/translate', async (req, res) => {
                 'text': text,
                 'target_lang': target_lang,
                 'source_lang': 'DE',
-                ...(GLOSSARY_ID ? { 'glossary_id': GLOSSARY_ID } : {}) // nur wenn vorhanden
+                // ...(GLOSSARY_ID ? { 'glossary_id': GLOSSARY_ID } : {}) // nur wenn vorhanden
             })
         });
         

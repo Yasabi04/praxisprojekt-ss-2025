@@ -1,23 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     const allCards = document.querySelectorAll(".doc-card");
-    const addFav = document.querySelectorAll(".doc-download");
     allCards.forEach((card) => {
         card.addEventListener("click", () => {
             const dataId = card.getAttribute("data-id");
             window.location.href = `${window.location.origin}${window.location.pathname}/${dataId}`;
-        });
-    });
-
-    addFav.forEach((icon) => {
-        icon.addEventListener("click", (e) => {
-            e.stopPropagation();
-
-            const cardElement = icon.closest("[data-id]");
-            const dataId = cardElement
-                ? cardElement.getAttribute("data-id")
-                : "Döp döp";
-            // Fetch mit POST und data-id an User table
-            alert("Gespeichert wurde Card mit ID: " + dataId);
         });
     });
 
@@ -96,18 +82,18 @@ async function handleDocuments() {
             card.className = "doc-card";
             card.setAttribute("data-id", doc.docId || doc.id || "unknown");
 
+            // Die Originaltexte werden in data-Attributen gespeichert, ohne die Struktur zu ändern.
+            const originalTitle = doc.title || "Kein Titel";
+            const originalContent = doc.content || "Keine Beschreibung";
+
             card.innerHTML = `
                 <div class="card-hor-align">
                     <div class="img-container">
                         <img src="../images/documents+stamp-unsplash.jpg" alt="Vorschau">
                     </div>
                     <div class="text-content">
-                        <h2 class="doc-heading">${
-                            doc.title || "Kein Titel"
-                        }</h2>
-                        <p class="doc-intro">${
-                            doc.content || "Keine Beschreibung"
-                        }</p>
+                        <h2 class="doc-heading" data-original-text="${originalTitle}">${originalTitle}</h2>
+                        <p class="doc-intro" data-original-text="${originalContent}">${originalContent}</p>
                         <small>${
                             doc.createdAt
                                 ? new Date(doc.createdAt)
