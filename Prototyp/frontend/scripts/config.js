@@ -2,7 +2,7 @@
 const config = {
     // API Endpoints
     API_BASE_URL: 'http://mivs15.gm.fh-koeln.de:3500',
-    DEEPL_API_KEY: '64a956bd-2a3c-4fcb-8be0-30ffe5430d5a:fx',
+    DEEPL_API_KEY: 'DEEPL_API_KEY',
     
     // Features
     DEBUG_MODE: true,
