@@ -344,64 +344,73 @@ async function translateDocs() {
     const urlParams = new URLSearchParams(window.location.search);
     const langParam = urlParams.get("lang") || "en";
 
-    const docTitles = document.querySelectorAll(".doc-heading");
-    console.log(`Found ${docTitles.length} titles to translate.`);
-
-    for (const title of docTitles) {
-        try {
-            console.log(title.textContent + "Anfrage an Server");
-            const response = await fetch(
-                "http://localhost:3500/api/translate",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        text: title.textContent,
-                        target_lang: langParam.toUpperCase(),
-                    }),
-                }
-            );
-
-            // Zuerst als Text lesen, um Fehler zu vermeiden
-            const responseText = await response.text();
-            console.log("Antwort:", responseText);
-
-            if (!response.ok) {
-                console.error(
-                    "Translation API Error:",
-                    response.status,
-                    responseText
-                );
-                // Mit dem nächsten Titel fortfahren, anstatt abzubrechen
-                continue;
-            }
-
-            let data;
-            try {
-                // Versuchen, den Text als JSON zu parsen
-                data = JSON.parse(responseText);
-            } catch (parseError) {
-                console.error("JSON Parse Error:", parseError);
-                console.error(
-                    "Raw response that failed to parse:",
-                    responseText
-                );
-                continue;
-            }
-
-            // Angepasst an die funktionierende Logik: data.success und data.translation
-            if (data && data.success && data.translation) {
-                title.textContent = data.translation;
-            } else {
-                console.warn(
-                    "Translated text not found in API response or success was false:",
-                    data
-                );
-            }
-        } catch (error) {
-            console.error("Failed to fetch translation:", error);
-        }
+    // Wenn die Zielsprache Deutsch ist, einfach den Originaltext wiederherstellen.
+    if (langParam === 'de') {
+        docTitles.forEach(el => { if (el.dataset.originalText) el.textContent = el.dataset.originalText; });
+        docDescriptions.forEach(el => { if (el.dataset.originalText) el.textContent = el.dataset.originalText; });
+        console.log("Original German text restored.");
+        return;
     }
+
+    // Refaktorierte Helferfunktion, um eine Liste von Elementen zu übersetzen
+    const translateElements = async (elements) => {
+        for (const element of elements) {
+            // Den Originaltext aus dem data-Attribut für die Übersetzung verwenden
+            const originalText = element.dataset.originalText;
+            if (!originalText?.trim()) continue;
+
+            try {
+                const response = await fetch(
+                    "http://localhost:3500/api/translate",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            text: originalText, // Immer den Originaltext senden
+                            target_lang: langParam.toUpperCase(),
+                            user_lang: langParam
+                        }),
+                    }
+                );
+
+                const responseText = await response.text();
+                if (!response.ok) {
+                    console.error("Translation API Error:", response.status, responseText);
+                    continue;
+                }
+
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error("JSON Parse Error:", parseError, responseText);
+                    continue;
+                }
+
+                if (data && data.success && data.translation) {
+                    element.textContent = data.translation;
+                } else {
+                    console.warn("Translation failed or text not found in response:", data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch translation:", error);
+            }
+        }
+    };
+
+    // Elemente selektieren
+    const docTitles = document.querySelectorAll(".doc-heading");
+    const docDescriptions = document.querySelectorAll(".doc-intro");
+
+    console.log(`Found ${docTitles.length} titles and ${docDescriptions.length} descriptions to translate.`);
+
+    // Beide Übersetzungen parallel anstoßen und warten, bis alle fertig sind.
+    await Promise.all([
+        translateElements(docTitles),
+        translateElements(docDescriptions)
+    ]);
+
+    console.log("All translations finished.");
 }
