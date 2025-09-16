@@ -12,12 +12,16 @@
 
 * {
     scrollbar-width: none;
+    box-sizing: border-box;
 }
 
 body {
     font-family: "Figtree", sans-serif;
     padding: 0;
     margin: 0;
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -36,7 +40,7 @@ header {
     flex-direction: row;
     box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.3);
     background-color: var(--color-background);
-    
+
     .logo {
         cursor: pointer;
         width: auto;
@@ -49,14 +53,15 @@ header {
         letter-spacing: 0.75rem;
         border: 3px solid var(--font-color);
     }
-    nav {
-        ul {
+    & nav {
+        & ul {
             display: flex;
             justify-content: center;
             align-items: center;
             list-style-type: none;
             margin: 0;
             padding: 0;
+
             .header-language,
             .header-documents,
             .header-account {
@@ -74,7 +79,7 @@ header {
                 border: 0.2rem white solid;
                 text-transform: uppercase;
 
-                a {
+                & a {
                     color: var(--font-color);
                     text-decoration: none;
                 }
@@ -90,9 +95,9 @@ header {
                     min-width: 100%;
                     border: 0.2rem var(--font-color) solid;
                     width: 100%;
-                    li{
+                    & li {
                         width: 100%;
-                        a {
+                        & a {
                             display: flex;
                             justify-content: center;
                             align-items: center;
@@ -123,27 +128,21 @@ header {
             }
         }
     }
-}
+    
+    #menu-toggle-btn {
+        display: none; /* Auf Desktop ausblenden */
+        background: none;
+        border: none;
+        font-size: 2rem;
+        cursor: pointer;
+        z-index: 1001;
+        color: var(--font-color);
+        margin-right: 1rem;
+    }
 
-
-
-.logo {
-    cursor: pointer;
-    width: auto;
-    font-size: 1.75rem;
-    max-width: 15rem;
-    font-weight: 800;
-    margin-right: auto;
-    margin-left: 2rem;
-    padding: 0.5rem 1rem;
-    letter-spacing: 0.75rem;
-    border: 3px solid var(--font-color);
-}
-
-body {
-    position: relative;
-    z-index: 1;
-    overflow-x: hidden;
+    & aside.mobile-header {
+        display: none;
+    }
 }
 
 .background-container {
@@ -217,7 +216,7 @@ footer {
         margin: 0;
         padding: 0;
         cursor: pointer;
-        li {
+        & li {
             margin: 1.5rem;
             font-weight: 800;
             font-size: 1.25rem;
@@ -226,7 +225,7 @@ footer {
             padding: 0.25rem 0.5rem;
             color: var(--font-color);
             text-transform: uppercase;
-            a {
+            & a {
                 color: var(--font-color);
                 text-decoration: none;
                 text-transform: uppercase;
@@ -240,126 +239,111 @@ footer {
 
 @media (max-width: 768px) {
     header {
-        height: auto;
-        width: 100%;
-        padding: 0rem;
+        padding: 1rem;
         margin: 0;
         flex-direction: row;
-        gap: 0rem;
-        
+        justify-content: space-between;
+
         .logo {
             font-size: 1.5rem;
             max-width: 10rem;
-            margin: 0 auto;
+            margin: 0;
             letter-spacing: 0.5rem;
+            z-index: 1001;
+        }
+
+        & nav {
+            display: none;
         }
         
-        nav {
-            display: none;
-            width: 100%;
-            ul {
-                flex-direction: row;
-                gap: 0.75rem;
-                
+        #menu-toggle-btn {
+            display: block;
+        }
+
+        & aside.mobile-header {
+            position: fixed;
+            top: 0;
+            right: -100vw;
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            background-color: var(--color-background);
+            transition: right 0.3s ease-in-out;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+
+            & ul {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+
                 .header-language,
                 .header-documents,
                 .header-account {
-                    width: auto;
-                    margin: 0;
-                    padding: 0.75rem 1.5rem;
-                    font-size: 1rem;
-                    letter-spacing: 0.125rem;
-                    min-height: 44px; /* Touch-friendly target size */
-                    
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 80%;
+                    font-weight: 800;
+                    font-size: 1.2rem;
+                    letter-spacing: 0.3rem;
+                    padding: 1rem 2rem;
+                    color: var(--font-color);
+                    margin: 1rem 0;
+                    border: 0.2rem var(--font-color) solid;
+                    text-transform: uppercase;
+
+                    & a {
+                        color: var(--font-color);
+                        text-decoration: none;
+                    }
+
                     .language-options {
-                        left: 0;
-                        width: 100%;
-                        
-                        li a {
-                            padding: 0.75rem 1.5rem;
-                            min-height: 44px;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                        }
+                        display: none;
+                    }
+
+                    &:hover {
+                        border: 0.2rem var(--font-color) solid;
+                        cursor: pointer;
                     }
                 }
             }
         }
+
+        & aside.open {
+            right: 0vw;
+        }
     }
-    
-    /* Standalone logo class for consistency */
-    .logo {
-        font-size: 1.5rem;
-        max-width: 10rem;
-        margin-left: 1rem;
-    }
+
     .background-container {
-        overflow: hidden;
         .rectangle {
-            left: -150px; /* Adjusted for smaller screens */
-            bottom: -200px; /* Adjusted for smaller screens */
-            width: 400px; /* Adjusted for smaller screens */
-            height: 300px; /* Adjusted for smaller screens */
-            overflow: hidden;
+            left: -150px;
+            bottom: -200px;
+            width: 400px;
+            height: 300px;
         }
         .circle {
-            right: -100px; /* Adjusted for smaller screens */
-            width: 600px; /* Adjusted for smaller screens */
-            height: 500px; /* Adjusted for smaller screens */
-            overflow: hidden;
+            right: -100px;
+            width: 600px;
+            height: 500px;
         }
         .triangle {
             right: -100px;
-            top: 200px; /* Adjusted for smaller screens */
+            top: 200px;
         }
     }
     footer {
-        width: 100%;
-        margin: 0;
         padding: 1rem;
         .footer-links {
             flex-direction: column;
-            li {
-                margin: 0.5rem;
-                font-size: 1rem;
-                letter-spacing: 0.125rem;
-            }
-        }
-    }
-}
-
-/* Enhanced mobile header for smaller screens */
-@media (max-width: 756px) {
-    header {
-        padding: 1rem;
-        
-        .logo {
-            font-size: 1.25rem;
-            max-width: 8rem;
-            letter-spacing: 0.375rem;
-            padding: 0.375rem 0.75rem;
-        }
-        
-        nav ul {
-            gap: 0.5rem;
-            
-            .header-language,
-            .header-documents,
-            .header-account {
-                padding: 0.625rem 1.25rem;
-                font-size: 0.9rem;
-                letter-spacing: 0.1rem;
-            }
-        }
-    }
-    footer {
-        width: 100%;
-        margin: 0;
-        padding-top: 1rem;
-        .footer-links {
-            flex-direction: column;
-            li {
+            & li {
                 margin: 0.5rem;
                 font-size: 1rem;
                 letter-spacing: 0.125rem;
