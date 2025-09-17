@@ -69,7 +69,7 @@ header {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 8rem;
+                width: auto;
                 font-weight: 800;
                 font-size: 1.25rem;
                 letter-spacing: 0.3rem;
@@ -88,13 +88,12 @@ header {
                     display: none;
                     position: absolute;
                     top: 100%;
-                    left: calc(-1 * 0.2rem);
+                    left: -0.2rem;
                     background-color: var(--color-background);
                     padding: 0;
                     z-index: 100;
-                    min-width: 100%;
+                    width: calc(100% + 0.4rem);
                     border: 0.2rem var(--font-color) solid;
-                    width: 100%;
                     & li {
                         width: 100%;
                         & a {

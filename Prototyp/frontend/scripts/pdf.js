@@ -1,7 +1,7 @@
 class PDFViewer {
     constructor() {
         this.pdfDoc = null;
-        this.scale = 1.2;
+        this.scale = 0.6;
         this.pagesContainer = document.getElementById("pdf-pages-container");
 
         if (this.pagesContainer) {
