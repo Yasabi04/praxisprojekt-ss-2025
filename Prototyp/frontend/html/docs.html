@@ -17,7 +17,7 @@
     </head>
     <body>
         <header>
-            <div class="logo">SETTLE</div>
+            <div class = "logo">SETTLE</div>
             <nav>
                 <ul>
                     <li class="header-language">
@@ -37,10 +37,34 @@
                         >
                     </li>
                     <li class="header-account">
-                        <a href="./upload.html" class="header-account-link">ACCOUNT</a>
+                        <a href="#" class="header-account-link">ACCOUNT</a>
                     </li>
                 </ul>
             </nav>
+            <button id = "menu-toggle-btn">☰</button>
+            <aside class = "mobile-header" id = "mobile-menu">
+                <ul>
+                    <li class="header-language">
+                        <div class="header-language-word">LANGUAGE</div>
+                        <ul class="language-options">
+                            <li><a href="?lang=en">ENGLISH</a></li>
+                            <li><a href="?lang=fr">FRENCH</a></li>
+                            <li><a href="?lang=de">GERMAN</a></li>
+                            <li><a href="?lang=ar">ARABIC</a></li>
+                            <li><a href="?lang=tr">TURKISH</a></li>
+                            <li><a href="?lang=fa">PERSIAN</a></li>
+                        </ul>
+                    </li>
+                    <li class="header-documents">
+                        <a href="./docs.html" class="header-documents-link"
+                            >DOCUMENTS</a
+                        >
+                    </li>
+                    <li class="header-account">
+                        <a href="#" class="header-account-link">ACCOUNT</a>
+                    </li>
+                </ul>
+            </aside>
         </header>
         <main>
             <div class="heading-documents">
@@ -71,5 +95,6 @@
         </div>
         <script src="../scripts/docs.js"></script>
         <script src="../scripts/language-handler.js"></script>
+        <script src="../scripts/mobile.js"></script>
     </body>
 </html>
