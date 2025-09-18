@@ -127,7 +127,7 @@ header {
             }
         }
     }
-    
+
     #menu-toggle-btn {
         display: none; /* Auf Desktop ausblenden */
         background: none;
@@ -254,7 +254,7 @@ footer {
         & nav {
             display: none;
         }
-        
+
         #menu-toggle-btn {
             display: block;
         }
@@ -287,6 +287,7 @@ footer {
                 .header-account {
                     position: relative;
                     display: flex;
+                    flex-direction: column; /* NEU: Erlaubt, dass das Element wächst */
                     justify-content: center;
                     align-items: center;
                     width: 80%;
@@ -298,6 +299,7 @@ footer {
                     margin: 1rem 0;
                     border: 0.2rem var(--font-color) solid;
                     text-transform: uppercase;
+                    transition: background-color 0.2s ease; /* NEU: Übergang für Klick-Feedback */
 
                     & a {
                         color: var(--font-color);
@@ -306,11 +308,26 @@ footer {
 
                     .language-options {
                         display: none;
-                    }
+                        position: static;
+                        width: 100%;
+                        border: none;
+                        margin-top: rem;
+                        background-color: transparent;
+                        list-style: none;
+                        padding: 0;
 
-                    &:hover {
-                        border: 0.2rem var(--font-color) solid;
-                        cursor: pointer;
+                        & li {
+                            background-color: white;
+                            margin: 0.5rem 0;
+                            text-align: center;
+                        }
+                    }
+                }
+
+                /* KORRIGIERT: Korrekter Selektor für das aktive Sprachmenü */
+                .header-language.active {
+                    .language-options {
+                        display: block; /* Optionen anzeigen */
                     }
                 }
             }
