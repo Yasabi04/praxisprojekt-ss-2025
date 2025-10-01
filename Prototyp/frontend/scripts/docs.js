@@ -92,8 +92,8 @@ async function handleDocuments() {
                         <img src="../images/documents+stamp-unsplash.jpg" alt="Vorschau">
                     </div>
                     <div class = "text-content">
-                        <h2 class = "doc-heading">${originalTitle}</h2>
-                        <p class = "doc-intro">${originalContent}</p>
+                        <h2 class = "doc-heading" data-original-text="${originalTitle}">${originalTitle}</h2>
+                        <p class = "doc-intro" data-original-text="${originalContent}">${originalContent}</p>
                         <details class = "doc-intro-mobile">
                             <summary class = "doc-intro-mobile-summary">
                                 <i class="fa-solid fa-chevron-down closed"></i>

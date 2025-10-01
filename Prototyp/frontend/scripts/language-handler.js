@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Sprache in localStorage speichern
         localStorage.setItem("selectedLanguage", lang);
-
+//
         translateDocs();
     };
 
