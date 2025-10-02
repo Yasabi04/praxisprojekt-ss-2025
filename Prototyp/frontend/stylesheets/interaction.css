@@ -109,7 +109,7 @@
             gap: 0;
 
             .chosing {
-                border: 3px var(--font-color) solid;
+                border: 0.125rem var(--font-color) solid;
                 padding: 0.75rem;
                 &:hover {
                     border: 0.125rem var(--font-color) solid;
@@ -208,6 +208,8 @@
 
 .conversation-content {
     .conversation {
+        /* Scroll always to bottom */
+        scroll-behavior: smooth;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
