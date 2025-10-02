@@ -125,6 +125,10 @@ header {
                     }
                 }
             }
+
+            .header-language {
+                min-width: 15rem;
+            }
         }
     }
 
