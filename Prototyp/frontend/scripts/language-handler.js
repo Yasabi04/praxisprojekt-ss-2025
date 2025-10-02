@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Desk-Seite Elemente
         setText(".note-heading", content.noteHeading);
-        setText(".note-text", content.noteText);
+        setText(".note-message", content.noteText);
         setAttribute("#user-input", "placeholder", content.deskInputPlaceholder);
         
         const deskModes = document.querySelectorAll("#mode-select .option div");
@@ -82,17 +82,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Footer dynamisch befüllen
         const footerLinks = document.querySelectorAll(".footer-links li");
         footerLinks.forEach((li, i) => {
             const child = li.querySelector('a') || li;
             if (content.footer[i]) child.innerHTML = content.footer[i];
         });
 
-        // Textrichtung setzen
         document.documentElement.dir = (lang === "ar" || lang === "fa") ? "rtl" : "ltr";
 
-        // URL aktualisieren und im localStorage speichern
         const url = new URL(window.location);
         url.searchParams.set("lang", lang);
         window.history.pushState({}, "", url);
@@ -108,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const setupEventListeners = () => {
         document.body.addEventListener("click", (e) => {
             if (e.target.matches(".language-options a")) {
+                //Umstellen und Übersetzen verhindern um Anfragen zu verringern
                 e.preventDefault();
                 const language = e.target.dataset.lang;
                 if (language) applyLanguage(language);
