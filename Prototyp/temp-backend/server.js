@@ -10,6 +10,62 @@ app.use(express.json({ limit: "50mb" }));
 app.use(cors());
 const DEEPL_API_KEY = process.env.DEEPL_API_KEY;
 
+app.post('/api/translate', async (req, res) => {
+    try {
+        const { text, target_lang, user_lang } = req.body;
+        console.log('Übersetzungsanfrage:', { text, target_lang, user_lang });
+        
+        if (!text || !target_lang) {
+            return res.status(400).json({
+                success: false,
+                error: 'Text und Zielsprache sind erforderlich'
+            });
+        }
+
+        // Glossar-ID aus deiner .env (muss vorher erstellt werden!)
+        const GLOSSARY_ID = process.env.DEEPL_GLOSSARY_ID;
+
+        // DeepL API-Anfrage mit Glossar
+        const deepLResponse = await fetch('https://api-free.deepl.com/v2/translate', {
+            method: 'POST',
+            headers: {
+                'Authorization': `DeepL-Auth-Key ${DEEPL_API_KEY}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                'text': text,
+                'target_lang': target_lang,
+                'source_lang': 'DE',
+                // ...(GLOSSARY_ID ? { 'glossary_id': GLOSSARY_ID } : {}) // nur wenn vorhanden
+            })
+        });
+        
+        if (!deepLResponse.ok) {
+            throw new Error(`DeepL API Fehler: ${deepLResponse.status}`);
+        }
+        
+        const deepLData = await deepLResponse.json();
+        console.log('DeepL Antwort:', deepLData);
+        
+        res.json({
+            success: true,
+            translation: deepLData.translations[0].text,
+            source_lang: deepLData.translations[0].detected_source_language,
+            target_lang: target_lang,
+            glossary_used: GLOSSARY_ID ? true : false
+        });
+        
+    } catch (error) {
+        console.error('Übersetzungsfehler:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Übersetzungsfehler',
+            details: error.message
+        });
+    }
+});
+
+
 app.post("/api/document", async (req, res) => {
   try {
     const { document, fileName, fileType, language } = req.body;

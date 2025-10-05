@@ -135,6 +135,7 @@ async function handleDocuments() {
         // Event Listener für Favoriten-Buttons
         document.querySelectorAll(".doc-download").forEach((button) => {
             button.addEventListener("click", async (e) => {
+                button.innerHTML = '<div class = "loader"></div>'
                 e.stopPropagation();
                 e.preventDefault();
                 const docId = button.closest(".doc-card").getAttribute("data-id");
@@ -212,7 +213,7 @@ async function handleDocuments() {
                     a.click();
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
-
+                    button.innerHTML = '<i class="fa-solid fa-download"></i>'
                 } catch (error) {
                     console.error("Fehler beim Verarbeiten des Downloads:", error);
                     alert("Ein Fehler ist aufgetreten: " + error.message);
