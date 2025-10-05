@@ -98,9 +98,7 @@ async function extractDocument(){
         console.log('Keine Datei ausgewählt');
     }
 
-    result.innerHTML = `
-    
-    `
+    result.innerHTML = `Extracted`
 }
 
 // Automatischer Test beim Laden der Seite

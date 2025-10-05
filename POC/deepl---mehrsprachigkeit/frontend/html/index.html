@@ -41,8 +41,8 @@
             <!-- Dokument hochladen -->
             <div class="upload-section">
                 <h3>Gesamtes Dokument hochladen</h3>
-                <input type="file" accept = ".pdf" class = "file-input">
-                <button class ="file-input-button">Dokument hochladen</button>
+                <input type="file" id="fileInput" accept = ".pdf,.docx,.pptx" class = "file-input">
+                <button id="uploadButton" class ="file-input-button">Dokument hochladen</button>
             </div>
             <h3>Übersetztes Dokument</h3>
             <div class = "result-doc">
@@ -52,5 +52,57 @@
                 </div>
             </div>
             <script src = "../scripts/api-req.js"></script>
+            <script>
+                document.getElementById('uploadButton').addEventListener('click', translateDocument);
+
+                async function translateDocument() {
+                    const fileInput = document.getElementById('fileInput');
+                    const targetLang = document.getElementById('targetLang').value;
+                    const resultDiv = document.querySelector('.result-doc');
+
+                    if (fileInput.files.length === 0) {
+                        alert('Bitte wählen Sie zuerst eine Datei aus.');
+                        return;
+                    }
+
+                    const file = fileInput.files[0];
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('target_lang', targetLang);
+
+                    resultDiv.innerHTML = '<p>Dokument wird übersetzt, bitte warten...</p>';
+
+                    try {
+                        const response = await fetch('http://localhost:3500/api/translate-document', {
+                            method: 'POST',
+                            body: formData,
+                        });
+
+                        if (!response.ok) {
+                            const error = await response.json();
+                            throw new Error(`Fehler vom Server: ${error.message || response.statusText}`);
+                        }
+
+                        const blob = await response.blob();
+                        const originalFileName = file.name.split('.').slice(0, -1).join('.');
+                        const fileExtension = file.name.split('.').pop();
+                        const translatedFileName = `${originalFileName}_${targetLang.toLowerCase()}.${fileExtension}`;
+
+                        const downloadUrl = window.URL.createObjectURL(blob);
+                        resultDiv.innerHTML = `
+                            <div class="generated-doc">
+                                <p class="doc-name">${translatedFileName}</p>
+                                <a href="${downloadUrl}" download="${translatedFileName}" class="doc-download">
+                                    <i class="fa-solid fa-file-arrow-down"></i>
+                                </a>
+                            </div>
+                        `;
+
+                    } catch (error) {
+                        console.error('Fehler bei der Dokumentübersetzung:', error);
+                        resultDiv.innerHTML = `<p style="color: red;">Ein Fehler ist aufgetreten: ${error.message}</p>`;
+                    }
+                }
+            </script>
       </body>
 </html>
