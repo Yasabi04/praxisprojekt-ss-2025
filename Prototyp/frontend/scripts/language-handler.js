@@ -132,7 +132,6 @@ document.addEventListener("DOMContentLoaded", () => {
     init();
 });
 
-// --- API-Übersetzungsfunktion für dynamische Inhalte ---
 async function translateDocs(targetLang) {
     const elementsToTranslate = document.querySelectorAll(".doc-heading[data-original-text], .doc-intro[data-original-text]");
     if (elementsToTranslate.length === 0) return;

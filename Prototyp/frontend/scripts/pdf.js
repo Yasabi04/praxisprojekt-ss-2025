@@ -28,7 +28,6 @@ class PDFViewer {
 
         const urlParams = new URLSearchParams(window.location.search);
         const docId = urlParams.get('pdf');
-        // console.log(docId)
         if (!docId) {
             // FALLBACK: Test-PDF laden
             const url = '../tmp-pdf/asylerstantrag.pdf';
@@ -40,6 +39,7 @@ class PDFViewer {
 
         const apiUrl = `http://mivs15.gm.fh-koeln.de:3500/api/finddoc/${docId}`;
         console.log("Fetching PDF from:", apiUrl);
+
         
         // KORRIGIERT: Timeout hinzufügen
         const controller = new AbortController();
@@ -56,40 +56,30 @@ class PDFViewer {
             });
             
             clearTimeout(timeoutId);
-            // console.log("Response status:", response.status);
-            // console.log("Response headers:", response.headers);
             
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
             
-            // console.log("Starting JSON parse...");
             const data = await response.json();
-            // console.log("JSON parsed successfully");
-            // console.log("Response data:", data);
+
             const title = data.title
-            // console.log("Titel: " + data.title);
             
             if (!data.pdfFile) {
                 throw new Error('Keine PDF-Datei in Response');
             }
 
-            // Rest der Verarbeitung...
             let bytes;
             
-            if (data.pdfFile && typeof data.pdfFile === 'object' /*Rückgabewert ist eigentlich immer ein Object*/) {
+            if (data.pdfFile && typeof data.pdfFile === 'object') {
                 if (data.pdfFile.data && Array.isArray(data.pdfFile.data)) {
                     bytes = new Uint8Array(data.pdfFile.data);
-                    // console.log('Converted Buffer object to bytes, length:', bytes.length);
                 } else {
-                    // console.log('Unknown object structure, trying direct conversion...');
                     bytes = new Uint8Array(Object.values(data.pdfFile));
                 }
             } else if (typeof data.pdfFile === 'string') {
                 console.log("That didn't go to plan. PDF File is a String")
             }
-
-            // console.log('Final bytes length:', bytes.length);
             
             if (bytes.length === 0) {
                 throw new Error('PDF data is empty');
@@ -112,10 +102,6 @@ class PDFViewer {
         }
         
     } catch (error) {
-        // console.error("Error loading PDF:", error);
-        
-        // SOFORTIGER FALLBACK ohne weitere Verzögerung
-        // console.log("Attempting fallback immediately...");
         try {
             const fallbackUrl = '../tmp-pdf/asylerstantrag.pdf';
             console.log("Loading fallback PDF:", fallbackUrl);

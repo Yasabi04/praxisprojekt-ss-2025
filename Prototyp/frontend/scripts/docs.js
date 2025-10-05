@@ -137,125 +137,90 @@ async function handleDocuments() {
             button.addEventListener("click", async (e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                const docId = button
-                    .closest(".doc-card")
-                    .getAttribute("data-id");
+                const docId = button.closest(".doc-card").getAttribute("data-id");
+                const lang = window.currentLanguage || 'de';
 
                 try {
-                    const response = await fetch(
+                    // 1. Original-Dokument vom Haupt-Backend holen
+                    const docResponse = await fetch(
                         `http://mivs15.gm.fh-koeln.de:3500/api/finddoc/${docId}`,
-                        {
-                            method: "get",
-                            headers: new Headers({
-                                "ngrok-skip-browser-warning": "69420",
-                            }),
-                        }
+                        { headers: new Headers({ "ngrok-skip-browser-warning": "69420" }) }
                     );
-
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        console.error(
-                            "Fehler beim Abrufen der Dokument-Metadaten:",
-                            errorText
-                        );
-                        alert(
-                            "Fehler beim Herunterladen der Dokumentinformationen."
-                        );
-                        return;
+                    if (!docResponse.ok) {
+                        throw new Error(`Originaldokument konnte nicht geladen werden (${docResponse.status})`);
                     }
+                    
+                    const originalDocData = await docResponse.json();
 
-                    const docData = await response.json();
+                    let fileBufferObject = originalDocData.pdfFile;
+                    let fileName = originalDocData.fileName;
+                    let fileType = originalDocData.fileType || "application/pdf";
 
-                    // Zur Fehlersuche: Gib die Struktur von pdfFile in der Konsole aus
-                    console.log("pdfFile-Objekt von der API:", docData.pdfFile);
-
-                    // Prüfen, ob die erwarteten Daten vorhanden sind.
-                    if (
-                        docData &&
-                        docData.pdfFile &&
-                        docData.fileName &&
-                        docData.fileType
-                    ) {
-                        let byteArray;
-
-                        // Prüfen, ob pdfFile das erwartete Buffer-Objekt mit 'data'-Eigenschaft ist.
-                        if (
-                            docData.pdfFile.data &&
-                            Array.isArray(docData.pdfFile.data)
-                        ) {
-                            byteArray = new Uint8Array(docData.pdfFile.data);
+                    // 2. Wenn die Sprache nicht Deutsch ist, Übersetzung anfordern
+                    if (lang !== 'de') {
+                        console.log(`Übersetzung nach '${lang.toUpperCase()}' wird angefordert...`);
+                        
+                        // --- KORREKTUR: Robuste Konvertierung von Objekt zu Array ---
+                        const keys = Object.keys(fileBufferObject);
+                        const bufferAsArray = new Array(keys.length);
+                        for (const key of keys) {
+                            bufferAsArray[parseInt(key)] = fileBufferObject[key];
                         }
-                        // Fallback, falls pdfFile direkt ein Array von Bytes ist.
-                        else if (Array.isArray(docData.pdfFile)) {
-                            byteArray = new Uint8Array(docData.pdfFile);
-                        }
-                        // NEUER FALLBACK: Wenn pdfFile ein Objekt mit numerischen Schlüsseln ist (z.B. {'0': 37, '1': 80, ...})
-                        else if (
-                            typeof docData.pdfFile === "object" &&
-                            docData.pdfFile !== null
-                        ) {
-                            byteArray = new Uint8Array(
-                                Object.values(docData.pdfFile)
-                            );
-                        } else {
-                            // Wenn keine der obigen Bedingungen zutrifft, ist das Format unerwartet.
-                            alert(
-                                "Die PDF-Daten haben ein unerwartetes Format."
-                            );
-                            console.error(
-                                "Unerwartetes PDF-Datenformat:",
-                                docData.pdfFile
-                            );
-                            return;
-                        }
+                        // --- ENDE KORREKTUR ---
 
-                        // Ein Blob aus dem Byte-Array mit dem korrekten MIME-Typ erstellen.
-                        const blob = new Blob([byteArray], {
-                            type: docData.fileType,
+                        const translateResponse = await fetch("http://localhost:3500/api/document", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                document: bufferAsArray,
+                                language: lang.toUpperCase(),
+                                fileName: fileName,
+                                fileType: fileType
+                            }),
                         });
 
-                        // Überprüfen, ob der Blob eine Größe hat
-                        if (blob.size === 0) {
-                            alert(
-                                "Fehler: Die erstellte Datei ist leer. Überprüfen Sie die Konsolenausgabe."
-                            );
-                            console.error(
-                                "Blob size is 0. byteArray:",
-                                byteArray
-                            );
-                            return;
+                        if (!translateResponse.ok) {
+                            const errorData = await translateResponse.json();
+                            throw new Error(`Übersetzung fehlgeschlagen: ${errorData.error || 'Serverfehler'}`);
                         }
 
-                        // Download-Link erstellen und auslösen
-                        const url = window.URL.createObjectURL(blob);
-                        const a = document.createElement("a");
-                        a.href = url;
-                        a.download = docData.fileName; // Dateiname aus der API-Antwort verwenden
-                        document.body.appendChild(a);
-                        a.click();
-
-                        // Aufräumen
-                        window.URL.revokeObjectURL(url);
-                        document.body.removeChild(a);
-                    } else {
-                        alert(
-                            "Die heruntergeladenen Daten sind keine gültige PDF-Datei."
-                        );
-                        console.warn("Unerwartetes Datenformat:", docData);
+                        const translatedData = await translateResponse.json();
+                        
+                        fileBufferObject = translatedData.translatedFile;
+                        fileName = translatedData.fileName;
                     }
+
+                    // 3. Datei-Download auslösen
+                    const dataArray = fileBufferObject.data || Object.values(fileBufferObject);
+                    if (!dataArray || dataArray.length === 0) {
+                        throw new Error("Gültige Dateidaten für den Download fehlen.");
+                    }
+
+                    const byteArray = new Uint8Array(dataArray);
+                    const blob = new Blob([byteArray], { type: fileType });
+
+                    if (blob.size === 0) {
+                        throw new Error("Die erstellte Datei ist leer.");
+                    }
+
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+
                 } catch (error) {
-                    console.error(
-                        "Fehler beim Verarbeiten des Downloads:",
-                        error
-                    );
-                    alert(
-                        "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
-                    );
+                    console.error("Fehler beim Verarbeiten des Downloads:", error);
+                    alert("Ein Fehler ist aufgetreten: " + error.message);
                 }
             });
         });
 
-        
+        translateDocumentCards(documents);
 
         console.log("Documents loaded successfully");
     } catch (error) {
@@ -271,4 +236,45 @@ async function handleDocuments() {
             </div>
         `;
     }
+}
+
+function translateDocumentCards(documents) {
+    const lang = window.currentLanguage || 'de';
+
+    if (lang === 'de') return; // Keine Übersetzung nötig
+
+    documents.forEach(async (doc) => {
+        const card = document.querySelector(`.doc-card[data-id="${doc.docId || doc.id || "unknown"}"]`);
+        if (!card) return;
+
+        const originalTitle = doc.title || "Kein Titel";
+        const originalContent = doc.content || "Keine Beschreibung";
+
+        try {
+            // Übersetzung der Titel und Inhalte anfordern
+            const response = await fetch("http://localhost:3500/api/translate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    document: originalContent, // Nur der Inhalt für die Übersetzung
+                    language: lang.toUpperCase(),
+                    fileName: originalTitle
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Übersetzung fehlgeschlagen: ${errorData.error || 'Serverfehler'}`);
+            }
+
+            const translatedData = await response.json();
+
+            // Übersetzte Texte in die Karte einfügen
+            card.querySelector(".doc-heading").innerText = translatedData.translatedText || originalTitle;
+            card.querySelector(".doc-intro").innerText = translatedData.translatedText || originalContent;
+
+        } catch (error) {
+            console.error("Fehler bei der Übersetzung der Dokumentenkarte:", error);
+        }
+    });
 }
