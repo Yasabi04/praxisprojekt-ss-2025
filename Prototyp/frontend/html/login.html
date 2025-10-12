@@ -9,11 +9,11 @@
             href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap"
             rel="stylesheet"
         />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <link rel="stylesheet" href="../stylesheets/base.css" />
         <link rel="stylesheet" href="../stylesheets/index.css" />
-        <link rel="stylesheet" href="../stylesheets/docs.css" />
-        <title>SETTLE - DOCUMENTS</title>
+        <link rel="stylesheet" href="../stylesheets/login.css" />
+        <link rel="stylesheet" href="../stylesheets/docs.css">
+        <title>SETTLE - LOGIN</title>
     </head>
     <body>
         <header>
@@ -37,7 +37,7 @@
                         >
                     </li>
                     <li class="header-account">
-                        <a href="./login.html" class="header-account-link">ACCOUNT</a>
+                        <a href="#" class="header-account-link">ACCOUNT</a>
                     </li>
                 </ul>
             </nav>
@@ -66,34 +66,33 @@
                 </ul>
             </aside>
         </header>
-        <main>
-            <div class="heading-documents">
-                <h2 class="documents-heading">Documents</h2>
-                <p class="documents-hero-text">
-                    Here you can find all your documents.
-                </p>
 
-            </div>
-            <div class="card-container">
+        <main>
+            <div class="login-container">
+                <div class="heading-documents">
+                    <h2 class="documents-heading">Login</h2>
+                </div>
+                <form action="#">
+                    <input type="text" placeholder="username" class="user" required/>
+                    <input type="password" placeholder="password" class="pass" />
+                    <button class="login-btn">Login</button>
+                </form>
             </div>
         </main>
+
         <footer>
             <div class="logo">SETTLE</div>
             <ul class="footer-links">
-                <li>SOCIALS</li>
-                <li><a href="/impressum">IMPRINT</a></li>
-                <li><a href="/privacy">PRIVACY</a></li>
-                <li><a href="/terms">TERMS</a></li>
-                <li><a href="/contact">CONTACT</a></li>
-                <li><a href="/partners">OUR PARTNERS</a></li>
+                <li class="socials-link">SOCIALS</li>
+                <li><a href="/impressum" class="imprint-link">IMPRINT</a></li>
+                <li><a href="/privacy" class="privacy-link">PRIVACY</a></li>
+                <li><a href="/terms" class="terms-link">TERMS</a></li>
+                <li><a href="/contact" class="contact-link">CONTACT</a></li>
+                <li>
+                    <a href="/partners" class="partners-link">OUR PARTNERS</a>
+                </li>
             </ul>
         </footer>
-        <div class="background-container">
-            <div class="rectangle"></div>
-            <div class="circle"></div>
-        </div>
-        <script src="../scripts/docs.js"></script>
-        <script src="../scripts/language-handler.js"></script>
-        <script src="../scripts/mobile.js"></script>
+        <script src="../scripts/login.js"></script>
     </body>
 </html>

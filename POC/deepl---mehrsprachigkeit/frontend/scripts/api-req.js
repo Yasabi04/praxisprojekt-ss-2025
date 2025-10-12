@@ -15,7 +15,7 @@ async function translateText() {
         return;
     }
     
-    // Test die Serververbindung zuerst:
+    // Test die Serververbindung zuerst:r
     try {
         const testResponse = await fetch('http://127.0.0.1:3500/test', {
             method: 'GET',
@@ -98,9 +98,7 @@ async function extractDocument(){
         console.log('Keine Datei ausgewählt');
     }
 
-    result.innerHTML = `
-    
-    `
+    result.innerHTML = `Extracted`
 }
 
 // Automatischer Test beim Laden der Seite

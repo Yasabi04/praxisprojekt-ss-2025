@@ -1,155 +1,162 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const elements = {
-        lang: document.querySelector('.header-language-word'),
-        docs: document.querySelector('.header-documents-link'),
-        account: document.querySelector('.header-account-link'),
-        heading: document.querySelector('.welcome-heading'),
-        // Footer-Elemente hinzufügen
-        footerSocials: document.querySelector('.socials-link'),
-        footerImprint: document.querySelector('.imprint-link'),
-        footerPrivacy: document.querySelector('.privacy-link'),
-        footerTerms: document.querySelector('.terms-link'),
-        footerContact: document.querySelector('.contact-link'),
-        footerPartners: document.querySelector('.partners-link')
-    }
-    
-    let languageData = null; // Cache für JSON-Daten
-    
-    const setText = (element, text, fallback) => 
-        element && (element.innerHTML = text ?? fallback)
-    
-    // JSON einmal laden und cachen
+document.addEventListener("DOMContentLoaded", () => {
+    let languageData = null;
+    window.currentLanguage = "en"; 
+    const supportedLanguages = {
+        de: "Deutsch",
+        en: "English",
+        fr: "Français",
+        ar: "العربية",
+        tr: "Türkçe",
+        fa: "فارسی",
+    };
+
+    const setText = (selector, text) => {
+        const element = document.querySelector(selector);
+        if (element && text) element.innerHTML = text;
+    };
+
+    const setAttribute = (selector, attribute, value) => {
+        const element = document.querySelector(selector);
+        if (element && value) element.setAttribute(attribute, value);
+    };
+
+    const createLanguageOptions = () => {
+        const languageOptionContainers = document.querySelectorAll(".language-options");
+        languageOptionContainers.forEach(container => {
+            container.innerHTML = '';
+            for (const [code, name] of Object.entries(supportedLanguages)) {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.href = `?lang=${code}`;
+                a.textContent = name;
+                a.dataset.lang = code;
+                li.appendChild(a);
+                container.appendChild(li);
+            }
+        });
+    };
+
     const loadLanguageData = async () => {
         if (!languageData) {
             try {
-                const response = await fetch('../jsons/languages.json');
+                const response = await fetch("../jsons/languages.json");
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 languageData = await response.json();
             } catch (error) {
-                console.error('Fehler beim Laden der Sprachen:', error);
+                console.error("Fehler beim Laden der Sprachdatei:", error);
             }
         }
         return languageData;
-    }
-    
-    // Sprache anwenden ohne Reload
+    };
+
     const applyLanguage = async (lang) => {
+        window.currentLanguage = lang;
         const data = await loadLanguageData();
         if (!data) return;
-        
-        switch(lang){
-            case 'de':
-                setText(elements.lang, data.german?.header?.[0], 'SPRACHE')
-                setText(elements.docs, data.german?.header?.[1], 'DOKUMENTE')
-                setText(elements.account, data.german?.header?.[2], 'KONTO')
-                setText(elements.heading, data.german?.heading, 'Durchsuche Dokumente')
-                // Footer noch hard coded, geht aber einfacher: Einmaliger Zugriff auf JSON und für jedes footer array element ein li erstellen.
-                setText(elements.footerSocials, data.german?.footer?.[0], 'Socials')
-                setText(elements.footerImprint, data.german?.footer?.[1], 'Impressum')
-                setText(elements.footerPrivacy, data.german?.footer?.[2], 'Datenschutz')
-                setText(elements.footerTerms, data.german?.footer?.[3], 'AGB')
-                setText(elements.footerContact, data.german?.footer?.[4], 'Kontakt')
-                setText(elements.footerPartners, data.german?.footer?.[5], 'Unsere Partner')
 
-                document.documentElement.dir = 'ltr'
-                break;
-                
-            case 'en':
-                setText(elements.lang, data.english?.header?.[0], 'LANGUAGE')
-                setText(elements.docs, data.english?.header?.[1], 'DOCUMENTS')
-                setText(elements.account, data.english?.header?.[2], 'ACCOUNT')
-                setText(elements.heading, data.english?.heading, 'Browse the latest documents')
-                setText(elements.footerSocials, data.english?.footer?.[0], 'Socials')
-                setText(elements.footerImprint, data.english?.footer?.[1], 'Imprint')
-                setText(elements.footerPrivacy, data.english?.footer?.[2], 'Privacy Policy')
-                setText(elements.footerTerms, data.english?.footer?.[3], 'Terms')
-                setText(elements.footerContact, data.english?.footer?.[4], 'Contact')
-                setText(elements.footerPartners, data.english?.footer?.[5], 'Our Partners')
-                document.documentElement.dir = 'ltr'
-                break;
-                
-            case 'fr':
-                setText(elements.lang, data.french?.header?.[0], 'LANGUE')
-                setText(elements.docs, data.french?.header?.[1], 'DOCUMENTS')
-                setText(elements.account, data.french?.header?.[2], 'COMPTE')
-                setText(elements.heading, data.french?.heading, 'Parcourir les documents')
-                setText(elements.footerSocials, data.french?.footer?.[0], 'Réseaux sociaux')
-                setText(elements.footerImprint, data.french?.footer?.[1], 'Mentions légales')
-                setText(elements.footerPrivacy, data.french?.footer?.[2], 'Politique de confidentialité')
-                setText(elements.footerTerms, data.french?.footer?.[3], 'CGU')
-                setText(elements.footerContact, data.french?.footer?.[4], 'Contact')
-                setText(elements.footerPartners, data.french?.footer?.[5], 'Nos partenaires')
-                document.documentElement.dir = 'ltr'
-                break;
-                
-            case 'ar':
-                setText(elements.lang, data.arabic?.header?.[0], 'اللغة')
-                setText(elements.docs, data.arabic?.header?.[1], 'الوثائق')
-                setText(elements.account, data.arabic?.header?.[2], 'الحساب')
-                setText(elements.heading, data.arabic?.heading, 'تصفح الوثائق')
-                setText(elements.footerSocials, data.arabic?.footer?.[0], 'وسائل التواصل')
-                setText(elements.footerImprint, data.arabic?.footer?.[1], 'بيانات الموقع')
-                setText(elements.footerPrivacy, data.arabic?.footer?.[2], 'سياسة الخصوصية')
-                setText(elements.footerTerms, data.arabic?.footer?.[3], 'الشروط')
-                setText(elements.footerContact, data.arabic?.footer?.[4], 'اتصل بنا')
-                setText(elements.footerPartners, data.arabic?.footer?.[5], 'شركاؤنا')
-                document.documentElement.dir = 'rtl'
-                break;
-                
-            case 'tr':
-                setText(elements.lang, data.turkish?.header?.[0], 'DIL')
-                setText(elements.docs, data.turkish?.header?.[1], 'BELGELER')
-                setText(elements.account, data.turkish?.header?.[2], 'HESAP')
-                setText(elements.heading, data.turkish?.heading, 'Belgelere göz atın')
-                setText(elements.footerSocials, data.turkish?.footer?.[0], 'Sosyal medya')
-                setText(elements.footerImprint, data.turkish?.footer?.[1], 'Künye')
-                setText(elements.footerPrivacy, data.turkish?.footer?.[2], 'Gizlilik politikası')
-                setText(elements.footerTerms, data.turkish?.footer?.[3], 'Şartlar')
-                setText(elements.footerContact, data.turkish?.footer?.[4], 'İletişim')
-                setText(elements.footerPartners, data.turkish?.footer?.[5], 'Ortaklarımız')
-                document.documentElement.dir = 'ltr'
-                break;
-                
-            default:
-                setText(elements.lang, null, 'LANGUAGE')
-                setText(elements.docs, null, 'DOCUMENTS')
-                setText(elements.account, null, 'ACCOUNT')
-                setText(elements.heading, null, 'BROWSE DOCUMENTS')
-                setText(elements.footerSocials, null, 'SOCIALS')
-                setText(elements.footerImprint, null, 'IMPRINT')
-                setText(elements.footerPrivacy, null, 'PRIVACY')
-                setText(elements.footerTerms, null, 'TERMS')
-                setText(elements.footerContact, null, 'CONTACT')
-                setText(elements.footerPartners, null, 'PARTNERS')
-                document.documentElement.dir = 'ltr'
+        const content = data[lang] || data.english; 
+
+        document.querySelectorAll(".header-language-word").forEach(el => el.innerHTML = content.header[0]);
+        document.querySelectorAll(".header-documents-link").forEach(el => el.innerHTML = content.header[1]);
+        document.querySelectorAll(".header-account-link").forEach(el => el.innerHTML = content.header[2]);
+
+        setText(".welcome-heading", content.heading);
+        setText(".documents-heading", content.documentsHeading);
+        setText(".documents-hero-text", content.documentsText);
+
+        setText(".note-heading", content.noteHeading);
+        setText(".note-message", content.noteText);
+        setAttribute("#user-input", "placeholder", content.deskInputPlaceholder);
+        
+        const deskModes = document.querySelectorAll("#mode-select .option div");
+        if (deskModes.length > 0 && content.deskModes) {
+            deskModes.forEach((mode, i) => {
+                if(content.deskModes[i]) mode.innerHTML = content.deskModes[i];
+            });
         }
-        
-        // URL aktualisieren ohne Reload
+
+        const footerLinks = document.querySelectorAll(".footer-links li");
+        footerLinks.forEach((li, i) => {
+            const child = li.querySelector('a') || li;
+            if (content.footer[i]) child.innerHTML = content.footer[i];
+        });
+
+        document.documentElement.dir = (lang === "ar" || lang === "fa") ? "rtl" : "ltr";
+
         const url = new URL(window.location);
-        url.searchParams.set('lang', lang);
-        window.history.pushState({}, '', url);
-        
-        // Sprache in localStorage speichern
-        localStorage.setItem('selectedLanguage', lang);
-    }
-    
-    // Event-Listener für Dropdown-Links
-    document.querySelectorAll('.language-options a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault(); // Verhindert Reload
-            
-            const href = link.getAttribute('href');
-            const lang = new URLSearchParams(href.split('?')[1]).get('lang');
-            
-            if (lang) {
-                applyLanguage(lang);
+        url.searchParams.set("lang", lang);
+        window.history.pushState({}, "", url);
+        localStorage.setItem("selectedLanguage", lang);
+
+        if (document.querySelector('.card-container')) {
+            translateDocs(lang);
+        }
+    };
+
+    const setupEventListeners = () => {
+        document.body.addEventListener("click", (e) => {
+            if (e.target.matches(".language-options a")) {
+                e.preventDefault();
+                const language = e.target.dataset.lang;
+                if (language) applyLanguage(language);
             }
         });
-    });
-    
-    // Initial: Sprache aus URL oder localStorage laden
-    const initialLang = new URLSearchParams(window.location.search).get('lang') 
-                       || localStorage.getItem('selectedLanguage') 
-                       || 'de';
-    
-    applyLanguage(initialLang);
+    };
+
+    const init = () => {
+        const urlLang = new URLSearchParams(window.location.search).get("lang");
+        const storedLang = localStorage.getItem("selectedLanguage");
+        const browserLang = (navigator.language || navigator.userLanguage).slice(0, 2).toLowerCase();
+        
+        let initialLang = "en";
+        if (urlLang && supportedLanguages[urlLang]) initialLang = urlLang;
+        else if (storedLang && supportedLanguages[storedLang]) initialLang = storedLang;
+        else if (supportedLanguages[browserLang]) initialLang = browserLang;
+
+        createLanguageOptions();
+        setupEventListeners();
+        applyLanguage(initialLang);
+    };
+
+    init();
 });
+
+async function translateDocs(targetLang) {
+    const elementsToTranslate = document.querySelectorAll(".doc-heading[data-original-text], .doc-intro[data-original-text]");
+    if (elementsToTranslate.length === 0) return;
+
+    if (targetLang === 'de') {
+        elementsToTranslate.forEach(el => {
+            el.textContent = el.dataset.originalText;
+        });
+        return;
+    }
+
+    for (const element of elementsToTranslate) {
+        const originalText = element.dataset.originalText;
+        if (!originalText?.trim()) continue;
+
+        try {
+            const response = await fetch("http://localhost:3500/api/translate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    text: originalText,
+                    target_lang: targetLang.toUpperCase(),
+                }),
+            });
+
+            if (!response.ok) {
+                console.error("Translation API Error:", response.status, await response.text());
+                continue;
+            }
+
+            const data = await response.json();
+            if (data?.success && data.translation) {
+                element.textContent = data.translation;
+            }
+        } catch (error) {
+            console.error("Failed to fetch translation:", error);
+        }
+    }
+}

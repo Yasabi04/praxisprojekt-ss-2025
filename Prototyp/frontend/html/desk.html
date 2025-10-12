@@ -3,28 +3,33 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <link rel="stylesheet" href="../stylesheets/base.css" />
         <link rel="stylesheet" href="../stylesheets/index.css" />
-        <link rel="stylesheet" href="../stylesheets/interaction..css" />
+        <link rel="stylesheet" href="../stylesheets/interaction.css" />
         <title>SETTLE</title>
     </head>
     <body>
         <header>
-            <div class="logo">SETTLE</div>
+            <div class = "logo">SETTLE</div>
             <nav>
                 <ul>
                     <li class="header-language">
                         <div class="header-language-word">LANGUAGE</div>
                         <ul class="language-options">
-                            <li>
-                                <a href="?lang=en">ENGLISH</a>
-                            </li>
+                            <li><a href="?lang=en">ENGLISH</a></li>
                             <li><a href="?lang=fr">FRENCH</a></li>
                             <li><a href="?lang=de">GERMAN</a></li>
                             <li><a href="?lang=ar">ARABIC</a></li>
-                            <li>
-                                <a href="?lang=tr">TURKISH</a>
-                            </li>
+                            <li><a href="?lang=tr">TURKISH</a></li>
+                            <li><a href="?lang=fa">PERSIAN</a></li>
                         </ul>
                     </li>
                     <li class="header-documents">
@@ -33,14 +38,38 @@
                         >
                     </li>
                     <li class="header-account">
-                        <a href="#" class="header-account-link">ACCOUNT</a>
+                        <a href="./login.html" class="header-account-link">ACCOUNT</a>
                     </li>
                 </ul>
             </nav>
+            <button id = "menu-toggle-btn">☰</button>
+            <aside class = "mobile-header" id = "mobile-menu">
+                <ul>
+                    <li class="header-language">
+                        <div class="header-language-word">LANGUAGE</div>
+                        <ul class="language-options">
+                            <li><a href="?lang=en">ENGLISH</a></li>
+                            <li><a href="?lang=fr">FRENCH</a></li>
+                            <li><a href="?lang=de">GERMAN</a></li>
+                            <li><a href="?lang=ar">ARABIC</a></li>
+                            <li><a href="?lang=tr">TURKISH</a></li>
+                            <li><a href="?lang=fa">PERSIAN</a></li>
+                        </ul>
+                    </li>
+                    <li class="header-documents">
+                        <a href="./docs.html" class="header-documents-link"
+                            >DOCUMENTS</a
+                        >
+                    </li>
+                    <li class="header-account">
+                        <a href="./login.html" class="header-account-link">ACCOUNT</a>
+                    </li>
+                </ul>
+            </aside>
         </header>
         <main>
             <div class="doc-wrapper">
-                <section class="doc-space" id="doc-space">
+                <section class="doc-space pdf-container" id="doc-space">
                     <div id="pdf-container">
                         <div id="pdf-controls">
                             <button id="zoom-out">-</button>
@@ -52,12 +81,7 @@
                         </div>
                     </div>
                 </section>
-                <section class = "doc-space">
-                    <!-- <select name = "mode-select" id = "mode-select">
-                        <option value = "translate">Translate</option>
-                        <option value = "explain">Explain</option>
-                        <option value = "easy-language">Easy Language</option>
-                    </select> -->
+                <section class="doc-space communication-container">
                     <div class = "custom-select-group" id="mode-select">
                         <div class="chosing">Translate</div>
                         <ul class="selection">
@@ -75,16 +99,19 @@
                     
                     <div class = "conversation-content">
                         <ul class = "conversation">
-                            <div class="loader"></div>
+                            <section class = "note">
+                                <h2 class = "note-heading">NOTE!</h2>
+                                <p class = "note-message">You are chatting with an AI Model. Eventhough everything is self hosted, please be aware 
+                                    that you enter as little personal information as possible!</p>
+                            </section>
                         </ul>
                     </div>
                     <div id = "user-action">
-                        <input class = "user-input" placeholder = "Enter message here..."></input>
+                        <input class = "user-input" id = "user-input"placeholder = "Enter message here!"></input>
                         <button class = "send-message">></button>
                     </div>
                 </section>
             </div>
-            <h2></h2>
         </main>
         <footer>
             <div class="logo">SETTLE</div>
@@ -97,14 +124,11 @@
                 <li><a href="/partners">OUR PARTNERS</a></li>
             </ul>
         </footer>
-        <!-- <div class="background-container">
-            <div class="circle"></div>
-            <div class="triangle"></div>
-        </div> -->
-        <script src = "../scripts/main.js"></script>
         <script src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+        <script src = "../scripts/config.js"></script>
         <script src = "../scripts/language-handler.js"></script>
         <script src = "../scripts/pdf.js"></script>
         <script src = "../scripts/interaction.js"></script>
+        <script src = "../scripts/mobile.js"></script>
     </body>
 </html>

@@ -1,27 +1,68 @@
 {
-    "german": {
+    "de": {
         "header": ["Sprache", "Dokumente", "Account"],
         "heading": "Durchsuche Dokumente",
-        "footer": ["Socials", "Impressum", "Datenschutz", "AGB", "Kontakt", "Unsere Partner"]
+        "footer": ["Socials", "Impressum", "Datenschutz", "AGB", "Kontakt", "Unsere Partner"],
+        "documentsHeading": "Dokumente",
+        "documentsText": "Hier finden Sie alle relevanten behördlichen Dokumente. Vom Asylantrag bis zum Wohnungsbescheid.",
+        "noteHeading": "Achtung!",
+        "noteText": "Sie chatten mit einem KI-Modell. Auch wenn alles selbst gehostet wird, achten Sie bitte darauf, so wenig persönliche Informationen wie möglich preiszugeben!",
+        "deskModes": ["Übersetzen", "Erklären", "Leichte Sprache"],
+        "deskInputPlaceholder": "Nachricht hier eingeben!"
     },
-    "english": {
+    "en": {
         "header": ["Language", "Documents", "Account"],
         "heading": "Browse the latest documents",
-        "footer": ["Socials", "Imprint", "Privacy Policy", "Terms", "Contact", "Our Partners"]
+        "footer": ["Socials", "Imprint", "Privacy Policy", "Terms", "Contact", "Our Partners"],
+        "documentsHeading": "Documents",
+        "documentsText": "Here you will find all relevant official documents. From asylum application to housing certificate.",
+        "noteHeading": "Note!",
+        "noteText": "You are chatting with an AI Model. Even though everything is self-hosted, please make sure to enter as little personal information as possible!",
+        "deskModes": ["Translate", "Explain", "Easy Language"],
+        "deskInputPlaceholder": "Enter message here!"
     },
-    "french": {
+    "fr": {
         "header": ["Langue", "Documents", "Compte"],
         "heading": "Parcourir les documents",
-        "footer": ["Réseaux sociaux", "Mentions légales", "Politique de confidentialité", "CGU", "Contact", "Nos partenaires"]
+        "footer": ["Réseaux sociaux", "Mentions légales", "Politique de confidentialité", "CGU", "Contact", "Nos partenaires"],
+        "documentsHeading": "Documents",
+        "documentsText": "Vous trouverez ici tous les documents administratifs pertinents. De la demande d'asile à l'attestation de logement.",
+        "noteHeading": "Attention !",
+        "noteText": "Vous discutez avec un modèle d'IA. Même si tout est auto-hébergé, veillez à ne saisir que le minimum d'informations personnelles possible !",
+        "deskModes": ["Traduire", "Expliquer", "Langage simple"],
+        "deskInputPlaceholder": "Entrez votre message ici !"
     },
-    "arabic": {
+    "ar": {
         "header": ["اللغة", "الوثائق", "الحساب"],
         "heading": "تصفح الوثائق",
-        "footer": ["وسائل التواصل", "بيانات الموقع", "سياسة الخصوصية", "الشروط", "اتصل بنا", "شركاؤنا"]
+        "footer": ["وسائل التواصل", "بيانات الموقع", "سياسة الخصوصية", "الشروط", "اتصل بنا", "شركاؤنا"],
+        "documentsHeading": "المستندات",
+        "documentsText": "هنا ستجد جميع الوثائق الرسمية الهامة. من طلب اللجوء الأول إلى شهادة السكن.",
+        "noteHeading": "ملاحظة!",
+        "noteText": "أنت تتحدث مع نموذج ذكاء اصطناعي. على الرغم من أن كل شيء مستضاف ذاتيًا، يرجى التأكد من إدخال أقل قدر ممكن من المعلومات الشخصية!",
+        "deskModes": ["ترجمة", "شرح", "لغة سهلة"],
+        "deskInputPlaceholder": "أدخل رسالتك هنا!"
     },
-    "turkish": {
+    "tr": {
         "header": ["Dil", "Belgeler", "Hesap"],
         "heading": "Belgelere göz atın",
-        "footer": ["Sosyal medya", "Künye", "Gizlilik politikası", "Şartlar", "İletişim", "Ortaklarımız"]
+        "footer": ["Sosyal medya", "Künye", "Gizlilik politikası", "Şartlar", "İletişim", "Ortaklarımız"],
+        "documentsHeading": "Belgeler",
+        "documentsText": "Burada ilgili tüm resmi belgeleri bulabilirsiniz. İlk sığınma başvurusundan konut belgesine kadar.",
+        "noteHeading": "Not!",
+        "noteText": "Bir yapay zeka modeliyle sohbet ediyorsunuz. Her şeyin kendi kendine barındırılmasına rağmen, lütfen mümkün olduğunca az kişisel bilgi girdiğinizden emin olun!",
+        "deskModes": ["Çevir", "Açıkla", "Basit Dil"],
+        "deskInputPlaceholder": "Mesajınızı buraya girin!"
+    },
+    "fa": {
+        "header": ["زبان", "اسناد", "حساب کاربری"],
+        "heading": "مرور اسناد",
+        "footer": ["شبکه‌های اجتماعی", "اطلاعات سایت", "سیاست حفظ حریم خصوصی", "شرایط", "تماس با ما", "شرکای ما"],
+        "documentsHeading": "اسناد",
+        "documentsText": "در اینجا تمام اسناد رسمی مربوطه را خواهید یافت. از اولین درخواست پناهندگی تا گواهی مسکن.",
+        "noteHeading": "توجه!",
+        "noteText": "شما در حال گفتگو با یک مدل هوش مصنوعی هستید. حتی اگر همه چیز به صورت خود میزبانی باشد، لطفاً اطمینان حاصل کنید که کمترین اطلاعات شخصی ممکن را وارد کنید!",
+        "deskModes": ["ترجمه کردن", "توضیح دادن", "زبان ساده"],
+        "deskInputPlaceholder": "پیام را اینجا وارد کنید!"
     }
 }

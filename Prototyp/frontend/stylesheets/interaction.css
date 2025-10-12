@@ -92,6 +92,7 @@
         position: relative;
 
         #mode-select {
+            z-index: 3;
             position: absolute;
             content: "";
             top: 1rem;
@@ -106,11 +107,13 @@
             flex-direction: column;
             cursor: pointer;
             gap: 0;
+
             .chosing {
-                border: 3px transparent solid;
+                border: 0.125rem var(--font-color) solid;
                 padding: 0.75rem;
                 &:hover {
-                    border: 3px black solid;
+                    border: 0.125rem var(--font-color) solid;
+                    background-color: white;
                 }
             }
 
@@ -125,18 +128,18 @@
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
-                border: 3px var(--font-color) solid;
+                border: 0.125rem var(--font-color) solid;
                 background-color: white;
                 list-style-type: none;
                 width: 100%;
-                padding: 0 !important; 
+                padding: 0 !important;
                 .option {
                     width: 100%;
                     div {
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        padding: 0.75rem 2rem;
+                        padding: 0.75rem 1rem;
                         color: var(--font-color);
                         text-decoration: none;
                         transition: background-color 0.2s ease;
@@ -162,39 +165,39 @@
         }
 
         #user-action {
+            z-index: 2;
+            border-bottom: 0.25rem solid var(--color-lightblue);
             position: absolute;
             content: "";
             bottom: 1.5rem;
             display: flex;
+            flex-direction: row;
             justify-content: center;
             align-items: center;
-            width: 100%;
-            height: 3.5rem;
-
-            .user-input,
-            .send-message {
-                height: 100%;
-                box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
-            }
+            width: 90%;
+            height: auto;
 
             .user-input {
-                width: 70%;
-                padding-left: 1rem;
+                width: 100%;
+                padding: 1rem;
                 font-size: 1rem;
                 background-color: white;
                 color: var(--font-color);
                 outline: none;
                 border: none;
                 font-weight: 600;
-                letter-spacing: 0.1rem;
+                letter-spacing: 0.15rem;
+                word-wrap: break-word;
+                word-break: break-all;
             }
 
             .send-message {
-                aspect-ratio: 1/1;
+                aspect-ratio: 3 / 2;
                 background-color: var(--color-lightblue);
                 color: white;
                 border: none;
                 font-weight: 900;
+                padding: 1rem;
                 &:hover {
                     background-color: var(--color-yellow);
                 }
@@ -205,23 +208,50 @@
 
 .conversation-content {
     .conversation {
+        /* Scroll always to bottom */
+        scroll-behavior: smooth;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
+        width: 100%;
         max-width: 80%;
-        height: 80%;
+        height: 75%;
         overflow-y: scroll;
         padding: 2rem 0 2rem 0;
         gap: 1rem;
         box-sizing: border-box;
 
+        .note {
+            z-index: 1;
+            color: var(--font-color);
+            opacity: 0.3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 70%;
+
+            .note-heading {
+                font-size: 3rem;
+                font-weight: 700;
+            }
+
+            .note-message {
+                font-weight: 600;
+                line-height: 1.25rem;
+                text-align: center;
+            }
+        }
+
         .sentence {
+            word-spacing: 0.3rem;
             padding: 1rem;
             color: white;
             list-style-type: none;
             max-width: 70%;
             word-wrap: break-word;
+            line-height: 1.5rem;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
@@ -239,14 +269,84 @@
     }
 }
 
+@media (max-width: 756px) {
+    .doc-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        padding: 1rem;
+
+        .doc-space {
+            height: 100%;
+            width: 100vw;
+
+            #user-action {
+                .user-input {
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+
+    .pdf-container {
+        width: 100% !important;
+        /* border: 5px solid red;
+        border-radius: 1rem; */
+    }
+
+    .chosing {
+        background-color: white;
+    }
+
+    .option {
+        font-size: 1rem;
+    }
+
+    .communication-container {
+        border-top: 0.125rem solid var(--font-color);
+        width: 100% !important;
+
+        .conversation {
+            width: 100% !important;
+            background-color: white;
+
+            .note {
+                width: 100%;
+
+                .note-heading {
+                    margin-top: 0.5rem;
+                    font-size: 1.5rem;
+                }
+
+                .note-message {
+                    margin: 0;
+                    padding: 0;
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+
+    .custom-select-group {
+        .chosing {
+            color: var(--font-color);
+            font-size: 1rem;
+            padding: 0.75rem;
+            border: 0.125rem solid var(--font-color);
+            font-weight: 400;
+        }
+    }
+}
+
 .loader {
     width: 60px;
     aspect-ratio: 2;
-    --_g: no-repeat radial-gradient(circle closest-side, #000000 90%, #0000);
-    background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+    --_g: no-repeat radial-gradient(circle closest-side, #ffffff 90%, #ffffff00);
+    background: var(--_g) 0% 51%, var(--_g) 49% 50%, var(--_g) 100% 50%;
     background-size: calc(100% / 3) 50%;
-    animation: l3 1s infinite linear;
+    animation: l3 0.8s infinite linear;
 }
+
 @keyframes l3 {
     20% {
         background-position: 0% 0%, 50% 50%, 100% 50%;

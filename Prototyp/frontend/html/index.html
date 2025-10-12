@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,7 +15,7 @@
     </head>
     <body>
         <header>
-            <div class="logo">SETTLE</div>
+            <div class = "logo">SETTLE</div>
             <nav>
                 <ul>
                     <li class="header-language">
@@ -26,6 +26,7 @@
                             <li><a href="?lang=de">GERMAN</a></li>
                             <li><a href="?lang=ar">ARABIC</a></li>
                             <li><a href="?lang=tr">TURKISH</a></li>
+                            <li><a href="?lang=fa">PERSIAN</a></li>
                         </ul>
                     </li>
                     <li class="header-documents">
@@ -38,6 +39,30 @@
                     </li>
                 </ul>
             </nav>
+            <button id = "menu-toggle-btn">☰</button>
+            <aside class = "mobile-header" id = "mobile-menu">
+                <ul>
+                    <li class="header-language">
+                        <div class="header-language-word">LANGUAGE</div>
+                        <ul class="language-options">
+                            <li><a href="?lang=en">ENGLISH</a></li>
+                            <li><a href="?lang=fr">FRENCH</a></li>
+                            <li><a href="?lang=de">GERMAN</a></li>
+                            <li><a href="?lang=ar">ARABIC</a></li>
+                            <li><a href="?lang=tr">TURKISH</a></li>
+                            <li><a href="?lang=fa">PERSIAN</a></li>
+                        </ul>
+                    </li>
+                    <li class="header-documents">
+                        <a href="./docs.html" class="header-documents-link"
+                            >DOCUMENTS</a
+                        >
+                    </li>
+                    <li class="header-account">
+                        <a href="./login.html" class="header-account-link">ACCOUNT</a>
+                    </li>
+                </ul>
+            </aside>
         </header>
         <main>
             <section class="welcome-section">
@@ -46,19 +71,22 @@
                         DOCUMENTS
                     </span>
                 </h1>
-                <a href="docs.html" class="explore-btn"><p>EXPLORE!</p></a>
+                <a href="./docs.html" class="explore-btn"><p>EXPLORE!</p></a>
             </section>
             <section>
                 <div class="introduction">
                     <div class="introduction-text">
-                        <h2>WILLKOMMEN BEI SETTLE!</h2>
+                        <h2>WELCOME TO SETTLE!</h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consetetur sadipscing
-                            elitr, sed diam nonumy eirmod tempor invidunt ut
-                            labore et dolore magna aliquyam erat, sed diam
-                            voluptua. At vero eos et accusam et justo duo
-                            dolores et ea rebum. Stet clita kasd gubergren, no
-                            sea takimata sanctus est Lorem ipsum dolor sit amet.
+                            With SETTLE, complex government documents become
+                            clear and accessible.
+                            <br />
+                            Our AI translates official texts into plain language
+                            and provides easy-to-understand explanations. This
+                            helps you save time, gain clarity, and make
+                            well-informed decisions. We are committed to
+                            reducing barriers and fostering transparency in
+                            communication with public authorities.
                         </p>
                     </div>
                     <div class="introduction-image">
@@ -74,14 +102,18 @@
                         />
                     </div>
                     <div class="introduction-text">
-                        <h2>WIESO SETTLE?</h2>
+                        <h2>WHY SETTLE?</h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consetetur sadipscing
-                            elitr, sed diam nonumy eirmod tempor invidunt ut
-                            labore et dolore magna aliquyam erat, sed diam
-                            voluptua. At vero eos et accusam et justo duo
-                            dolores et ea rebum. Stet clita kasd gubergren, no
-                            sea takimata sanctus est Lorem ipsum dolor sit amet.
+                            SETTLE helps you to understand official documents
+                            better. 
+                            <br>
+                            With our combination of translation and AI
+                            explanations, we make complicated texts simpler,
+                            clearer and accessible to everyone. This allows you
+                            to find what is important more quickly – and
+                            concentrate on the essentials. Our goal: fewer
+                            hurdles, more clarity in everyday dealings with
+                            authorities.
                         </p>
                     </div>
                 </div>
@@ -102,5 +134,6 @@
         </footer>
         <script src="../scripts/language-handler.js"></script>
         <script src="../scripts/main.js"></script>
+        <script src="../scripts/mobile.js"></script>
     </body>
 </html>

@@ -1,18 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload SETTLE</title>
-</head>
-<body>
-    <form id="uploadForm" enctype="multipart/form-data">
-        <input type="text" name="title" placeholder="Titel" required>
-        <textarea name="content" placeholder="Beschreibung"></textarea>
-        <input type="file" name="pdfFile" accept=".pdf" required>
-        <button type="submit">PDF Upload</button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="../stylesheets/base.css" />
+        <link rel="stylesheet" href="../stylesheets/index.css" />
+        <link rel="stylesheet" href="../stylesheets/docs.css" />
+        <link rel="stylesheet" href="../stylesheets/upload.css" />
+        <title>SETTLE - UPLOAD</title>
+    </head>
+    <body>
+        <header>
+            <div class = "logo">SETTLE</div>
+            <nav>
+                <ul>
+                    <li class="header-language">
+                        <div class="header-language-word">LANGUAGE</div>
+                        <ul class="language-options">
+                            <li><a href="?lang=en">ENGLISH</a></li>
+                            <li><a href="?lang=fr">FRENCH</a></li>
+                            <li><a href="?lang=de">GERMAN</a></li>
+                            <li><a href="?lang=ar">ARABIC</a></li>
+                            <li><a href="?lang=tr">TURKISH</a></li>
+                            <li><a href="?lang=fa">PERSIAN</a></li>
+                        </ul>
+                    </li>
+                    <li class="header-documents">
+                        <a href="./docs.html" class="header-documents-link"
+                            >DOCUMENTS</a
+                        >
+                    </li>
+                    <li class="header-account">
+                        <a href="#" class="header-account-link">ACCOUNT</a>
+                    </li>
+                </ul>
+            </nav>
+            <button id = "menu-toggle-btn">☰</button>
+            <aside class = "mobile-header" id = "mobile-menu">
+                <ul>
+                    <li class="header-language">
+                        <div class="header-language-word">LANGUAGE</div>
+                        <ul class="language-options">
+                            <li><a href="?lang=en">ENGLISH</a></li>
+                            <li><a href="?lang=fr">FRENCH</a></li>
+                            <li><a href="?lang=de">GERMAN</a></li>
+                            <li><a href="?lang=ar">ARABIC</a></li>
+                            <li><a href="?lang=tr">TURKISH</a></li>
+                            <li><a href="?lang=fa">PERSIAN</a></li>
+                        </ul>
+                    </li>
+                    <li class="header-documents">
+                        <a href="./docs.html" class="header-documents-link"
+                            >DOCUMENTS</a
+                        >
+                    </li>
+                    <li class="header-account">
+                        <a href="./login.html" class="header-account-link">ACCOUNT</a>
+                    </li>
+                </ul>
+            </aside>
+        </header>
 
-    <script src = "../scripts/upload.js"></script>
-</form>
-</body>
+        <section class="doc-container">
+            <div class="new-doc">New document</div>
+
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class = "close-wrapper">
+                    <button class = "close"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <h2 class = "upload-h2">Add a new document</h2>
+                <input type="text" name="title" placeholder="Title" required />
+                <textarea name="content" placeholder="Description" required></textarea>
+                <input class = "input-pdf" type="file" name="pdfFile" accept=".pdf" required />
+                <button type="submit">Publish document</button>
+            </form>
+        </section>
+
+        <footer>
+            <div class="logo">SETTLE</div>
+            <ul class="footer-links">
+                <li>SOCIALS</li>
+                <li><a href="/impressum">IMPRINT</a></li>
+                <li><a href="/privacy">PRIVACY</a></li>
+                <li><a href="/terms">TERMS</a></li>
+                <li><a href="/contact">CONTACT</a></li>
+                <li><a href="/partners">OUR PARTNERS</a></li>
+            </ul>
+        </footer>
+        <div class="background-container">
+            <div class="rectangle"></div>
+            <div class="circle"></div>
+        </div>
+        <script src="../scripts/upload.js"></script>
+    </body>
 </html>
