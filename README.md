@@ -96,7 +96,7 @@ PORT=3000
 
 4. **Entwicklungsserver starten**
 ```bash
-npm 
+node server.js
 ```
 
 Die Frontend-Anwendung ist nun unter `http://localhost:3500` erreichbar und kommuniziert mit dem Backend-Server.
