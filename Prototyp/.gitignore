@@ -1,4 +1,4 @@
-./temp-backend/node_modules
+./temp-backend/node_modules/
 ./temp-backend/.env
 .env
 node_modules/

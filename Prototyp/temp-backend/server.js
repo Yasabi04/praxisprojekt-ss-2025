@@ -22,10 +22,8 @@ app.post('/api/translate', async (req, res) => {
             });
         }
 
-        // Glossar-ID aus deiner .env (muss vorher erstellt werden!)
         const GLOSSARY_ID = process.env.DEEPL_GLOSSARY_ID;
 
-        // DeepL API-Anfrage mit Glossar
         const deepLResponse = await fetch('https://api-free.deepl.com/v2/translate', {
             method: 'POST',
             headers: {
@@ -73,12 +71,8 @@ app.post("/api/document", async (req, res) => {
     if (!Array.isArray(document))
       return res.status(400).json({ error: "document muss ein Array sein" });
 
-    // 🔹 Array -> Buffer umwandeln
     const fileBuffer = Buffer.from(document);
 
-    console.log("Buffer Header:", fileBuffer.slice(0, 4)); // [%PDF] prüfen
-
-    // 🔹 FormData vorbereiten
     const formData = new FormData();
     formData.append("file", fileBuffer, {
       filename: fileName,
@@ -87,7 +81,6 @@ app.post("/api/document", async (req, res) => {
     formData.append("target_lang", language);
     formData.append("source_lang", "DE");
 
-    // 🔹 DeepL Upload
     const uploadResponse = await axios.post(
       "https://api-free.deepl.com/v2/document",
       formData,
@@ -100,9 +93,7 @@ app.post("/api/document", async (req, res) => {
     );
 
     const { document_id, document_key } = uploadResponse.data;
-    console.log("Upload erfolgreich:", { document_id });
 
-    // 🔹 Polling, bis Übersetzung fertig ist
     let status = "queued";
     while (status === "queued" || status === "translating") {
       await new Promise((res) => setTimeout(res, 3000));
@@ -117,7 +108,6 @@ app.post("/api/document", async (req, res) => {
       console.log("Status:", status);
     }
 
-    // 🔹 Download
     const result = await axios.post(
       `https://api-free.deepl.com/v2/document/${document_id}/result`,
       { document_key },

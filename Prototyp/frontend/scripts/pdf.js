@@ -29,7 +29,6 @@ class PDFViewer {
         const urlParams = new URLSearchParams(window.location.search);
         const docId = urlParams.get('pdf');
         if (!docId) {
-            // FALLBACK: Test-PDF laden
             const url = '../tmp-pdf/asylerstantrag.pdf';
             console.log("Loading fallback PDF:", url);
             this.pdfDoc = await pdfjsLib.getDocument(url).promise;
@@ -38,13 +37,11 @@ class PDFViewer {
         }
 
         const apiUrl = `http://mivs15.gm.fh-koeln.de:3500/api/finddoc/${docId}`;
-        console.log("Fetching PDF from:", apiUrl);
 
         
-        // KORRIGIERT: Timeout hinzufügen
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 Sekunden Timeout
-        
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+
         try {
             const response = await fetch(apiUrl, {
                 signal: controller.signal,
@@ -62,8 +59,6 @@ class PDFViewer {
             }
             
             const data = await response.json();
-
-            const title = data.title
             
             if (!data.pdfFile) {
                 throw new Error('Keine PDF-Datei in Response');
@@ -85,11 +80,8 @@ class PDFViewer {
                 throw new Error('PDF data is empty');
             }
 
-            // PDF laden
-            // console.log("Loading PDF with pdfjsLib...");
             this.pdfDoc = await pdfjsLib.getDocument(bytes).promise;
             await this.renderAllPages();
-            // console.log("PDF loaded successfully");
             
         } catch (fetchError) {
             clearTimeout(timeoutId);
@@ -104,12 +96,10 @@ class PDFViewer {
     } catch (error) {
         try {
             const fallbackUrl = '../tmp-pdf/asylerstantrag.pdf';
-            console.log("Loading fallback PDF:", fallbackUrl);
             this.pdfDoc = await pdfjsLib.getDocument(fallbackUrl).promise;
             await this.renderAllPages();
             console.log("Fallback PDF loaded successfully");
         } catch (fallbackError) {
-            console.error("Fallback also failed:", fallbackError);
             document.getElementById("doc-space").innerHTML = `
                 <div style="text-align: center; padding: 2rem; color: var(--font-color);">
                     <h3>PDF could not be loaded</h3>
@@ -139,7 +129,6 @@ class PDFViewer {
             });
             const outputScale = window.devicePixelRatio || 1;
 
-            // Canvas erstellen
             const canvas = document.createElement("canvas");
             const ctx = canvas.getContext("2d");
 
@@ -155,14 +144,12 @@ class PDFViewer {
                     ? [outputScale, 0, 0, outputScale, 0, 0]
                     : null;
 
-            // Canvas rendern
             await page.render({
                 canvasContext: ctx,
                 transform: transform,
                 viewport: viewport,
             }).promise;
 
-            // Text-Layer erstellen
             const textLayerDiv = document.createElement("div");
             textLayerDiv.className = "textLayer";
             textLayerDiv.style.position = "absolute";
@@ -173,10 +160,8 @@ class PDFViewer {
             textLayerDiv.style.overflow = "hidden";
             textLayerDiv.style.lineHeight = "1.0";
 
-            // WICHTIG: CSS Scale-Factor Variable setzen
             textLayerDiv.style.setProperty("--scale-factor", this.scale);
 
-            // Page Container
             const pageContainer = document.createElement("div");
             pageContainer.className = "page-container";
             pageContainer.style.position = "relative";
@@ -184,17 +169,14 @@ class PDFViewer {
             pageContainer.style.height = Math.floor(viewport.height) + "px";
             pageContainer.style.marginBottom = "2rem";
 
-            // Auch auf Container setzen (doppelt hält besser)
             pageContainer.style.setProperty("--scale-factor", this.scale);
 
             pageContainer.appendChild(canvas);
             pageContainer.appendChild(textLayerDiv);
             this.pagesContainer.appendChild(pageContainer);
 
-            // Text Content laden
             const textContent = await page.getTextContent();
 
-            // TextLayer rendern
             try {
                 await pdfjsLib.renderTextLayer({
                     textContentSource: textContent,
@@ -203,9 +185,6 @@ class PDFViewer {
                     textDivs: [],
                 }).promise;
 
-                // console.log(
-                //     `Page ${pageNum}: Text layer rendered with ${textContent.items.length} items`
-                // );
             } catch (textError) {
                 console.warn(
                     `TextLayer failed for page ${pageNum}, creating simple text overlay:`,
@@ -221,9 +200,8 @@ class PDFViewer {
             console.error(`Error rendering page ${pageNum}:`, error);
         }
     }
-    // FALLBACK-Methode für einfachen Text-Overlay
+
     createSimpleTextOverlay(container, textContent, viewport) {
-        // Alle Text-Items zu einem String zusammenfügen
         const textItems = textContent.items.map((item) => item.str).join(" ");
 
         const textDiv = document.createElement("div");
@@ -243,7 +221,6 @@ class PDFViewer {
         textDiv.textContent = textItems;
 
         container.appendChild(textDiv);
-        console.log("Simple text overlay created");
     }
 
     async zoomIn() {
@@ -258,8 +235,6 @@ class PDFViewer {
     }
 }
 
-// PDF Viewer initialisieren
 document.addEventListener("DOMContentLoaded", () => {
-    // console.log("Initializing PDF Viewer...");
     new PDFViewer();
 });

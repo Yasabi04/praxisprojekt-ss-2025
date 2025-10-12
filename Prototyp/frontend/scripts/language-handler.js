@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     let languageData = null;
-    window.currentLanguage = "en"; // Globale Variable für andere Skripte
-
+    window.currentLanguage = "en"; 
     const supportedLanguages = {
         de: "Deutsch",
         en: "English",
@@ -21,11 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (element && value) element.setAttribute(attribute, value);
     };
 
-    // --- Sprach-Dropdowns erstellen ---
     const createLanguageOptions = () => {
         const languageOptionContainers = document.querySelectorAll(".language-options");
         languageOptionContainers.forEach(container => {
-            container.innerHTML = ''; // Leeren, um Duplikate zu vermeiden
+            container.innerHTML = '';
             for (const [code, name] of Object.entries(supportedLanguages)) {
                 const li = document.createElement("li");
                 const a = document.createElement("a");
@@ -38,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // --- JSON laden ---
     const loadLanguageData = async () => {
         if (!languageData) {
             try {
@@ -52,25 +49,21 @@ document.addEventListener("DOMContentLoaded", () => {
         return languageData;
     };
 
-    // --- Sprache anwenden (Refaktorierte Version) ---
     const applyLanguage = async (lang) => {
         window.currentLanguage = lang;
         const data = await loadLanguageData();
         if (!data) return;
 
-        const content = data[lang] || data.english; // Fallback auf Englisch
+        const content = data[lang] || data.english; 
 
-        // Header & Mobile Header
         document.querySelectorAll(".header-language-word").forEach(el => el.innerHTML = content.header[0]);
         document.querySelectorAll(".header-documents-link").forEach(el => el.innerHTML = content.header[1]);
         document.querySelectorAll(".header-account-link").forEach(el => el.innerHTML = content.header[2]);
 
-        // Statische Seitentitel
         setText(".welcome-heading", content.heading);
         setText(".documents-heading", content.documentsHeading);
         setText(".documents-hero-text", content.documentsText);
 
-        // Desk-Seite Elemente
         setText(".note-heading", content.noteHeading);
         setText(".note-message", content.noteText);
         setAttribute("#user-input", "placeholder", content.deskInputPlaceholder);
@@ -95,17 +88,14 @@ document.addEventListener("DOMContentLoaded", () => {
         window.history.pushState({}, "", url);
         localStorage.setItem("selectedLanguage", lang);
 
-        // Dynamische Dokumenten-Übersetzung anstoßen (falls auf docs.html)
         if (document.querySelector('.card-container')) {
             translateDocs(lang);
         }
     };
 
-    // --- Event-Listener mit Delegation ---
     const setupEventListeners = () => {
         document.body.addEventListener("click", (e) => {
             if (e.target.matches(".language-options a")) {
-                //Umstellen und Übersetzen verhindern um Anfragen zu verringern
                 e.preventDefault();
                 const language = e.target.dataset.lang;
                 if (language) applyLanguage(language);
@@ -113,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // --- Initialisierung ---
     const init = () => {
         const urlLang = new URLSearchParams(window.location.search).get("lang");
         const storedLang = localStorage.getItem("selectedLanguage");

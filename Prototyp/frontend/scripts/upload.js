@@ -2,12 +2,8 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const fileInput = document.querySelector('input[name="pdfFile"]');
-    // const fileTitle = document.querySelector('input[name="title"]')
     const file = fileInput.files[0];
-    // const fileContent = document.querySelector('textarea[name="content"]').value;
-    // console.log(fileContent)
-
-    // Validierung
+    
     if (!file) {
         alert("Bitte wählen Sie eine Datei aus");
         return;
@@ -18,7 +14,6 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
         return;
     }
 
-    // FormData für Upload vorbereiten
     const formData = new FormData();
     formData.append(
         "title",
@@ -33,7 +28,6 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
         document.querySelector('input[name="pdfFile"]').files[0]
     );
 
-    // Upload-Feedback
     const submitButton = document.querySelector('button[type="submit"]');
     const originalText = submitButton.textContent;
     submitButton.textContent = "Uploading...";
@@ -45,7 +39,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
             {
                 method: "POST",
                 headers: {
-                    "ngrok-skip-browser-warning": "69420", // ngrok Header
+                    "ngrok-skip-browser-warning": "69420",
                 },
                 body: formData,
             }
@@ -60,10 +54,8 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
                 }\nGröße: ${(result.document.fileSize / 1024).toFixed(2)} KB`
             );
 
-            // Form zurücksetzen
             document.getElementById("uploadForm").reset();
 
-            console.log("Upload erfolgreich:", result.document);
         } else {
             throw new Error(result.error || "Upload fehlgeschlagen");
         }
@@ -71,7 +63,6 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
         console.error("Upload-Fehler:", error);
         alert(`Upload fehlgeschlagen: ${error.message}`);
     } finally {
-        // Button zurücksetzen
         submitButton.textContent = originalText;
         submitButton.disabled = false;
     }
@@ -151,7 +142,6 @@ async function deleteDoc(docId) {
             })
             .then(() => {
                 alert("Dokument erfolgreich gelöscht!");
-                // Optional: Seite neu laden oder Element entfernen
                 location.reload();
             })
             .catch((error) => {

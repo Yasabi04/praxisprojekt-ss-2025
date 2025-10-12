@@ -1,40 +1,34 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     let conversationHistory = [];
 
     const btn = document.querySelector(".send-message");
-    let selectedOption = "translate"; // Default option
+    let selectedOption = "translate";
 
     console.log("----------");
 
-    // Event listeners for custom dropdown options
     const options = document.querySelectorAll(".option div[data-id]");
     const choosingDiv = document.querySelector(".chosing");
     const modeSelect = document.querySelector("#mode-select");
     const selection = document.querySelector(".selection");
 
-    // Set up click listeners for options (only once)
     options.forEach((option) => {
         option.addEventListener("click", () => {
             selectedOption = option.getAttribute("data-id");
             choosingDiv.textContent = option.textContent;
             console.log("Selected option:", selectedOption);
 
-            // Hide dropdown after selection
             if (selection) {
                 selection.style.display = "none";
             }
         });
     });
 
-    // Show dropdown on hover
     modeSelect.addEventListener("mouseenter", () => {
         if (selection) {
             selection.style.display = "flex";
         }
     });
 
-    // Hide dropdown when mouse leaves
     modeSelect.addEventListener("mouseleave", () => {
         if (selection) {
             selection.style.display = "none";
@@ -43,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btn.addEventListener("click", () => {
         const userText = document.querySelector(".user-input").value.trim();
-        const option = selectedOption; // Use our custom selected option
+        const option = selectedOption;
         const conversation = document.querySelector(".conversation");
         const urlParams = new URLSearchParams(window.location.search);
         const langParam = urlParams.get("lang");
@@ -56,8 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        conversationHistory.push({ role: 'User', request: userText})
-        console.log(conversationHistory)
+        conversationHistory.push({ role: "User", request: userText });
+        console.log(conversationHistory);
 
         const conversationItemUser = document.createElement("li");
         conversationItemUser.className = "sentence right";
@@ -101,18 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             }
                         );
 
-                        console.log("Response status:", response.status);
-                        console.log(
-                            "Response headers:",
-                            Object.fromEntries(response.headers.entries())
-                        );
-
-                        // WICHTIG: Erst Text lesen, dann analysieren
                         const responseText = await response.text();
-                        console.log(
-                            "Raw response (first 500 chars):",
-                            responseText.substring(0, 500)
-                        );
 
                         if (!response.ok) {
                             throw new Error(
@@ -124,9 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         let data;
                         try {
                             data = JSON.parse(responseText);
-                            console.log("Parsed JSON:", data);
                         } catch (parseError) {
-                            console.error("JSON Parse Error:", parseError);
                             throw new Error(
                                 "Server returned non-JSON response: " +
                                     responseText.substring(0, 200)
@@ -134,7 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
 
                         if (data.success) {
-                            console.log("Übersetzung:", data.translation);
                             instructionsDiv.innerHTML = data.translation;
                         } else {
                             // Loader durch Fehlermeldung ersetzen
@@ -151,9 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             );
                         }
                     } catch (err) {
-                        console.error("Fehler bei der Übersetzung:", err);
-
-                        // Loader durch Fehlermeldung ersetzen falls noch vorhanden
                         if (conversationItemModell) {
                             conversationItemModell.innerHTML = `
                                 <div class="error-message">
@@ -173,8 +150,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         const complexityLevel =
                             option === "explain" ? "simple" : "easyLanguage";
 
-                        // Neues Element für die Modell-Antwort
-
                         const response = await fetch(
                             "http://mivs15.gm.fh-koeln.de:3500/api/explain",
                             {
@@ -187,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     userLang: langParam,
                                     task: userText,
                                     conversation: conversationHistory,
-                                    complexityLevel: complexityLevel
+                                    complexityLevel: complexityLevel,
                                 }),
                             }
                         );
@@ -210,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             buffer += decoder.decode(value, { stream: true });
                             let lines = buffer.split("\n");
-                            buffer = lines.pop(); // Letzte Zeile evtl. unvollständig behalten
+                            buffer = lines.pop();
 
                             for (const line of lines) {
                                 if (!line.trim()) continue;
@@ -222,7 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 /\n/g,
                                                 "<br>"
                                             );
-                                        // Scroll ans Ende
                                         const conversationContent =
                                             document.querySelector(
                                                 ".conversation-content"
@@ -242,14 +216,13 @@ document.addEventListener("DOMContentLoaded", () => {
                             }
                         }
                     } catch (error) {
-                        console.error("Fehler:", error);
                         const errorItem = document.createElement("li");
                         errorItem.className = "sentence left error";
                         errorItem.innerHTML = `
-            <div class="error-message">
-                Netzwerk-Fehler: ${error.message}
-            </div>
-        `;
+                            <div class="error-message">
+                                Netzwerk-Fehler: ${error.message}
+                            </div>
+                        `;
                         conversation.appendChild(errorItem);
                     }
                 })();
@@ -257,28 +230,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
 
             default:
-                console.warn("Unknown option:", option);
                 alert("Unbekannte Option ausgewählt");
         }
 
         document.querySelector(".user-input").value = "";
     });
 });
-
-// Hilfsfunktion um Übersetzung anzuzeigen
-// function displayTranslation(translation) {
-//     const conversationContent = document.querySelector(".conversation-content");
-
-//     if (conversationContent) {
-//         const messageDiv = document.createElement("div");
-//         messageDiv.className = "message assistant";
-//         messageDiv.innerHTML = `
-//             <div class="message-content">
-//                 <strong>Übersetzung:</strong>
-//                 <p>${translation}</p>
-//             </div>
-//         `;
-//         conversationContent.appendChild(messageDiv);
-//         conversationContent.scrollTop = conversationContent.scrollHeight;
-//     }
-// }

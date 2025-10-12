@@ -25,8 +25,6 @@ async function handleDocuments() {
             }
         );
 
-        console.log("Response status:", response.status);
-
         if (!response.ok) {
             let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
 
@@ -46,7 +44,6 @@ async function handleDocuments() {
         }
 
         const data = await response.json();
-        console.log("API Response:", data);
 
         let documents;
 
@@ -61,9 +58,6 @@ async function handleDocuments() {
             documents = [];
         }
 
-        console.log("Processing documents:", documents.length);
-
-        // Container leeren
         docContainer.innerHTML = "";
 
         if (documents.length === 0) {
@@ -76,13 +70,11 @@ async function handleDocuments() {
             return;
         }
 
-        // KORRIGIERT: Dokumente erstellen
         documents.forEach((doc) => {
             const card = document.createElement("div");
             card.className = "doc-card";
             card.setAttribute("data-id", doc.docId || doc.id || "unknown");
 
-            // Die Originaltexte werden in data-Attributen gespeichert, ohne die Struktur zu ändern.
             const originalTitle = doc.title || "Kein Titel";
             const originalContent = doc.content || "Keine Beschreibung";
 
@@ -114,10 +106,8 @@ async function handleDocuments() {
             docContainer.appendChild(card);
         });
 
-        // KORRIGIERT: Event Listener NACH dem Hinzufügen der Elemente
         document.querySelectorAll(".doc-card").forEach((card) => {
             card.addEventListener("click", (e) => {
-                // Nicht weiterleiten wenn Favoriten-Button geklickt wurde
                 if (
                     e.target.classList.contains("doc-download") ||
                     e.target.classList.contains("doc-intro-mobile") ||
@@ -127,12 +117,10 @@ async function handleDocuments() {
                 }
 
                 const docId = card.getAttribute("data-id");
-                console.log("Navigating to document:", docId);
                 window.location.href = `./desk.html?pdf=${docId}`;
             });
         });
 
-        // Event Listener für Favoriten-Buttons
         document.querySelectorAll(".doc-download").forEach((button) => {
             button.addEventListener("click", async (e) => {
                 button.innerHTML = '<div class = "loader"></div>'
@@ -142,7 +130,6 @@ async function handleDocuments() {
                 const lang = window.currentLanguage || 'de';
 
                 try {
-                    // 1. Original-Dokument vom Haupt-Backend holen
                     const docResponse = await fetch(
                         `http://mivs15.gm.fh-koeln.de:3500/api/finddoc/${docId}`,
                         { headers: new Headers({ "ngrok-skip-browser-warning": "69420" }) }
@@ -157,17 +144,14 @@ async function handleDocuments() {
                     let fileName = originalDocData.fileName;
                     let fileType = originalDocData.fileType || "application/pdf";
 
-                    // 2. Wenn die Sprache nicht Deutsch ist, Übersetzung anfordern
                     if (lang !== 'de') {
                         console.log(`Übersetzung nach '${lang.toUpperCase()}' wird angefordert...`);
                         
-                        // --- KORREKTUR: Robuste Konvertierung von Objekt zu Array ---
                         const keys = Object.keys(fileBufferObject);
                         const bufferAsArray = new Array(keys.length);
                         for (const key of keys) {
                             bufferAsArray[parseInt(key)] = fileBufferObject[key];
                         }
-                        // --- ENDE KORREKTUR ---
 
                         const translateResponse = await fetch("http://localhost:3500/api/document", {
                             method: "POST",
@@ -191,7 +175,6 @@ async function handleDocuments() {
                         fileName = translatedData.fileName;
                     }
 
-                    // 3. Datei-Download auslösen
                     const dataArray = fileBufferObject.data || Object.values(fileBufferObject);
                     if (!dataArray || dataArray.length === 0) {
                         throw new Error("Gültige Dateidaten für den Download fehlen.");
@@ -223,7 +206,6 @@ async function handleDocuments() {
 
         translateDocumentCards(documents);
 
-        console.log("Documents loaded successfully");
     } catch (error) {
         console.error("Fehler beim Abrufen der Dokumente:", error);
 
@@ -242,7 +224,7 @@ async function handleDocuments() {
 function translateDocumentCards(documents) {
     const lang = window.currentLanguage || 'de';
 
-    if (lang === 'de') return; // Keine Übersetzung nötig
+    if (lang === 'de') return; 
 
     documents.forEach(async (doc) => {
         const card = document.querySelector(`.doc-card[data-id="${doc.docId || doc.id || "unknown"}"]`);
@@ -252,12 +234,11 @@ function translateDocumentCards(documents) {
         const originalContent = doc.content || "Keine Beschreibung";
 
         try {
-            // Übersetzung der Titel und Inhalte anfordern
             const response = await fetch("http://localhost:3500/api/translate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    document: originalContent, // Nur der Inhalt für die Übersetzung
+                    document: originalContent,
                     language: lang.toUpperCase(),
                     fileName: originalTitle
                 }),
@@ -270,7 +251,6 @@ function translateDocumentCards(documents) {
 
             const translatedData = await response.json();
 
-            // Übersetzte Texte in die Karte einfügen
             card.querySelector(".doc-heading").innerText = translatedData.translatedText || originalTitle;
             card.querySelector(".doc-intro").innerText = translatedData.translatedText || originalContent;
 
