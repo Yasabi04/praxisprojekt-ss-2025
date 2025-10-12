@@ -74,8 +74,8 @@ Das war's! Alle anderen Backend-Dienste (Docker, Ollama, APIs) laufen nämlich b
 
 1. **Repository klonen**
 ```bash
-git clone https://github.com/username/settle.git
-cd settle
+git clone https://github.com/yasabi04/praxisprojekt-ss-2025.git
+cd Prototyp/temp-backend
 ```
 
 2. **Dependencies installieren**
