@@ -11,11 +11,13 @@
         />
         <link rel="stylesheet" href="../stylesheets/base.css" />
         <link rel="stylesheet" href="../stylesheets/index.css" />
-        <title>SETTLE - HOME</title>
+        <link rel="stylesheet" href="../stylesheets/login.css" />
+        <link rel="stylesheet" href="../stylesheets/docs.css">
+        <title>SETTLE - LOGIN</title>
     </head>
     <body>
         <header>
-            <div class = "logo">SETTLE</div>
+            <div class="logo">SETTLE</div>
             <nav>
                 <ul>
                     <li class="header-language">
@@ -39,8 +41,8 @@
                     </li>
                 </ul>
             </nav>
-            <button id = "menu-toggle-btn">☰</button>
-            <aside class = "mobile-header" id = "mobile-menu">
+            <button id="menu-toggle-btn">☰</button>
+            <aside class="mobile-header" id="mobile-menu">
                 <ul>
                     <li class="header-language">
                         <div class="header-language-word">LANGUAGE</div>
@@ -59,66 +61,25 @@
                         >
                     </li>
                     <li class="header-account">
-                        <a href="./login.html" class="header-account-link">ACCOUNT</a>
+                        <a href="#" class="header-account-link">ACCOUNT</a>
                     </li>
                 </ul>
             </aside>
         </header>
+
         <main>
-            <section class="welcome-section">
-                <h1 class="welcome-heading">
-                    BROWSE THE LATEST <br /><span class="keyword">
-                        DOCUMENTS
-                    </span>
-                </h1>
-                <a href="./docs.html" class="explore-btn"><p>EXPLORE!</p></a>
-            </section>
-            <section>
-                <div class="introduction">
-                    <div class="introduction-text">
-                        <h2>WELCOME TO SETTLE!</h2>
-                        <p>
-                            With SETTLE, complex government documents become
-                            clear and accessible.
-                            <br />
-                            Our AI translates official texts into plain language
-                            and provides easy-to-understand explanations. This
-                            helps you save time, gain clarity, and make
-                            well-informed decisions. We are committed to
-                            reducing barriers and fostering transparency in
-                            communication with public authorities.
-                        </p>
-                    </div>
-                    <div class="introduction-image">
-                        <img
-                            src="../images/group-welcome-unsplash.jpg"
-                            alt="Group of people in front of a mountain"
-                        />
-                    </div>
-                    <div class="introduction-image">
-                        <img
-                            src="../images/lost-man-welcome-unsplash.jpg"
-                            alt="Lost man in city"
-                        />
-                    </div>
-                    <div class="introduction-text">
-                        <h2>WHY SETTLE?</h2>
-                        <p>
-                            SETTLE helps you to understand official documents
-                            better. 
-                            <br>
-                            With our combination of translation and AI
-                            explanations, we make complicated texts simpler,
-                            clearer and accessible to everyone. This allows you
-                            to find what is important more quickly – and
-                            concentrate on the essentials. Our goal: fewer
-                            hurdles, more clarity in everyday dealings with
-                            authorities.
-                        </p>
-                    </div>
+            <div class="login-container">
+                <div class="heading-documents">
+                    <h2 class="documents-heading">Login</h2>
                 </div>
-            </section>
+                <form action="#">
+                    <input type="text" placeholder="username" class="user" required/>
+                    <input type="password" placeholder="password" class="pass" />
+                    <button class="login-btn">Login</button>
+                </form>
+            </div>
         </main>
+
         <footer>
             <div class="logo">SETTLE</div>
             <ul class="footer-links">
@@ -132,8 +93,6 @@
                 </li>
             </ul>
         </footer>
-        <script src="../scripts/language-handler.js"></script>
-        <script src="../scripts/main.js"></script>
-        <script src="../scripts/mobile.js"></script>
+        <script src="../scripts/login.js"></script>
     </body>
 </html>

@@ -22,6 +22,19 @@ body {
     position: relative;
     z-index: 1;
     overflow-x: hidden;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+html, body {
+    height: 100%;
+}
+
+main {
+    flex: 1;
 }
 
 h1 {
@@ -198,6 +211,8 @@ footer {
     border-top: 0.125rem solid var(--font-color);
     background-color: var(--color-background);
     height: auto;
+    width: 100%;
+
     .logo {
         cursor: pointer;
         width: auto;

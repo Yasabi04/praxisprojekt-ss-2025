@@ -150,7 +150,6 @@ a {
         text-transform: uppercase;
         font-weight: 700;
         font-size: 1rem;
-        caret-color: var(--color-lightblue);
     }
 
     textarea {
@@ -174,3 +173,5 @@ a {
         }
     }
 }
+
+
