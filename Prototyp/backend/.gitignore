@@ -6,6 +6,7 @@ yarn-error.log*
 
 # Environment variables
 .env
+**.env
 .env.local
 .env.development.local
 .env.test.local
@@ -15,6 +16,7 @@ yarn-error.log*
 backend/node_modules/
 backend/.env
 backend/npm-debug.log*
+**/node_modules/
 
 # Frontend specific (falls needed)
 frontend/node_modules/

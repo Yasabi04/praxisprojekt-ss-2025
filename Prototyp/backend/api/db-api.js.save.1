@@ -190,7 +190,7 @@ router.post('/delete/:id', async (req, res) => {
 
 router.post('/explain', async (req, res) => {
     try {
-        const { userLang, conversation, task, complexityLevel = 'normal' } = req.body;
+        const { userLang, task, complexityLevel = 'normal' } = req.body;
 	console.log('Sprache: ' + userLang)
 
 	let instructionPrompts;
@@ -233,8 +233,6 @@ router.post('/explain', async (req, res) => {
 
         const finalPrompt = instructionPrompts[complexityLevel] || instructionPrompts.simple;
 
-	finalContextPrompt = finalPrompt + conversation
-
         res.setHeader('Content-Type', 'application/x-ndjson; charset=utf-8');
 	res.setHeader('Connection', 'keep-alive')
         res.setHeader('Transfer-Encoding', 'chunked');
@@ -244,7 +242,7 @@ router.post('/explain', async (req, res) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 model: 'qwen2.5:1.5b', //oder ein anderes installiertes Modell
-                prompt: finalContextPrompt,
+                prompt: finalPrompt,
                 stream: true,
                 options: {
                     num_predict: 400,

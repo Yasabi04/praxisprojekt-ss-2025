@@ -6,21 +6,12 @@ const fs = require('fs')
 const app = express();
 const PORT = process.env.PORT || 3012;
 
-const allowedOrigins = [
-  'http://localhost:5501',
-  'http://127.0.0.1:5501',
-];
+app.use(cors({
+    origin: '*', // Erlaubt Anfragen von jeder Herkunft
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Wichtig: OPTIONS für Preflight
+    allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning'], // Wichtig: ngrok-Header erlauben
+}));
 
-//app.use(cors({
-  //origin: function (origin, callback) {
-    //if (!origin || allowedOrigins.includes(origin)) {
-      //callback(null, true);
-    //} else {
-      //callback(new Error('Nicht erlaubter Origin: ' + origin));
-    //}
-  //}
-//}));
-app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
