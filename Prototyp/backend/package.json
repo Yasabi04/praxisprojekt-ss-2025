@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "node.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^6.12.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "env": "^0.0.2",
+    "express": "^5.1.0",
+    "git": "^0.1.5",
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "prisma": "^6.12.0"
+  }
+}
