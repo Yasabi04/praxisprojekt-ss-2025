@@ -17,9 +17,10 @@ services:
     image: postgres:15
     container_name: dbsettle
     environment:
+      - NODE_ENV=production
       - POSTGRES_DB=settle_db
-      - POSTGRES_USER=noss
-      - POSTGRES_PASSWORD=noss1
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASS}
     ports:
       - "5432:5432"
     healthcheck:
@@ -47,7 +48,7 @@ services:
       - NODE_ENV=production
       - PORT=3500
       - DEEPL_API_KEY=${DEEPL_API_KEY}
-      - DATABASE_URL=postgresql://noss:noss1@dbsettle:5432/settle_db?schema=public
+      - DATABASE_URL=${DATABASE_URL}
       - OLLAMA-HOST=http://ollama:11434
     restart: unless-stopped
     healthcheck:
