@@ -67,8 +67,8 @@ Das war's! Alle anderen Backend-Dienste (Docker, Ollama, APIs) laufen nämlich b
 ### Voraussetzungen für Entwickler
 
 - Node.js (v18 oder höher)
-- Zugriff auf den Backend-Server oder lokale Docker-Installation
 - DeepL API Key
+- Backend-Server bleibt unantastbar
 
 ### Lokale Entwicklungsumgebung
 
@@ -122,7 +122,6 @@ Das Backend läuft in Docker-Containern auf einem Server und umfasst:
 ### DeepL API
 
 Für die Übersetzungsfunktion wird ein DeepL API Key benötigt. Registriere dich unter [deepl.com/pro-api](https://www.deepl.com/pro-api) für einen kostenlosen oder kostenpflichtigen Account.
-
 
 ## 👥 Autoren
 
