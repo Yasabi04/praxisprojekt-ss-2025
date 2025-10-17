@@ -69,6 +69,7 @@ Das war's! Alle anderen Backend-Dienste (Docker, Ollama, APIs) laufen nämlich b
 - Node.js (v18 oder höher)
 - DeepL API Key
 - Backend-Server bleibt unantastbar
+- Sie müssen sich im VPN der TH befinden!
 
 ### Lokale Entwicklungsumgebung
 
