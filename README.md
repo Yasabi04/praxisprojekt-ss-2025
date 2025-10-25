@@ -1,9 +1,5 @@
 # Settle
 
-> Eine KI-gestützte Plattform zum besseren Verständnis behördlicher Dokumente für Menschen mit Migrationshintergrund
-
-## 📋 Über das Projekt
-
 Settle ist eine Webanwendung, die Menschen dabei hilft, komplexe behördliche Dokumente und Amtstexte zu verstehen. Mithilfe von künstlicher Intelligenz werden schwer verständliche Dokumente und Textpassagen in verständlicher Sprache erklärt und bei Bedarf in die Muttersprache übersetzt.
 
 ### Zielgruppe
